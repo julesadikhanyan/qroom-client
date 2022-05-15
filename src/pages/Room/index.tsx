@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import DarkHeader from "../../components/DarkHeader";
 import theme from "../../style/theme";
 import BookingForm from "../../components/BookingForm";
-import {fetchGetBookingRoom, fetchGetRoom} from "../../redux/Room/actions";
+import {fetchGetBookingRoom, fetchGetRoom, setActiveSegment} from "../../redux/Room/actions";
 import { RootState } from "../../redux/store";
 import {IBookingSegment, IRoom} from "../../redux/Room/types";
 
@@ -61,7 +61,10 @@ const Room: React.FC = () => {
                                         bookingSegments.length > 0 && bookingSegments.map((bookingSegment)  =>
                                             <Box
                                                 key={bookingSegment.time.start.getTime()}
-                                                onClick={handleClickOpen}
+                                                onClick={() => {
+                                                    handleClickOpen();
+                                                    dispatch(setActiveSegment(bookingSegment));
+                                                }}
                                                 sx={{
                                                     display: "flex",
                                                     justifyContent: "space-between",

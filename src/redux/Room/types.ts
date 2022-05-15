@@ -4,6 +4,8 @@ export const FETCH_GET_ROOM_SUCCESS = "FETCH_GET_ROOM_SUCCESS";
 export const FETCH_GET_BOOKING_ROOM_REQUEST = "FETCH_GET_BOOKING_ROOM_REQUEST";
 export const FETCH_GET_BOOKING_ROOM_SUCCESS = "FETCH_GET_BOOKING_ROOM_SUCCESS";
 
+export const SET_ACTIVE_SEGMENT = "SET_ACTIVE_SEGMENT";
+
 export interface IRoom {
     id: string,
     name: string,
@@ -33,7 +35,8 @@ export interface IInvitedUsers {
 
 export interface IRoomState {
     room: IRoom | null,
-    bookingSegments: IBookingSegment[]
+    bookingSegments: IBookingSegment[],
+    activeSegment: IBookingSegment | null
 }
 
 export interface FetchGetRoomRequestAction {
@@ -58,8 +61,16 @@ export interface FetchGetBookingRoomSuccessAction {
     }
 }
 
+export interface SetActiveSegmentAction {
+    type: typeof SET_ACTIVE_SEGMENT,
+    payload: {
+        activeSegment: IBookingSegment
+    }
+}
+
 export type RoomActionTypes =
     | FetchGetRoomRequestAction
     | FetchGetRoomSuccessAction
     | FetchGetBookingRoomRequestAction
-    | FetchGetBookingRoomSuccessAction;
+    | FetchGetBookingRoomSuccessAction
+    | SetActiveSegmentAction;

@@ -4,12 +4,14 @@ import {
     FETCH_GET_ROOM_REQUEST,
     FETCH_GET_ROOM_SUCCESS,
     IRoomState,
-    RoomActionTypes
+    RoomActionTypes,
+    SET_ACTIVE_SEGMENT
 } from "./types";
 
 const initialState: IRoomState = {
     room: null,
-    bookingSegments: []
+    bookingSegments: [],
+    activeSegment: null
 }
 
 export default (state = initialState, action: RoomActionTypes) => {
@@ -30,6 +32,12 @@ export default (state = initialState, action: RoomActionTypes) => {
             return {
                 ...state,
                 bookingSegments: action.payload.bookingSegments
+            }
+        }
+        case SET_ACTIVE_SEGMENT: {
+            return {
+                ...state,
+                activeSegment: action.payload.activeSegment
             }
         }
         default: return state;

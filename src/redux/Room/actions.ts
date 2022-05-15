@@ -1,15 +1,20 @@
 import {Dispatch} from "redux";
 import axios from "axios";
 
-import { timeHelper } from "../../helper/timeHelper";
+import {timeHelper} from "../../helper/timeHelper";
 import {
-    FETCH_GET_BOOKING_ROOM_REQUEST, FETCH_GET_BOOKING_ROOM_SUCCESS,
+    FETCH_GET_BOOKING_ROOM_REQUEST,
+    FETCH_GET_BOOKING_ROOM_SUCCESS,
     FETCH_GET_ROOM_REQUEST,
     FETCH_GET_ROOM_SUCCESS,
-    FetchGetBookingRoomRequestAction, FetchGetBookingRoomSuccessAction,
+    FetchGetBookingRoomRequestAction,
+    FetchGetBookingRoomSuccessAction,
     FetchGetRoomRequestAction,
-    FetchGetRoomSuccessAction, IBookingSegment,
-    IRoom
+    FetchGetRoomSuccessAction,
+    IBookingSegment,
+    IRoom,
+    SET_ACTIVE_SEGMENT,
+    SetActiveSegmentAction
 } from "./types";
 
 export const fetchGetRoomRequest = (): FetchGetRoomRequestAction => {
@@ -38,6 +43,15 @@ export const fetchBookingRoomSuccess = (bookingSegments: IBookingSegment[]): Fet
         type: FETCH_GET_BOOKING_ROOM_SUCCESS,
         payload: {
             bookingSegments: bookingSegments
+        }
+    }
+}
+
+export const setActiveSegment = (activeSegment: IBookingSegment): SetActiveSegmentAction => {
+    return {
+        type: SET_ACTIVE_SEGMENT,
+        payload: {
+            activeSegment: activeSegment
         }
     }
 }
