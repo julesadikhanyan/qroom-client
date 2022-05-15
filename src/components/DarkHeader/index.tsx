@@ -14,7 +14,12 @@ const DarkHeader: React.FC = () => {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static" sx={{ padding: "0 20px 0 20px", height: "70px", boxShadow: "none" }}>
+            <AppBar position="static" sx={{
+                padding: "0 20px 0 20px",
+                height: "70px",
+                boxShadow: "none",
+                boxSizing: "border-box"
+            }}>
                 <Toolbar>
                     <Stack
                         sx={{ flexGrow: 1, alignItems: "center"}}
