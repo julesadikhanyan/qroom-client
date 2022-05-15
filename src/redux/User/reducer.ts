@@ -9,7 +9,15 @@ import {
 } from "./types";
 
 const initialState: IUserState = {
-    user: null,
+    user: {
+        id: localStorage.getItem("id") || "",
+        name: localStorage.getItem("name") || "",
+        login: localStorage.getItem("login") || "",
+        tokens: {
+            authenticateToken: localStorage.getItem("authenticateToken") || "",
+            refreshToken: localStorage.getItem("refreshToken") || ""
+        }
+    },
     loading: false
 }
 

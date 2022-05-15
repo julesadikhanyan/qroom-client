@@ -1,6 +1,7 @@
 import axios from "axios";
 import {Dispatch} from "redux";
 
+import {saveDataInLocalStorage} from "../../helper/saveDataInLocalStorage";
 import {
     FETCH_SIGN_UP_USER_FAILURE,
     FETCH_SIGN_UP_USER_REQUEST,
@@ -62,6 +63,7 @@ export function fetchSignUpUser(name: string, login: string, password: string) {
             password: password
         })
             .then(response => {
+                saveDataInLocalStorage(response.data);
                 dispatch(fetchSignUpUserSuccess(response.data));
             })
             .catch(() => {
@@ -78,6 +80,7 @@ export function fetchLogInUser(login: string, password: string) {
             password: password
         })
             .then(response => {
+                saveDataInLocalStorage(response.data);
                 dispatch(fetchLogInUserSuccess(response.data));
             })
             .catch(() => {

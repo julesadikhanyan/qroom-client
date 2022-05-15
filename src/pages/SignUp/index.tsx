@@ -62,7 +62,7 @@ export interface IFormInput {
 const SignUp: React.FC = () => {
     const dispatch = useDispatch();
 
-    const user = useSelector<RootState, IUser | null>((state) => state.userReducer.user);
+    const user = useSelector<RootState, IUser>((state) => state.userReducer.user);
     const loading = useSelector<RootState, boolean>((state) => state.userReducer.loading);
 
     const { control, handleSubmit, reset } = useForm<IFormInput>();

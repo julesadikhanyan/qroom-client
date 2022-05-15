@@ -15,7 +15,7 @@ export interface IUser {
 }
 
 export interface IUserState {
-    user: IUser | null,
+    user: IUser,
     loading: boolean
 }
 
