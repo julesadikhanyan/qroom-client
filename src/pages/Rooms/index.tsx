@@ -2,6 +2,7 @@ import React from "react";
 import { Typography, Box, styled, Grid } from "@mui/material";
 
 import theme from "../../style/theme";
+import Header from "../../components/Header";
 
 const StyledTypography = styled(Typography)({
     textAlign: "center"
@@ -25,6 +26,7 @@ const listOfRooms: Array<string> = [
 const Rooms: React.FC = () => {
     return (
         <Box sx={{ marginBottom: "20px" }}>
+            <Header/>
             <StyledTypography
                 sx={{
                     fontSize: 72,
