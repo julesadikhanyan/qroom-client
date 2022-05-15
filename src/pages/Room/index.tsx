@@ -7,19 +7,13 @@ import theme from "../../style/theme";
 import BookingForm from "../../components/BookingForm";
 import {fetchGetBookingRoom, fetchGetRoom} from "../../redux/Room/actions";
 import { RootState } from "../../redux/store";
-import { IRoom } from "../../redux/Room/types";
+import {IBookingSegment, IRoom} from "../../redux/Room/types";
 
-const timeSegments: Array<string> = [
-    "08:00-10:00",
-    "10:00-12:00",
-    "12:00-17:00",
-    "17:00-22:00"
-]
 const Room: React.FC = () => {
     const dispatch = useDispatch();
 
     const room = useSelector<RootState, IRoom | null>((state) => state.room);
-
+    const bookingSegments = useSelector<RootState, IBookingSegment[]>((state) => state.bookingSegments);
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {
@@ -64,24 +58,29 @@ const Room: React.FC = () => {
                                         marginBottom: "10px"
                                     }}>01.03.22</Typography>
                                     {
-                                        timeSegments.map((segment) =>
+                                        bookingSegments.length > 0 && bookingSegments.map((bookingSegment)  =>
                                             <Box
-                                                key={segment}
+                                                key={bookingSegment.time.start.getTime()}
                                                 onClick={handleClickOpen}
                                                 sx={{
                                                     display: "flex",
                                                     justifyContent: "space-between",
                                                     alignItems: "center",
                                                     height: 70,
-                                                    backgroundColor: theme.palette.secondary.main,
+                                                    backgroundColor:
+                                                        bookingSegment.id === "-1" ?
+                                                            theme.palette.secondary.main : theme.palette.primary.main,
                                                     color: "#FFFFFF",
                                                     borderBottom: "1px solid #FFFFFF",
                                                     padding: "0 20px 0 20px",
                                                     cursor: "pointer",
                                                 }}
                                             >
-                                                <Typography>{segment}</Typography>
-                                                <Typography>FREE</Typography>
+                                                <Typography>
+                                                    {bookingSegment.time.start.toLocaleTimeString().slice(0, 5)} - {
+                                                    bookingSegment.time.end.toLocaleTimeString().slice(0, 5)}
+                                                </Typography>
+                                                <Typography>{bookingSegment.id === "-1" ? "FREE" : "NOT FREE"}</Typography>
                                             </Box>
                                         )
                                     }
