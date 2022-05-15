@@ -70,6 +70,7 @@ const DarkHeader: React.FC<IDarkHeaderProps>= (props) => {
                                     Sign up
                                 </StyledButton>
                                 <StyledButton
+                                    disabled={locations.pathname === "/login"}
                                     color="inherit"
                                     onClick={() => history.push("/login")}
                                 >
