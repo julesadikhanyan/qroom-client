@@ -35,7 +35,7 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
     const [date, setDate] = useState<Date | null>(activeSegment.time.start || new Date());
     const [startTime, setStartTime] = useState<Date | null>(activeSegment.time.start || new Date());
     const [duration, setDuration] = useState<string>("");
-
+    const [title, setTitle] = useState<string>("");
     const handleCloseForm = () => {
         onClose();
     };
@@ -51,8 +51,12 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
     };
 
     const onSubmit = () => {
-        console.log(date, startTime, duration);
+        console.log(date, startTime, duration, title);
     }
+
+    const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setTitle(event.target.value);
+    };
 
     return (
         <Dialog
@@ -79,6 +83,14 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
                 padding: "10px"
             }}>
                 <Stack spacing={2}>
+                    <Box>
+                        <Typography>Enter meeting title:</Typography>
+                        <TextField
+                            fullWidth
+                            value={title}
+                            onChange={handleChangeTitle}
+                        />
+                    </Box>
                     <Box>
                         <Typography>Select meeting date:</Typography>
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
