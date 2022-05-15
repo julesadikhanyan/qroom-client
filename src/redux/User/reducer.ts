@@ -7,22 +7,30 @@ import {
 } from "./types";
 
 const initialState: IUserState = {
-    user: null
+    user: null,
+    loading: false
 }
 
 export default (state = initialState, action: UserActionTypes) => {
     switch (action.type) {
         case FETCH_SIGN_UP_USER_REQUEST: {
-            return state;
+            return {
+                ...state,
+                loading: true
+            }
         }
         case FETCH_SIGN_UP_USER_SUCCESS: {
             return {
                 ...state,
-                user: action.payload.user
+                user: action.payload.user,
+                loading: false
             }
         }
         case FETCH_SIGN_UP_USER_FAILURE: {
-            return state;
+            return {
+                ...state,
+                loading: false
+            }
         }
         default: return state;
     }

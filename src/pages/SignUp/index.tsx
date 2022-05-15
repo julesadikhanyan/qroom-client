@@ -8,6 +8,7 @@ import theme from "../../style/theme";
 import { fetchSignUpUser } from "../../redux/User/actions";
 import { RootState } from "../../redux/store";
 import { IUser } from "../../redux/User/types";
+import Loading from "../../components/Loading";
 
 export interface IFormInput {
     name: string,
@@ -19,6 +20,7 @@ const SignUp: React.FC = () => {
     const dispatch = useDispatch();
 
     const user = useSelector<RootState, IUser | null>((state) => state.userReducer.user);
+    const loading = useSelector<RootState, boolean>((state) => state.userReducer.loading);
 
     const { control, handleSubmit, reset } = useForm<IFormInput>();
 
@@ -33,6 +35,10 @@ const SignUp: React.FC = () => {
             password: "",
         });
     }, [user]);
+
+    if (loading) {
+        return <Loading/>
+    }
 
     return (
         <>

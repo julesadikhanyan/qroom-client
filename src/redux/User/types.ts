@@ -10,7 +10,8 @@ export interface IUser {
 }
 
 export interface IUserState {
-    user: IUser | null
+    user: IUser | null,
+    loading: boolean
 }
 
 export interface ITokens {
