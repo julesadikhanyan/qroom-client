@@ -100,3 +100,12 @@ export const timeHelper = (bookingSegments: IBookingSegment[], date: Date) => {
 
     return booking;
 };
+
+export const setDurationHelper = (startTime: Date, duration: string) => {
+    if (startTime) {
+        const endTime = new Date(startTime.getTime());
+        new Date(endTime.setMinutes(endTime.getMinutes() + Number(duration)));
+        return endTime;
+    }
+    return startTime;
+}

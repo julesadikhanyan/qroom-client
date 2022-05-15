@@ -19,6 +19,7 @@ import {
 
 import theme from "../../style/theme";
 import {IBookingSegment} from "../../redux/Room/types";
+import {setDurationHelper} from "../../helper/timeHelper";
 
 export interface IBookingFormProps {
     open: boolean,
@@ -40,6 +41,7 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
     };
 
     const handleChangeDuration = (event: SelectChangeEvent) => {
+        console.log(startTime && setDurationHelper(startTime, event.target.value));
         setDuration(event.target.value as string);
     };
 
@@ -124,6 +126,8 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
                             <MenuItem value={30}>30 min</MenuItem>
                             <MenuItem value={45}>45 min</MenuItem>
                             <MenuItem value={60}>1 hour</MenuItem>
+                            <MenuItem value={90}>1 hour 30 min</MenuItem>
+                            <MenuItem value={120}>2 hours</MenuItem>
                         </Select>
                     </FormControl>
                 </Stack>
