@@ -1,12 +1,15 @@
 import {
+    FETCH_GET_BOOKING_ROOM_REQUEST,
+    FETCH_GET_BOOKING_ROOM_SUCCESS,
     FETCH_GET_ROOM_REQUEST,
     FETCH_GET_ROOM_SUCCESS,
-    RoomActionTypes,
-    IRoomState
+    IRoomState,
+    RoomActionTypes
 } from "./types";
 
 const initialState: IRoomState = {
-    room: null
+    room: null,
+    bookingSegments: []
 }
 
 export default (state = initialState, action: RoomActionTypes) => {
@@ -18,6 +21,15 @@ export default (state = initialState, action: RoomActionTypes) => {
             return {
                 ...state,
                 room: action.payload.room
+            }
+        }
+        case FETCH_GET_BOOKING_ROOM_REQUEST: {
+            return state;
+        }
+        case FETCH_GET_BOOKING_ROOM_SUCCESS: {
+            return {
+                ...state,
+                bookingSegments: action.payload.bookingSegments
             }
         }
         default: return state;

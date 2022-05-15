@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import DarkHeader from "../../components/DarkHeader";
 import theme from "../../style/theme";
 import BookingForm from "../../components/BookingForm";
-import { fetchGetRoom } from "../../redux/Room/actions";
+import {fetchGetBookingRoom, fetchGetRoom} from "../../redux/Room/actions";
 import { RootState } from "../../redux/store";
 import { IRoom } from "../../redux/Room/types";
 
@@ -32,6 +32,7 @@ const Room: React.FC = () => {
 
     useEffect(() => {
         dispatch(fetchGetRoom("eb3c28e8-28e9-4788-afa1-758061a2f354"));
+        dispatch(fetchGetBookingRoom("eb3c28e8-28e9-4788-afa1-758061a2f354"));
     }, []);
 
     return (
