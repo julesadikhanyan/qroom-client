@@ -24,7 +24,8 @@ import {IBookingSegment} from "../../redux/Room/types";
 export interface IBookingFormProps {
     open: boolean,
     onClose: () => void,
-    activeSegment: IBookingSegment
+    activeSegment: IBookingSegment,
+    setMeetingDateOnPage: (date: Date | null) => void
 }
 
 const StyledTextField = styled(TextField)({
@@ -43,7 +44,7 @@ const StyledButton = styled(Button)({
 });
 
 const BookingForm: React.FC<IBookingFormProps> = (props) => {
-    const { onClose, open, activeSegment } = props;
+    const { onClose, open, activeSegment, setMeetingDateOnPage } = props;
 
     const [date, setDate] = useState<Date | null>(activeSegment.time.start || new Date());
     const [startTime, setStartTime] = useState<Date | null>(activeSegment.time.start || new Date());
@@ -55,6 +56,11 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
 
     const handleChangeDuration = (event: SelectChangeEvent) => {
         setDuration(event.target.value as string);
+    };
+
+    const setMeetingDate = (newDate: Date | null) => {
+        setDate(newDate);
+        setMeetingDateOnPage(newDate);
     };
 
     return (
@@ -87,7 +93,7 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
                                 onChange={(newDate) => {
-                                    setDate(newDate)
+                                    setMeetingDate(newDate)
                                 }}
                                 value={date}
                                 minDate={new Date()}

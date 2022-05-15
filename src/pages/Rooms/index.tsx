@@ -51,15 +51,15 @@ const Rooms: React.FC = () => {
             </StyledTypography>
             <Grid
                 container
-                spacing={2}
-                columns={12}
+                columns={{ xl: 12, md: 12, xs: 12 }}
+                rowSpacing={2}
                 sx={{
                     margin: "auto"
                 }}
             >
                 {
                     listOfRooms.map((room) =>
-                        <Grid key={room} item xs={4}>
+                        <Grid key={room} item xl={4} md={6} xs={12}>
                             <Box
                                 onClick={() => history.push("/room")}
                                 sx={{
@@ -68,7 +68,11 @@ const Rooms: React.FC = () => {
                                     backgroundColor: theme.palette.primary.main,
                                     borderRadius: 2,
                                     cursor: "pointer",
-                                    margin: "auto"
+                                    margin: "auto",
+                                    [theme.breakpoints.only('xs')]: {
+                                        width: 260,
+                                        height: 330
+                                    }
                                 }}
                             >
                             </Box>

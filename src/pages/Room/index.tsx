@@ -30,6 +30,10 @@ const Room: React.FC = () => {
         dispatch(fetchGetBookingRoom("eb3c28e8-28e9-4788-afa1-758061a2f354"));
     }, []);
 
+    const setMeetingDate = (newDate: Date | null) => {
+        console.log(newDate);
+    }
+
     return (
         <>
             {
@@ -101,7 +105,12 @@ const Room: React.FC = () => {
                     </Grid>
                     {
                         activeSegment &&
-                        <BookingForm open={open} onClose={handleClose} activeSegment={activeSegment}/>
+                        <BookingForm
+                            open={open}
+                            onClose={handleClose}
+                            activeSegment={activeSegment}
+                            setMeetingDateOnPage={setMeetingDate}
+                        />
                     }
                 </Box>
             }
