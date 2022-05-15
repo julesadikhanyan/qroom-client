@@ -1,6 +1,7 @@
 import {Dispatch} from "redux";
 import axios from "axios";
 
+import { timeHelper } from "../../helper/timeHelper";
 import {
     FETCH_GET_BOOKING_ROOM_REQUEST, FETCH_GET_BOOKING_ROOM_SUCCESS,
     FETCH_GET_ROOM_REQUEST,
@@ -57,6 +58,8 @@ export function fetchGetBookingRoom(id: string) {
         const date = encodeURIComponent("2022-05-15T00:00:00+03:00");
         axios.get(`https://qroom-server.herokuapp.com/rooms/booking?room_uuid=${id}&date=${date}`)
             .then(response => {
+                const time = response.data;
+                console.log(timeHelper(time, new Date("2022-05-15T00:00:00+03:00")));
                 dispatch(fetchBookingRoomSuccess(response.data));
             });
     }

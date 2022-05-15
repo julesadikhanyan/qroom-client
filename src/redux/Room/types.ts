@@ -23,12 +23,12 @@ export interface IBookingSegment {
 }
 
 export interface ITime {
-    start: string,
-    end: string
+    start: Date,
+    end: Date,
 }
 
 export interface IInvitedUsers {
-    (key: string): string
+    [key: string]: string
 }
 
 export interface IRoomState {
