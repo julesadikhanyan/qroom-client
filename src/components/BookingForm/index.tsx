@@ -90,6 +90,7 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
                                     setDate(newDate)
                                 }}
                                 value={date}
+                                minDate={new Date()}
                                 renderInput={(params) =>
                                     <StyledTextField {...params}/>
                                 }
@@ -103,6 +104,10 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
                                 onChange={(newStartTime) => {
                                     setStartTime(newStartTime)
                                 }}
+                                ampm={false}
+                                minutesStep={5}
+                                minTime={new Date(new Date().setHours(8, 0, 0, 0))}
+                                maxTime={new Date(new Date().setHours(21, 45, 0, 0))}
                                 value={startTime}
                                 renderInput={(params) =>
                                     <StyledTextField {...params}/>
