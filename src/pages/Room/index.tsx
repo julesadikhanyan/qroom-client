@@ -1,8 +1,9 @@
 import React from "react";
+import DarkHeader from "../../components/DarkHeader";
 
 const Room: React.FC = () => {
     return (
-        <h1>ROOM</h1>
+        <DarkHeader/>
     )
 }
 

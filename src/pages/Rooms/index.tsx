@@ -25,7 +25,7 @@ const listOfRooms: Array<string> = [
 
 const Rooms: React.FC = () => {
     return (
-        <Box sx={{ marginBottom: "20px" }}>
+        <Box sx={{ marginBottom: "20px", width: "80vw", margin: "auto" }}>
             <Header/>
             <StyledTypography
                 sx={{
@@ -62,7 +62,8 @@ const Rooms: React.FC = () => {
                                 height: 350,
                                 backgroundColor: theme.palette.primary.main,
                                 borderRadius: 2,
-                                cursor: "pointer"
+                                cursor: "pointer",
+                                margin: "auto"
                             }}>
                             </Box>
                         </Grid>
