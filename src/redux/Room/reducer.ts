@@ -1,4 +1,5 @@
 import {
+    DELETE_ACTIVE_SEGMENT,
     FETCH_GET_BOOKING_ROOM_REQUEST,
     FETCH_GET_BOOKING_ROOM_SUCCESS,
     FETCH_GET_ROOM_REQUEST,
@@ -38,6 +39,12 @@ export default (state = initialState, action: RoomActionTypes) => {
             return {
                 ...state,
                 activeSegment: action.payload.activeSegment
+            }
+        }
+        case DELETE_ACTIVE_SEGMENT: {
+            return {
+                ...state,
+                activeSegment: initialState.activeSegment
             }
         }
         default: return state;

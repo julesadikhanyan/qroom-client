@@ -3,6 +3,8 @@ import axios from "axios";
 
 import {timeHelper} from "../../helper/timeHelper";
 import {
+    DELETE_ACTIVE_SEGMENT,
+    DeleteActiveSegmentAction,
     FETCH_GET_BOOKING_ROOM_REQUEST,
     FETCH_GET_BOOKING_ROOM_SUCCESS,
     FETCH_GET_ROOM_REQUEST,
@@ -56,6 +58,12 @@ export const setActiveSegment = (activeSegment: IBookingSegment): SetActiveSegme
     }
 }
 
+export const deleteActiveSegment = (): DeleteActiveSegmentAction => {
+    return {
+        type: DELETE_ACTIVE_SEGMENT
+    }
+}
+
 export function fetchGetRoom(id: string) {
     return function (dispatch: Dispatch<FetchGetRoomRequestAction | FetchGetRoomSuccessAction>){
         dispatch(fetchGetRoomRequest());
@@ -69,10 +77,10 @@ export function fetchGetRoom(id: string) {
 export function fetchGetBookingRoom(id: string) {
     return function (dispatch: Dispatch<FetchGetBookingRoomRequestAction | FetchGetBookingRoomSuccessAction>){
         dispatch(fetchBookingRoomRequest());
-        const date = encodeURIComponent("2022-05-15T00:00:00+03:00");
+        const date = encodeURIComponent("2022-05-16T00:00:00+03:00");
         axios.get(`https://qroom-server.herokuapp.com/rooms/booking?room_uuid=${id}&date=${date}`)
             .then(response => {
-                const time = timeHelper(response.data, new Date("2022-05-15T00:00:00+03:00"));
+                const time = timeHelper(response.data, new Date("2022-05-16T00:00:00+03:00"));
                 dispatch(fetchBookingRoomSuccess(time));
             });
     }

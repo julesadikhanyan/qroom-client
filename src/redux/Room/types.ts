@@ -5,6 +5,7 @@ export const FETCH_GET_BOOKING_ROOM_REQUEST = "FETCH_GET_BOOKING_ROOM_REQUEST";
 export const FETCH_GET_BOOKING_ROOM_SUCCESS = "FETCH_GET_BOOKING_ROOM_SUCCESS";
 
 export const SET_ACTIVE_SEGMENT = "SET_ACTIVE_SEGMENT";
+export const DELETE_ACTIVE_SEGMENT = "DELETE_ACTIVE_SEGMENT";
 
 export interface IRoom {
     id: string,
@@ -74,9 +75,14 @@ export interface SetActiveSegmentAction {
     }
 }
 
+export interface DeleteActiveSegmentAction {
+    type: typeof DELETE_ACTIVE_SEGMENT
+}
+
 export type RoomActionTypes =
     | FetchGetRoomRequestAction
     | FetchGetRoomSuccessAction
     | FetchGetBookingRoomRequestAction
     | FetchGetBookingRoomSuccessAction
-    | SetActiveSegmentAction;
+    | SetActiveSegmentAction
+    | DeleteActiveSegmentAction;

@@ -23,12 +23,20 @@ const DarkHeader: React.FC<IDarkHeaderProps>= (props) => {
     const locations = useLocation();
 
     return (
-        <Box sx={{ flexGrow: 1, height: 70, boxSizing: "border-box", boxShadow: "none" }}>
-            <AppBar position="static" sx={{ padding: "0 20px 0 20px" }}>
+        <Box sx={{ flexGrow: 1 }}>
+            <AppBar
+                position="static"
+                sx={{
+                    padding: "0 20px 0 20px",
+                    height: 70,
+                    boxSizing: "border-box",
+                    boxShadow: "none"
+                }}
+            >
                 <Toolbar>
                     <Stack
                         sx={{ flexGrow: 1, alignItems: "center" }}
-                        spacing={2}
+                        spacing={3}
                         direction="row"
                     >
                         <Button

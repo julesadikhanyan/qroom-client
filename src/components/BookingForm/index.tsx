@@ -14,8 +14,7 @@ import {
     FormControl,
     InputLabel,
     Stack,
-    Box,
-    styled
+    Box
 } from "@mui/material";
 
 import theme from "../../style/theme";
@@ -25,26 +24,12 @@ export interface IBookingFormProps {
     open: boolean,
     onClose: () => void,
     activeSegment: IBookingSegment,
-    setMeetingDateOnPage: (date: Date | null) => void
+    setMeetingDateOnPage: (date: Date | null) => void,
+    deleteSegment: () => void;
 }
 
-const StyledTextField = styled(TextField)({
-    width: "100%"
-});
-
-const StyledButton = styled(Button)({
-    width: 200,
-    backgroundColor: theme.palette.secondary.main,
-    color: "#FFFFFF",
-    margin: "auto",
-    marginBottom: "10px",
-    "&:hover": {
-        backgroundColor: theme.palette.secondary.main
-    }
-});
-
 const BookingForm: React.FC<IBookingFormProps> = (props) => {
-    const { onClose, open, activeSegment, setMeetingDateOnPage } = props;
+    const { onClose, open, activeSegment, setMeetingDateOnPage, deleteSegment } = props;
 
     const [date, setDate] = useState<Date | null>(activeSegment.time.start || new Date());
     const [startTime, setStartTime] = useState<Date | null>(activeSegment.time.start || new Date());
@@ -62,6 +47,10 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
         setDate(newDate);
         setMeetingDateOnPage(newDate);
     };
+
+    const onSubmit = () => {
+        console.log(date, startTime, duration);
+    }
 
     return (
         <Dialog
@@ -98,7 +87,7 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
                                 value={date}
                                 minDate={new Date()}
                                 renderInput={(params) =>
-                                    <StyledTextField {...params}/>
+                                    <TextField fullWidth {...params}/>
                                 }
                             />
                         </LocalizationProvider>
@@ -116,7 +105,7 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
                                 maxTime={new Date(new Date().setHours(21, 45, 0, 0))}
                                 value={startTime}
                                 renderInput={(params) =>
-                                    <StyledTextField {...params}/>
+                                    <TextField fullWidth {...params}/>
                                 }
                             />
                         </LocalizationProvider>
@@ -139,7 +128,25 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
                     </FormControl>
                 </Stack>
             </DialogContent>
-            <StyledButton>BOOK ROOM</StyledButton>
+            <Button
+                sx={{
+                    width: 200,
+                    backgroundColor: theme.palette.secondary.main,
+                    color: "#FFFFFF",
+                    margin: "auto",
+                    marginBottom: "10px",
+                    "&:hover": {
+                        backgroundColor: theme.palette.secondary.main
+                    }
+                }}
+                onClick={() => {
+                    onSubmit();
+                    onClose();
+                    deleteSegment();
+                }}
+            >
+                BOOK ROOM
+            </Button>
         </Dialog>
     )
 }

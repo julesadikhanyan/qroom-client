@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import DarkHeader from "../../components/DarkHeader";
 import theme from "../../style/theme";
 import BookingForm from "../../components/BookingForm";
-import {fetchGetBookingRoom, fetchGetRoom, setActiveSegment} from "../../redux/Room/actions";
+import {deleteActiveSegment, fetchGetBookingRoom, fetchGetRoom, setActiveSegment} from "../../redux/Room/actions";
 import { RootState } from "../../redux/store";
 import {IBookingSegment, IRoom} from "../../redux/Room/types";
 import {IUser} from "../../redux/User/types";
@@ -35,6 +35,14 @@ const Room: React.FC = () => {
 
     const setMeetingDate = (newDate: Date | null) => {
         console.log(newDate);
+    }
+
+    const setSegment = (bookingSegment: IBookingSegment) => {
+        dispatch(setActiveSegment(bookingSegment));
+    }
+
+    const deleteSegment = () => {
+        dispatch(deleteActiveSegment());
     }
 
     return (
@@ -70,8 +78,10 @@ const Room: React.FC = () => {
                                             <Box
                                                 key={bookingSegment.time.start.getTime()}
                                                 onClick={() => {
-                                                    handleClickOpen();
-                                                    dispatch(setActiveSegment(bookingSegment));
+                                                    if (bookingSegment.id === "-1") {
+                                                        handleClickOpen();
+                                                        setSegment(bookingSegment);
+                                                    }
                                                 }}
                                                 sx={{
                                                     display: "flex",
@@ -113,6 +123,7 @@ const Room: React.FC = () => {
                             onClose={handleClose}
                             activeSegment={activeSegment}
                             setMeetingDateOnPage={setMeetingDate}
+                            deleteSegment={deleteSegment}
                         />
                     }
                 </Box>
