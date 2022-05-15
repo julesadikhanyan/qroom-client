@@ -50,18 +50,23 @@ const Room: React.FC = () => {
             {
                 room &&
                 <Box sx={{
-                    height: "100vh"
+                    [theme.breakpoints.up("xl")]: {
+                        height: "100vh"
+                    }
                 }}>
                     <DarkHeader name={user?.name}/>
                     <Grid container>
-                        <Grid item xs={6}>
+                        <Grid item xs={12} xl={6}>
                             <Box sx={{
                                 textAlign: "center",
                                 paddingTop: "40px"
                             }}>
                                 <Stack spacing={2}>
                                     <Typography sx={{
-                                        fontSize: 36
+                                        fontSize: 36,
+                                        [theme.breakpoints.down("md")]: {
+                                            fontSize: 24
+                                        }
                                     }}>Meeting Room {room.name}</Typography>
                                     <Typography>NUMBER OF SEATS: {room.numberOfSeats}</Typography>
                                     <Typography>FLOOR: {room.floor}</Typography>
@@ -108,11 +113,14 @@ const Room: React.FC = () => {
                                 </Box>
                             </Box>
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={12} xl={6}>
                             <Box sx={{
                                 backgroundColor: theme.palette.primary.main,
-                                width: "50vw",
-                                height: "calc(100vh - 70px)"
+                                height: "calc(100vh - 70px)",
+                                [theme.breakpoints.down("xl")]: {
+                                    marginTop: "20px",
+                                    height: "100vw"
+                                }
                             }}/>
                         </Grid>
                     </Grid>
