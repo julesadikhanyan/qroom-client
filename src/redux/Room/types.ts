@@ -43,7 +43,8 @@ export interface IError {
 export interface IRoomState {
     room: IRoom | null,
     bookingSegments: IBookingSegment[],
-    activeSegment: IBookingSegment | null
+    activeSegment: IBookingSegment | null,
+    date: Date | null
 }
 
 export interface FetchGetRoomRequestAction {
@@ -64,7 +65,8 @@ export interface FetchGetBookingRoomRequestAction {
 export interface FetchGetBookingRoomSuccessAction {
     type: typeof FETCH_GET_BOOKING_ROOM_SUCCESS,
     payload: {
-        bookingSegments: IBookingSegment[]
+        bookingSegments: IBookingSegment[],
+        date: Date
     }
 }
 

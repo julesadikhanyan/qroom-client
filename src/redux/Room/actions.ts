@@ -40,11 +40,12 @@ export const fetchBookingRoomRequest = (): FetchGetBookingRoomRequestAction => {
     }
 }
 
-export const fetchBookingRoomSuccess = (bookingSegments: IBookingSegment[]): FetchGetBookingRoomSuccessAction => {
+export const fetchBookingRoomSuccess = (bookingSegments: IBookingSegment[], date: Date): FetchGetBookingRoomSuccessAction => {
     return {
         type: FETCH_GET_BOOKING_ROOM_SUCCESS,
         payload: {
-            bookingSegments: bookingSegments
+            bookingSegments: bookingSegments,
+            date: date
         }
     }
 }
@@ -74,14 +75,16 @@ export function fetchGetRoom(id: string) {
     }
 }
 
-export function fetchGetBookingRoom(id: string) {
+export function fetchGetBookingRoom(id: string, date: Date) {
+    const dateISO = date.toISOString();
     return function (dispatch: Dispatch<FetchGetBookingRoomRequestAction | FetchGetBookingRoomSuccessAction>){
         dispatch(fetchBookingRoomRequest());
-        const date = encodeURIComponent("2022-05-16T00:00:00+03:00");
-        axios.get(`https://qroom-server.herokuapp.com/rooms/booking?room_uuid=${id}&date=${date}`)
+        const dateURI = encodeURIComponent(dateISO);
+        axios.get(`https://qroom-server.herokuapp.com/rooms/booking?room_uuid=${id}&date=${dateURI}`)
             .then(response => {
-                const time = timeHelper(response.data, new Date("2022-05-16T00:00:00+03:00"));
-                dispatch(fetchBookingRoomSuccess(time));
+                console.log(response.data);
+                const time = timeHelper(response.data, date);
+                dispatch(fetchBookingRoomSuccess(time, date));
             });
     }
 }

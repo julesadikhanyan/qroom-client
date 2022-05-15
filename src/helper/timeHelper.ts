@@ -2,6 +2,8 @@ import { IBookingSegment } from "../redux/Room/types";
 
 export const timeHelper = (bookingSegments: IBookingSegment[], date: Date) => {
 
+    console.log(date.toISOString());
+
     const booking = Array<IBookingSegment>();
 
     let startDay = new Date(date);

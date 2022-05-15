@@ -17,6 +17,7 @@ const Room: React.FC = () => {
     const bookingSegments = useSelector<RootState, IBookingSegment[]>((state) => state.roomReducer.bookingSegments);
     const activeSegment = useSelector<RootState, IBookingSegment | null>((state) => state.roomReducer.activeSegment);
     const user = useSelector<RootState, IUser | null>((state) => state.userReducer.user);
+    const date = useSelector<RootState, Date | null>((state) => state.roomReducer.date);
 
     const [open, setOpen] = useState(false);
 
@@ -30,11 +31,13 @@ const Room: React.FC = () => {
 
     useEffect(() => {
         dispatch(fetchGetRoom("eb3c28e8-28e9-4788-afa1-758061a2f354"));
-        dispatch(fetchGetBookingRoom("eb3c28e8-28e9-4788-afa1-758061a2f354"));
+        dispatch(fetchGetBookingRoom("eb3c28e8-28e9-4788-afa1-758061a2f354", new Date()));
     }, []);
 
     const setMeetingDate = (newDate: Date | null) => {
-        console.log(newDate);
+        if (newDate) {
+            dispatch(fetchGetBookingRoom("eb3c28e8-28e9-4788-afa1-758061a2f354", newDate));
+        }
     }
 
     const setSegment = (bookingSegment: IBookingSegment) => {
@@ -71,13 +74,13 @@ const Room: React.FC = () => {
                                     <Typography>NUMBER OF SEATS: {room.numberOfSeats}</Typography>
                                     <Typography>FLOOR: {room.floor}</Typography>
                                 </Stack>
-                                <Box>
+                                <Box sx={{ marginTop: "20px" }}>
                                     <Typography sx={{
                                         fontWeight: "bold"
-                                    }}>TODAY</Typography>
+                                    }}>BOOKING SCHEDULE</Typography>
                                     <Typography sx={{
                                         marginBottom: "10px"
-                                    }}>01.03.22</Typography>
+                                    }}>{date?.toLocaleDateString()}</Typography>
                                     {
                                         bookingSegments.length > 0 && bookingSegments.map((bookingSegment)  =>
                                             <Box
