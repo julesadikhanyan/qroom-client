@@ -19,10 +19,12 @@ import {
 } from "@mui/material";
 
 import theme from "../../style/theme";
+import {IBookingSegment} from "../../redux/Room/types";
 
 export interface IBookingFormProps {
     open: boolean,
-    onClose: () => void;
+    onClose: () => void,
+    activeSegment: IBookingSegment
 }
 
 const StyledTextField = styled(TextField)({
@@ -41,10 +43,10 @@ const StyledButton = styled(Button)({
 });
 
 const BookingForm: React.FC<IBookingFormProps> = (props) => {
-    const { onClose, open } = props;
+    const { onClose, open, activeSegment } = props;
 
-    const [date, setDate] = useState<Date | null>(null);
-    const [startTime, setStartTime] = useState<Date | null>(null);
+    const [date, setDate] = useState<Date | null>(activeSegment.time.start || new Date());
+    const [startTime, setStartTime] = useState<Date | null>(activeSegment.time.start || new Date());
     const [duration, setDuration] = useState<string>("");
 
     const handleCloseForm = () => {

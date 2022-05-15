@@ -14,6 +14,7 @@ const Room: React.FC = () => {
 
     const room = useSelector<RootState, IRoom | null>((state) => state.room);
     const bookingSegments = useSelector<RootState, IBookingSegment[]>((state) => state.bookingSegments);
+    const activeSegment = useSelector<RootState, IBookingSegment | null>((state) => state.activeSegment);
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {
@@ -98,7 +99,10 @@ const Room: React.FC = () => {
                             }}/>
                         </Grid>
                     </Grid>
-                    <BookingForm open={open} onClose={handleClose}/>
+                    {
+                        activeSegment &&
+                        <BookingForm open={open} onClose={handleClose} activeSegment={activeSegment}/>
+                    }
                 </Box>
             }
         </>
