@@ -1,6 +1,7 @@
 import React from "react";
 import { AppBar, Box, Button, Toolbar, Typography, Stack, styled } from "@mui/material";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useHistory } from "react-router-dom";
 
 import theme from "../../style/theme";
 
@@ -9,6 +10,8 @@ const StyledButton = styled(Button)({
 });
 
 const DarkHeader: React.FC = () => {
+    const history = useHistory();
+
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" sx={{ padding: "0 20px 0 20px" }}>
@@ -18,14 +21,17 @@ const DarkHeader: React.FC = () => {
                         spacing={3}
                         direction="row"
                     >
-                        <Button sx={{
-                            backgroundColor: "#FFFFFF",
-                            color: theme.palette.primary.main,
-                            height: 30,
-                            "&:hover": {
-                                backgroundColor: "#FFFFFF"
-                            }
-                        }}>
+                        <Button
+                            onClick={() => history.push("/rooms")}
+                            sx={{
+                                backgroundColor: "#FFFFFF",
+                                color: theme.palette.primary.main,
+                                height: 30,
+                                "&:hover": {
+                                    backgroundColor: "#FFFFFF"
+                                }
+                            }}
+                        >
                             <ArrowBackIcon/>
                         </Button>
                         <Typography

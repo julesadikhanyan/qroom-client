@@ -1,5 +1,6 @@
 import React from "react";
 import { Typography, Box, styled, Grid } from "@mui/material";
+import { useHistory } from "react-router-dom";
 
 import theme from "../../style/theme";
 import Header from "../../components/Header";
@@ -24,6 +25,8 @@ const listOfRooms: Array<string> = [
 ];
 
 const Rooms: React.FC = () => {
+    const history = useHistory();
+
     return (
         <Box sx={{ marginBottom: "20px", width: "80vw", margin: "auto" }}>
             <Header/>
@@ -57,14 +60,17 @@ const Rooms: React.FC = () => {
                 {
                     listOfRooms.map((room) =>
                         <Grid key={room} item xs={4}>
-                            <Box sx={{
-                                width: 290,
-                                height: 350,
-                                backgroundColor: theme.palette.primary.main,
-                                borderRadius: 2,
-                                cursor: "pointer",
-                                margin: "auto"
-                            }}>
+                            <Box
+                                onClick={() => history.push("/room")}
+                                sx={{
+                                    width: 290,
+                                    height: 350,
+                                    backgroundColor: theme.palette.primary.main,
+                                    borderRadius: 2,
+                                    cursor: "pointer",
+                                    margin: "auto"
+                                }}
+                            >
                             </Box>
                         </Grid>
                     )
