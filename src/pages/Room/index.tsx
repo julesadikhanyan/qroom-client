@@ -1,8 +1,11 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Grid, Box, Typography, Stack } from "@mui/material";
+import { useDispatch } from "react-redux";
 
 import DarkHeader from "../../components/DarkHeader";
 import theme from "../../style/theme";
+import BookingForm from "../../components/BookingForm";
+import { fetchGetRoom } from "../../redux/Room/actions";
 
 const timeSegments: Array<string> = [
     "08:00-10:00",
@@ -11,6 +14,22 @@ const timeSegments: Array<string> = [
     "17:00-22:00"
 ]
 const Room: React.FC = () => {
+    const dispatch = useDispatch();
+
+    const [open, setOpen] = useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    }
+
+    const handleClose = () => {
+        setOpen(false);
+    }
+
+    useEffect(() => {
+        dispatch(fetchGetRoom("3d83abe8-245b-4765-aa2b-22f6e6b43785"));
+    }, []);
+
     return (
         <Box sx={{
             height: "100vh"
@@ -40,6 +59,7 @@ const Room: React.FC = () => {
                             {
                                 timeSegments.map((segment) =>
                                     <Box
+                                        onClick={handleClickOpen}
                                         key={segment}
                                         sx={{
                                             display: "flex",
@@ -70,6 +90,7 @@ const Room: React.FC = () => {
                     />
                 </Grid>
             </Grid>
+            <BookingForm open={open} onClose={handleClose}/>
         </Box>
     )
 }
