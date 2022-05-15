@@ -1,13 +1,14 @@
 import { Box, TextField, Typography } from "@mui/material";
 import React, {useEffect} from "react";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import DarkHeader from "../../components/DarkHeader";
 import { RootState } from "../../redux/store";
 import { IUser } from "../../redux/User/types";
 import Loading from "../../components/Loading";
 import { ContentBox, FormBox, FormStack, SubmitButton, TitleTypography } from "../SignUp";
+import { fetchLogInUser } from "../../redux/User/actions";
 
 export interface IFormInput {
     email: string,
@@ -15,6 +16,7 @@ export interface IFormInput {
 }
 
 const LogIn: React.FC = () => {
+    const dispatch = useDispatch();
 
     const user = useSelector<RootState, IUser | null>((state) => state.userReducer.user);
     const loading = useSelector<RootState, boolean>((state) => state.userReducer.loading);
@@ -22,7 +24,7 @@ const LogIn: React.FC = () => {
     const { control, handleSubmit, reset } = useForm<IFormInput>();
 
     const onSubmit: SubmitHandler<IFormInput> = data => {
-        console.log(data);
+        dispatch(fetchLogInUser(data.email, data.password))
     };
 
     useEffect(() => {

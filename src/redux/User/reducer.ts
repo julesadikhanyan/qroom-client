@@ -1,4 +1,6 @@
 import {
+    FETCH_LOG_IN_USER_FAILURE,
+    FETCH_LOG_IN_USER_REQUEST, FETCH_LOG_IN_USER_SUCCESS,
     FETCH_SIGN_UP_USER_FAILURE,
     FETCH_SIGN_UP_USER_REQUEST,
     FETCH_SIGN_UP_USER_SUCCESS,
@@ -31,6 +33,18 @@ export default (state = initialState, action: UserActionTypes) => {
                 ...state,
                 loading: false
             }
+        }
+        case FETCH_LOG_IN_USER_REQUEST: {
+            return state;
+        }
+        case FETCH_LOG_IN_USER_SUCCESS: {
+            return {
+                ...state,
+                user: action.payload.user
+            }
+        }
+        case FETCH_LOG_IN_USER_FAILURE: {
+            return state;
         }
         default: return state;
     }

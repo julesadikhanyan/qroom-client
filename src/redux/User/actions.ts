@@ -32,6 +32,27 @@ export const fetchSignUpUserFailure = (): FetchSignUpUserFailureAction => {
     }
 }
 
+export const fetchLogInUserRequest = (): FetchSignUpUserRequestAction => {
+    return {
+        type: FETCH_SIGN_UP_USER_REQUEST
+    }
+}
+
+export const fetchLogInUserSuccess = (user: IUser): FetchSignUpUserSuccessAction => {
+    return {
+        type: FETCH_SIGN_UP_USER_SUCCESS,
+        payload: {
+            user: user
+        }
+    }
+}
+
+export const fetchLogInUserFailure = (): FetchSignUpUserFailureAction => {
+    return {
+        type: FETCH_SIGN_UP_USER_FAILURE
+    }
+}
+
 export function fetchSignUpUser(name: string, login: string, password: string) {
     return function (dispatch: Dispatch<FetchSignUpUserRequestAction | FetchSignUpUserSuccessAction | FetchSignUpUserFailureAction>) {
         dispatch(fetchSignUpUserRequest());
@@ -41,11 +62,26 @@ export function fetchSignUpUser(name: string, login: string, password: string) {
             password: password
         })
             .then(response => {
-                console.log(response.data);
                 dispatch(fetchSignUpUserSuccess(response.data));
             })
             .catch(() => {
                 dispatch(fetchSignUpUserFailure());
             });
+    }
+}
+
+export function fetchLogInUser(login: string, password: string) {
+    return function (dispatch: Dispatch<FetchSignUpUserRequestAction | FetchSignUpUserSuccessAction | FetchSignUpUserFailureAction>) {
+        dispatch(fetchLogInUserRequest());
+        axios.post("https://qroom-server.herokuapp.com/users/authenticate", {
+            login: login,
+            password: password
+        })
+            .then(response => {
+                dispatch(fetchLogInUserSuccess(response.data));
+            })
+            .catch(() => {
+                dispatch(fetchLogInUserFailure());
+            })
     }
 }
