@@ -8,7 +8,7 @@ const StyledButton = styled(Button)({
 });
 
 
-const Header: React.FC = () => {
+const LightHeader: React.FC = () => {
     const history = useHistory();
 
     return (
@@ -46,4 +46,4 @@ const Header: React.FC = () => {
     )
 }
 
-export default Header;
+export default LightHeader;

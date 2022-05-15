@@ -3,7 +3,7 @@ import { Typography, Box, styled, Grid } from "@mui/material";
 import { useHistory } from "react-router-dom";
 
 import theme from "../../style/theme";
-import Header from "../../components/Header";
+import LightHeader from "../../components/LightHeader";
 
 const StyledTypography = styled(Typography)({
     textAlign: "center"
@@ -29,7 +29,7 @@ const Rooms: React.FC = () => {
 
     return (
         <Box sx={{ marginBottom: "20px", width: "80vw", margin: "auto" }}>
-            <Header/>
+            <LightHeader/>
             <StyledTypography
                 sx={{
                     fontSize: 72,
