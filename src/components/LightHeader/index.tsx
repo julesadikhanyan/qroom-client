@@ -1,14 +1,20 @@
 import React from "react";
-import { AppBar, Box, Button, Stack, styled, Toolbar, Typography } from "@mui/material";
-import theme from "../../style/theme";
+import { AppBar, Box, Button, Stack, Toolbar, Typography, styled } from "@mui/material";
 import { useHistory } from "react-router-dom";
+
+import theme from "../../style/theme";
 
 const StyledButton = styled(Button)({
     border: `1px solid ${theme.palette.primary.main}`
 });
 
+export interface ILightHeaderProps {
+    name: string | undefined
+}
 
-const LightHeader: React.FC = () => {
+const LightHeader: React.FC<ILightHeaderProps>= (props) => {
+    const { name } = props;
+
     const history = useHistory();
 
     return (
@@ -31,15 +37,14 @@ const LightHeader: React.FC = () => {
                     >
                         QR
                     </Typography>
-                    <Stack spacing={2} direction="row">
-                        <StyledButton
-                            color="inherit"
-                            onClick={() => history.push("/signup")}
-                        >
-                            Sign up
-                        </StyledButton>
-                        <StyledButton color="inherit">Log in</StyledButton>
-                    </Stack>
+                    {
+                        name ?
+                            <StyledButton>{name}</StyledButton> :
+                            <Stack spacing={2} direction="row">
+                                <StyledButton onClick={() => history.push("/signup")}>Sign up</StyledButton>
+                                <StyledButton onClick={() => history.push("/login")}>Log in</StyledButton>
+                            </Stack>
+                    }
                 </Toolbar>
             </AppBar>
         </Box>

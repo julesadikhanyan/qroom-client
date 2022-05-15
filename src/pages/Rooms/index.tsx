@@ -4,6 +4,9 @@ import { useHistory } from "react-router-dom";
 
 import theme from "../../style/theme";
 import LightHeader from "../../components/LightHeader";
+import {useSelector} from "react-redux";
+import {RootState} from "../../redux/store";
+import {IUser} from "../../redux/User/types";
 
 const StyledTypography = styled(Typography)({
     textAlign: "center"
@@ -27,9 +30,11 @@ const listOfRooms: Array<string> = [
 const Rooms: React.FC = () => {
     const history = useHistory();
 
+    const user = useSelector<RootState, IUser | null>((state) => state.userReducer.user);
+
     return (
         <Box sx={{ marginBottom: "20px", width: "80vw", margin: "auto" }}>
-            <LightHeader/>
+            <LightHeader name={user?.name}/>
             <StyledTypography
                 sx={{
                     fontSize: 72,

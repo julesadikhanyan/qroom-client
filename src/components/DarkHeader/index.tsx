@@ -69,7 +69,12 @@ const DarkHeader: React.FC<IDarkHeaderProps>= (props) => {
                                 >
                                     Sign up
                                 </StyledButton>
-                                <StyledButton color="inherit">Log in</StyledButton>
+                                <StyledButton
+                                    color="inherit"
+                                    onClick={() => history.push("/login")}
+                                >
+                                    Log in
+                                </StyledButton>
                             </Stack>
                     }
                 </Toolbar>

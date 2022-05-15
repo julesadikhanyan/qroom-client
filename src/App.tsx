@@ -5,6 +5,7 @@ import Rooms from "./pages/Rooms";
 import "./style/App.scss";
 import Room from "./pages/Room";
 import SignUp from "./pages/SignUp";
+import LogIn from "./pages/LogIn";
 
 const App: React.FC = () => {
     return (
@@ -19,6 +20,9 @@ const App: React.FC = () => {
                 </Route>
                 <Route exact path="/signup">
                     <SignUp/>
+                </Route>
+                <Route exact path="/login">
+                    <LogIn/>
                 </Route>
             </Switch>
         </BrowserRouter>
