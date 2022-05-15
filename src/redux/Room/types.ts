@@ -33,6 +33,12 @@ export interface IInvitedUsers {
     [key: string]: string
 }
 
+export interface IError {
+    message: string,
+    code: string,
+    name: string
+}
+
 export interface IRoomState {
     room: IRoom | null,
     bookingSegments: IBookingSegment[],

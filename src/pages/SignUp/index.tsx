@@ -1,9 +1,13 @@
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
-import React from "react";
+import React, {useEffect} from "react";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
 
 import DarkHeader from "../../components/DarkHeader";
 import theme from "../../style/theme";
+import { fetchSignUpUser } from "../../redux/User/actions";
+import { RootState } from "../../redux/store";
+import { IUser } from "../../redux/User/types";
 
 export interface IFormInput {
     name: string,
@@ -12,16 +16,23 @@ export interface IFormInput {
 }
 
 const SignUp: React.FC = () => {
+    const dispatch = useDispatch();
+
+    const user = useSelector<RootState, IUser | null>((state) => state.userReducer.user);
+
     const { control, handleSubmit, reset } = useForm<IFormInput>();
 
     const onSubmit: SubmitHandler<IFormInput> = data => {
-        console.log(data);
+        dispatch(fetchSignUpUser(data.name, data.email, data.password));
+    };
+
+    useEffect(() => {
         reset({
             name: "",
             email: "",
             password: "",
         });
-    };
+    }, [user]);
 
     return (
         <>

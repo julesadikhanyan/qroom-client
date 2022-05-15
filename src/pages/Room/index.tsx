@@ -12,9 +12,9 @@ import {IBookingSegment, IRoom} from "../../redux/Room/types";
 const Room: React.FC = () => {
     const dispatch = useDispatch();
 
-    const room = useSelector<RootState, IRoom | null>((state) => state.room);
-    const bookingSegments = useSelector<RootState, IBookingSegment[]>((state) => state.bookingSegments);
-    const activeSegment = useSelector<RootState, IBookingSegment | null>((state) => state.activeSegment);
+    const room = useSelector<RootState, IRoom | null>((state) => state.roomReducer.room);
+    const bookingSegments = useSelector<RootState, IBookingSegment[]>((state) => state.roomReducer.bookingSegments);
+    const activeSegment = useSelector<RootState, IBookingSegment | null>((state) => state.roomReducer.activeSegment);
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {
