@@ -45,7 +45,7 @@ const SignUp: React.FC = () => {
             <Box sx={{
                 height: "100vh"
             }}>
-                <DarkHeader/>
+                <DarkHeader name={user?.name}/>
                 <Box sx={{
                     height: "calc(100vh - 70px)",
                     display: "flex",

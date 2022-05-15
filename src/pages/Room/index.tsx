@@ -8,6 +8,7 @@ import BookingForm from "../../components/BookingForm";
 import {fetchGetBookingRoom, fetchGetRoom, setActiveSegment} from "../../redux/Room/actions";
 import { RootState } from "../../redux/store";
 import {IBookingSegment, IRoom} from "../../redux/Room/types";
+import {IUser} from "../../redux/User/types";
 
 const Room: React.FC = () => {
     const dispatch = useDispatch();
@@ -15,6 +16,8 @@ const Room: React.FC = () => {
     const room = useSelector<RootState, IRoom | null>((state) => state.roomReducer.room);
     const bookingSegments = useSelector<RootState, IBookingSegment[]>((state) => state.roomReducer.bookingSegments);
     const activeSegment = useSelector<RootState, IBookingSegment | null>((state) => state.roomReducer.activeSegment);
+    const user = useSelector<RootState, IUser | null>((state) => state.userReducer.user);
+
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {
@@ -41,7 +44,7 @@ const Room: React.FC = () => {
                 <Box sx={{
                     height: "100vh"
                 }}>
-                    <DarkHeader/>
+                    <DarkHeader name={user?.name}/>
                     <Grid container>
                         <Grid item xs={6}>
                             <Box sx={{
