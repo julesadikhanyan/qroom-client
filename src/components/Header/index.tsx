@@ -1,15 +1,35 @@
 import React from "react";
-import { AppBar, Box, Button, Stack, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Button, Stack, styled, Toolbar, Typography } from "@mui/material";
+import theme from "../../style/theme";
+
+const StyledButton = styled(Button)({
+    border: `1px solid ${theme.palette.primary.main}`
+});
 
 const Header: React.FC = () => {
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
+            <AppBar sx={{
+                position: "static",
+                background: "none",
+                boxShadow: "none",
+                color: theme.palette.primary.main,
+                borderBottom: `1px solid ${theme.palette.primary.main}`
+            }}>
                 <Toolbar>
-                    <Typography component="div" sx={{ flexGrow: 1 }}>QR</Typography>
+                    <Typography
+                        component="div"
+                        sx={{
+                            flexGrow: 1,
+                            fontSize: 36,
+                            fontWeight: "bold"
+                        }}
+                    >
+                        QR
+                    </Typography>
                     <Stack spacing={2} direction="row">
-                        <Button color="inherit">Sign up</Button>
-                        <Button color="inherit">Log in</Button>
+                        <StyledButton color="inherit">Sign up</StyledButton>
+                        <StyledButton color="inherit">Log in</StyledButton>
                     </Stack>
                 </Toolbar>
             </AppBar>
