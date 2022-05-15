@@ -49,7 +49,12 @@ const DarkHeader: React.FC = () => {
                         spacing={2}
                         direction="row"
                     >
-                        <StyledButton color="inherit">Sign up</StyledButton>
+                        <StyledButton
+                            color="inherit"
+                            onClick={() => history.push("/signup")}
+                        >
+                            Sign up
+                        </StyledButton>
                         <StyledButton color="inherit">Log in</StyledButton>
                     </Stack>
                 </Toolbar>

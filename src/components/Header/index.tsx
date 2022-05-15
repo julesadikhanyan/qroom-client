@@ -1,12 +1,16 @@
 import React from "react";
 import { AppBar, Box, Button, Stack, styled, Toolbar, Typography } from "@mui/material";
 import theme from "../../style/theme";
+import { useHistory } from "react-router-dom";
 
 const StyledButton = styled(Button)({
     border: `1px solid ${theme.palette.primary.main}`
 });
 
+
 const Header: React.FC = () => {
+    const history = useHistory();
+
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar sx={{
@@ -28,7 +32,12 @@ const Header: React.FC = () => {
                         QR
                     </Typography>
                     <Stack spacing={2} direction="row">
-                        <StyledButton color="inherit">Sign up</StyledButton>
+                        <StyledButton
+                            color="inherit"
+                            onClick={() => history.push("/signup")}
+                        >
+                            Sign up
+                        </StyledButton>
                         <StyledButton color="inherit">Log in</StyledButton>
                     </Stack>
                 </Toolbar>

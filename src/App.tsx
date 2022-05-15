@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import Rooms from "./pages/Rooms";
 import "./style/App.scss";
 import Room from "./pages/Room";
+import SignUp from "./pages/SignUp";
 
 const App: React.FC = () => {
     return (
@@ -15,6 +16,9 @@ const App: React.FC = () => {
                 </Route>
                 <Route exact path="/room">
                     <Room/>
+                </Route>
+                <Route exact path="/signup">
+                    <SignUp/>
                 </Route>
             </Switch>
         </BrowserRouter>
