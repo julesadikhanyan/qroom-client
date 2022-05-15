@@ -98,8 +98,23 @@ const SignUp: React.FC = () => {
                                 name="name"
                                 control={control}
                                 defaultValue=""
-                                rules={{ required: true }}
-                                render={({ field }) => <TextField fullWidth {...field} />}
+                                rules={{
+                                    required: "The name field must not be empty",
+                                    pattern: /^[a-zA-Z]+(?:[\s.-][a-zA-Z]+)*$/,
+                                    minLength: 3,
+                                    maxLength: 20
+                                }}
+                                render={({ field, fieldState: { error }  }) =>
+                                    <TextField
+                                        fullWidth
+                                        {...field}
+                                        error={!!error}
+                                        helperText=
+                                            { error && (error.type !== "required") ?
+                                                "The name field must contain Latin letters. Minimum 3 symbols. Maximum 30 symbols" :
+                                                error && (error.type === "required") ? error.message : null }
+                                    />
+                                }
                             />
                         </FormStack>
                         <Stack spacing={1} sx={{
@@ -110,8 +125,21 @@ const SignUp: React.FC = () => {
                                 name="email"
                                 control={control}
                                 defaultValue=""
-                                rules={{ required: true }}
-                                render={({ field }) => <TextField fullWidth {...field} />}
+                                rules={{
+                                    required: "The email field must not be empty",
+                                    pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/i
+                                }}
+                                render={({ field, fieldState: { error } }) =>
+                                    <TextField
+                                        fullWidth
+                                        {...field}
+                                        error={!!error}
+                                        helperText=
+                                            { error && (error.type === "pattern") ?
+                                                "The email field must contains email. Example: name@gmail.com" :
+                                                error && (error.type === "required") ? error.message : null }
+                                    />
+                                }
                             />
                         </Stack>
                         <Stack spacing={1} sx={{
@@ -122,8 +150,20 @@ const SignUp: React.FC = () => {
                                 name="password"
                                 control={control}
                                 defaultValue=""
-                                rules={{ required: true }}
-                                render={({ field }) => <TextField fullWidth {...field} />}
+                                rules={{
+                                    required: "The password field must not be empty",
+                                    pattern: /^[A-Za-z0-9_!@#$%^&*]{8,16}/i
+                                }}
+                                render={({ field, fieldState: { error } }) =>
+                                    <TextField
+                                        fullWidth
+                                        {...field}
+                                        error={!!error}
+                                        helperText={ error && (error.type === "pattern") ?
+                                            "The password field must be more 7 symbols and less 17 symbols. Use Latin letters, numbers and symbols: _!@#$%^&*" :
+                                            error && (error.type === "required") ? error.message : null }
+                                    />
+                                }
                             />
                         </Stack>
                         <SubmitButton type="submit">Sign up</SubmitButton>
