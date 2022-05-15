@@ -30,7 +30,10 @@ const DarkHeader: React.FC<IDarkHeaderProps>= (props) => {
                     padding: "0 20px 0 20px",
                     height: 70,
                     boxSizing: "border-box",
-                    boxShadow: "none"
+                    boxShadow: "none",
+                    [theme.breakpoints.down("md")]: {
+                        padding: 0
+                    },
                 }}
             >
                 <Toolbar>
@@ -45,6 +48,9 @@ const DarkHeader: React.FC<IDarkHeaderProps>= (props) => {
                                 backgroundColor: "#FFFFFF",
                                 color: theme.palette.primary.main,
                                 height: 30,
+                                [theme.breakpoints.down("md")]: {
+                                    minWidth: 40
+                                },
                                 "&:hover": {
                                     backgroundColor: "#FFFFFF"
                                 }
