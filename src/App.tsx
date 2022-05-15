@@ -1,10 +1,19 @@
 import React from "react";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
+import Rooms from "./pages/Rooms";
 import "./App.scss";
 
 const App: React.FC = () => {
     return (
-        <h1>QROOM</h1>
+        <BrowserRouter>
+            <Switch>
+                <Route exact path="/" render={() => <Redirect to="/rooms"/>}/>
+                <Route exact path="/rooms">
+                    <Rooms/>
+                </Route>
+            </Switch>
+        </BrowserRouter>
     )
 }
 
