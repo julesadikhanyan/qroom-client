@@ -1,4 +1,4 @@
-import { Box, TextField, Typography } from "@mui/material";
+import {Alert, Box, TextField, Typography} from "@mui/material";
 import React, {useEffect} from "react";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,7 +8,8 @@ import { RootState } from "../../redux/store";
 import { IUser } from "../../redux/User/types";
 import Loading from "../../components/Loading";
 import { ContentBox, FormBox, FormStack, SubmitButton, TitleTypography } from "../SignUp";
-import { fetchLogInUser } from "../../redux/User/actions";
+import { cleanUser, fetchLogInUser } from "../../redux/User/actions";
+import {IError} from "../../redux/Room/types";
 
 export interface IFormInput {
     email: string,
@@ -20,7 +21,13 @@ const LogIn: React.FC = () => {
 
     const user = useSelector<RootState, IUser>((state) => state.userReducer.user);
     const loading = useSelector<RootState, boolean>((state) => state.userReducer.loading);
+    const error = useSelector<RootState, IError | null>((state) => state.userReducer.error);
 
+    useEffect(() => {
+        return () => {
+            dispatch(cleanUser());
+        }
+    }, []);
     const { control, handleSubmit, reset } = useForm<IFormInput>();
 
     const onSubmit: SubmitHandler<IFormInput> = data => {
@@ -44,6 +51,16 @@ const LogIn: React.FC = () => {
                 height: "100vh"
             }}>
                 <DarkHeader name={user?.name}/>
+                {
+                    error &&
+                    <Alert severity="error" sx={{
+                        position: "fixed",
+                        top: "70px",
+                        width: "100%"
+                    }}>
+                        {error.data}
+                    </Alert>
+                }
                 <ContentBox>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <FormBox sx={{ minHeight: "400px" }}>

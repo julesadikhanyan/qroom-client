@@ -1,5 +1,5 @@
 import {
-    CLEAN_ERROR,
+    CLEAN_USER,
     FETCH_GET_USERS_REQUEST, FETCH_GET_USERS_SUCCESS,
     FETCH_LOG_IN_USER_FAILURE,
     FETCH_LOG_IN_USER_REQUEST, FETCH_LOG_IN_USER_SUCCESS,
@@ -48,16 +48,24 @@ export default (state = initialState, action: UserActionTypes) => {
             }
         }
         case FETCH_LOG_IN_USER_REQUEST: {
-            return state;
+            return {
+                ...state,
+                loading: true
+            }
         }
         case FETCH_LOG_IN_USER_SUCCESS: {
             return {
                 ...state,
-                user: action.payload.user
+                user: action.payload.user,
+                loading: false
             }
         }
         case FETCH_LOG_IN_USER_FAILURE: {
-            return state;
+            return {
+                ...state,
+                loading: false,
+                error: action.payload.error
+            }
         }
         case FETCH_GET_USERS_REQUEST: {
             return state;
@@ -68,10 +76,11 @@ export default (state = initialState, action: UserActionTypes) => {
                 invitedUsers: action.payload.invitedUsers
             }
         }
-        case CLEAN_ERROR: {
+        case CLEAN_USER: {
             return {
                 ...state,
-                error: initialState.error
+                error: initialState.error,
+                loading: initialState.loading
             }
         }
         default: return state;

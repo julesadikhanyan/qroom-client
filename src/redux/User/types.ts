@@ -11,7 +11,7 @@ export const FETCH_LOG_IN_USER_FAILURE = "FETCH_LOG_IN_USER_FAILURE";
 export const FETCH_GET_USERS_REQUEST = "FETCH_GET_USERS_REQUEST";
 export const FETCH_GET_USERS_SUCCESS = "FETCH_GET_USERS_SUCCESS";
 
-export const CLEAN_ERROR = "CLEAN_ERROR";
+export const CLEAN_USER = "CLEAN_USER";
 
 
 export interface IUser {
@@ -69,7 +69,10 @@ export interface FetchLogInUserSuccessAction {
 }
 
 export interface FetchLogInUserFailureAction {
-    type: typeof FETCH_LOG_IN_USER_FAILURE
+    type: typeof FETCH_LOG_IN_USER_FAILURE,
+    payload: {
+        error: IError
+    }
 }
 
 export interface FetchGetUsersRequestAction {
@@ -83,8 +86,8 @@ export interface FetchGetUsersSuccessAction {
     }
 }
 
-export interface CleanErrorAction {
-    type: typeof CLEAN_ERROR
+export interface CleanUserAction {
+    type: typeof CLEAN_USER
 }
 
 export type  UserActionTypes =
@@ -96,4 +99,4 @@ export type  UserActionTypes =
     | FetchLogInUserFailureAction
     | FetchGetUsersRequestAction
     | FetchGetUsersSuccessAction
-    | CleanErrorAction;
+    | CleanUserAction;

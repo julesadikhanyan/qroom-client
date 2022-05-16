@@ -3,17 +3,20 @@ import {Dispatch} from "redux";
 
 import {saveDataInLocalStorage} from "../../helper/saveDataInLocalStorage";
 import {
-    CLEAN_ERROR,
-    CleanErrorAction,
+    CLEAN_USER,
+    CleanUserAction,
     FETCH_GET_USERS_REQUEST,
     FETCH_GET_USERS_SUCCESS,
-    FETCH_LOG_IN_USER_FAILURE, FETCH_LOG_IN_USER_REQUEST, FETCH_LOG_IN_USER_SUCCESS,
+    FETCH_LOG_IN_USER_FAILURE,
+    FETCH_LOG_IN_USER_REQUEST,
+    FETCH_LOG_IN_USER_SUCCESS,
     FETCH_SIGN_UP_USER_FAILURE,
     FETCH_SIGN_UP_USER_REQUEST,
     FETCH_SIGN_UP_USER_SUCCESS,
     FetchGetUsersRequestAction,
     FetchGetUsersSuccessAction,
-    FetchLogInUserFailureAction, FetchLogInUserRequestAction,
+    FetchLogInUserFailureAction,
+    FetchLogInUserRequestAction,
     FetchLogInUserSuccessAction,
     FetchSignUpUserFailureAction,
     FetchSignUpUserRequestAction,
@@ -62,9 +65,12 @@ export const fetchLogInUserSuccess = (user: IUser): FetchLogInUserSuccessAction 
     }
 }
 
-export const fetchLogInUserFailure = (): FetchLogInUserFailureAction => {
+export const fetchLogInUserFailure = (error: IError): FetchLogInUserFailureAction => {
     return {
-        type: FETCH_LOG_IN_USER_FAILURE
+        type: FETCH_LOG_IN_USER_FAILURE,
+        payload: {
+            error: error
+        }
     }
 }
 
@@ -83,9 +89,9 @@ export const fetchGetUsersSuccess = (invitedUsers: IInvitedUser[]): FetchGetUser
     }
 }
 
-export const cleanError = (): CleanErrorAction => {
+export const cleanUser = (): CleanUserAction => {
     return {
-        type: CLEAN_ERROR
+        type: CLEAN_USER
     }
 }
 
@@ -118,8 +124,8 @@ export function fetchLogInUser(login: string, password: string) {
                 saveDataInLocalStorage(response.data);
                 dispatch(fetchLogInUserSuccess(response.data));
             })
-            .catch(() => {
-                dispatch(fetchLogInUserFailure());
+            .catch((error) => {
+                dispatch(fetchLogInUserFailure({ data: error.response.data, status: error.response.status }));
             })
     }
 }

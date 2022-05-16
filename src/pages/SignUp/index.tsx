@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import DarkHeader from "../../components/DarkHeader";
 import theme from "../../style/theme";
-import {cleanError, fetchSignUpUser} from "../../redux/User/actions";
+import {cleanUser, fetchSignUpUser} from "../../redux/User/actions";
 import { RootState } from "../../redux/store";
 import { IUser } from "../../redux/User/types";
 import Loading from "../../components/Loading";
@@ -77,7 +77,7 @@ const SignUp: React.FC = () => {
 
     useEffect(() => {
         return () => {
-            dispatch(cleanError());
+            dispatch(cleanUser());
         }
     }, []);
 
