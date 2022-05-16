@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { LocalizationProvider, DatePicker, TimePicker } from "@mui/lab";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import CloseIcon from '@mui/icons-material/Close';
 import {
     Dialog,
     DialogTitle,
@@ -14,7 +15,8 @@ import {
     FormControl,
     InputLabel,
     Stack,
-    Box
+    Box,
+    useMediaQuery
 } from "@mui/material";
 
 import theme from "../../style/theme";
@@ -30,15 +32,15 @@ export interface IBookingFormProps {
 }
 
 const BookingForm: React.FC<IBookingFormProps> = (props) => {
+    const matches = useMediaQuery(theme.breakpoints.down('md'));
+
     const { onClose, open, activeSegment, setMeetingDateOnPage, deleteSegment } = props;
 
     const [date, setDate] = useState<Date | null>(activeSegment.time.start || new Date());
     const [startTime, setStartTime] = useState<Date | null>(activeSegment.time.start || new Date());
     const [duration, setDuration] = useState<string>("");
     const [title, setTitle] = useState<string>("");
-    const handleCloseForm = () => {
-        onClose();
-    };
+    const [endTime, setEndTime] = useState<Date | null>(activeSegment.time.end || new Date());
 
     const handleChangeDuration = (event: SelectChangeEvent) => {
         console.log(startTime && setDurationHelper(startTime, event.target.value));
@@ -46,12 +48,22 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
     };
 
     const setMeetingDate = (newDate: Date | null) => {
-        setDate(newDate);
-        setMeetingDateOnPage(newDate);
+        if (newDate) {
+            const start = new Date(newDate);
+            start.setHours(8,0,0,0);
+            const end = new Date(newDate);
+            end.setHours(22, 0, 0,0);
+            setDate(newDate);
+            setStartTime(start);
+            setEndTime(end);
+            setDuration("");
+            setTitle("");
+            setMeetingDateOnPage(newDate);
+        }
     };
 
     const onSubmit = () => {
-        console.log(date, startTime, duration, title);
+        console.log(date, startTime, duration, title, endTime);
     }
 
     const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,25 +72,40 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
 
     return (
         <Dialog
-            onClose={handleCloseForm}
+            fullScreen={matches}
             open={open}
             maxWidth="md"
             PaperProps={{ sx: {
                     color: theme.palette.primary.main,
-                    width: "50vw"
+                    [theme.breakpoints.up("md")]: {
+                        width: "50vw"
+                    }
                 }}}
         >
-            <DialogTitle
-                sx={{
-                    fontSize: 24,
-                    backgroundColor: theme.palette.primary.main,
-                    color: "#FFFFFF",
-                    textAlign: "center",
-                    marginBottom: "10px"
-                }}
-            >
-                BOOKING THE MEETING ROOM
-            </DialogTitle>
+            <Box sx={{
+                flexGrow: 1,
+                display: "flex",
+                backgroundColor: theme.palette.primary.main
+            }}>
+                <DialogTitle
+                    sx={{
+                        flexGrow: 1,
+                        fontSize: 24,
+                        [theme.breakpoints.down("md")]: {
+                            fontSize: 20
+                        },
+                        color: "#FFFFFF",
+                        textAlign: "center",
+                        marginBottom: "10px"
+                    }}
+                >
+                    BOOKING THE MEETING ROOM
+                </DialogTitle>
+                <CloseIcon sx={{
+                    cursor: "pointer",
+                    color: "#FFFFFF"
+                }} onClick={() => onClose()}/>
+            </Box>
             <DialogContent sx={{
                 padding: "10px"
             }}>
@@ -142,6 +169,24 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
                             <MenuItem value={120}>2 hours</MenuItem>
                         </Select>
                     </FormControl>
+                    <Box>
+                        <Typography>Select end time:</Typography>
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <TimePicker
+                                onChange={(newEndTime) => {
+                                    setEndTime(newEndTime)
+                                }}
+                                ampm={false}
+                                minutesStep={5}
+                                minTime={new Date(new Date().setHours(8, 15, 0, 0))}
+                                maxTime={new Date(new Date().setHours(22, 0, 0, 0))}
+                                value={endTime}
+                                renderInput={(params) =>
+                                    <TextField fullWidth {...params}/>
+                                }
+                            />
+                        </LocalizationProvider>
+                    </Box>
                 </Stack>
             </DialogContent>
             <Button
