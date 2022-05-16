@@ -13,7 +13,7 @@ import {
 } from "../../redux/Room/actions";
 import { RootState } from "../../redux/store";
 import {IBookingSegment, IPostBooking, IRoom} from "../../redux/Room/types";
-import {IUser} from "../../redux/User/types";
+import {IInvitedUser, IUser} from "../../redux/User/types";
 import {IAlert} from "../../redux/Alert/types";
 import {deleteAlert} from "../../redux/Alert/actions";
 import {fetchGetUsers} from "../../redux/User/actions";
@@ -25,9 +25,10 @@ const Room: React.FC = () => {
     const bookingSegments = useSelector<RootState, IBookingSegment[]>((state) => state.roomReducer.bookingSegments);
     const activeSegment = useSelector<RootState, IBookingSegment | null>((state) => state.roomReducer.activeSegment);
     const user = useSelector<RootState, IUser | null>((state) => state.userReducer.user);
-    const date = useSelector<RootState, Date | null>((state) => state.roomReducer.date);
+    const date = useSelector<RootState, Date>((state) => state.roomReducer.date);
     const isPostSuccess = useSelector<RootState, boolean>((state) => state.roomReducer.isPostSuccess);
     const alert = useSelector<RootState, IAlert | null>((state) => state.alertReducer.alert);
+    const users = useSelector<RootState, IInvitedUser[]>((state) => state.userReducer.invitedUsers);
 
     const [open, setOpen] = useState(false);
 
@@ -47,7 +48,7 @@ const Room: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        dispatch(fetchGetBookingRoom("eb3c28e8-28e9-4788-afa1-758061a2f354", new Date()));
+        dispatch(fetchGetBookingRoom("eb3c28e8-28e9-4788-afa1-758061a2f354", date));
     }, [isPostSuccess]);
 
     const setMeetingDate = (newDate: Date) => {
@@ -108,7 +109,6 @@ const Room: React.FC = () => {
                                                     if (bookingSegment.id === "-1") {
                                                         handleClickOpen();
                                                         setSegment(bookingSegment);
-                                                        /*dispatch(fetchPostBookingRoom(localStorage.getItem("authenticateToken")));*/
                                                     }
                                                 }}
                                                 sx={{
@@ -158,6 +158,7 @@ const Room: React.FC = () => {
                             bookingRoom={bookingRoom}
                             bookingSegments={bookingSegments}
                             alert={alert}
+                            users={users}
                         />
                     }
                 </Box>

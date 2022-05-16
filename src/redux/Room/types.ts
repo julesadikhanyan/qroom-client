@@ -62,7 +62,7 @@ export interface IRoomState {
     room: IRoom | null,
     bookingSegments: IBookingSegment[],
     activeSegment: IBookingSegment | null,
-    date: Date | null,
+    date: Date,
     isPostSuccess: boolean
 }
 

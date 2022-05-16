@@ -15,7 +15,7 @@ const initialState: IRoomState = {
     room: null,
     bookingSegments: [],
     activeSegment: null,
-    date: null,
+    date: new Date(),
     isPostSuccess: false
 }
 

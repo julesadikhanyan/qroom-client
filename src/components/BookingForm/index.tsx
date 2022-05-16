@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import {LocalizationProvider, DatePicker, TimePicker} from "@mui/lab";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import CloseIcon from '@mui/icons-material/Close';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+
 import {
     Dialog,
     DialogTitle,
@@ -17,13 +20,14 @@ import {
     Stack,
     Box,
     Alert,
-    useMediaQuery
+    useMediaQuery, Autocomplete, Checkbox
 } from "@mui/material";
 
 import theme from "../../style/theme";
 import {IBookingSegment, IPostBooking} from "../../redux/Room/types";
 import {setDurationHelper, setEndTimeHelper, setStartTimeHelper} from "../../helper/timeHelper";
 import {IAlert} from "../../redux/Alert/types";
+import {IInvitedUser} from "../../redux/User/types";
 
 export interface IBookingFormProps {
     open: boolean,
@@ -33,13 +37,27 @@ export interface IBookingFormProps {
     deleteSegment: () => void,
     bookingRoom: (postBooking: IPostBooking) => void,
     bookingSegments: IBookingSegment[],
-    alert: IAlert | null
+    alert: IAlert | null,
+    users: IInvitedUser[];
 }
+
+const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 const BookingForm: React.FC<IBookingFormProps> = (props) => {
     const matches = useMediaQuery(theme.breakpoints.down('md'));
 
-    const { onClose, open, activeSegment, setMeetingDateOnPage, deleteSegment, bookingRoom, bookingSegments, alert } = props;
+    const {
+        onClose,
+        open,
+        activeSegment,
+        setMeetingDateOnPage,
+        deleteSegment,
+        bookingRoom,
+        bookingSegments,
+        alert,
+        users
+    } = props;
 
     const [date, setDate] = useState<Date>(activeSegment.time.start || new Date());
     const [startTime, setStartTime] = useState<Date>(activeSegment.time.start || new Date());
@@ -48,6 +66,16 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
     const [endTime, setEndTime] = useState<Date>(activeSegment.time.end || new Date());
     const [validStart, setValidStart] = useState<boolean>(true);
     const [validEnd, setValidEnd] = useState<boolean>(true);
+    const [invitedUsers, setInvitedUsers] = useState<IInvitedUser[]>([]);
+
+    const getUsersList = (users: IInvitedUser[]) => {
+        const usersList: string[] = [];
+        users.map((user) => {
+            usersList.push(user.id);
+        });
+
+        return usersList;
+    };
 
     const handleChangeDuration = (event: SelectChangeEvent) => {
         let newStartTimeDate = new Date(date);
@@ -250,6 +278,31 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
                             />
                         </LocalizationProvider>
                     </Box>
+                    {
+                        users &&
+                        <Autocomplete
+                            multiple
+                            options={users}
+                            disableCloseOnSelect
+                            getOptionLabel={(option) => `${option.login} - ${option.name}`}
+                            onChange={(event,
+                                       value) => setInvitedUsers(value)}
+                            renderOption={(props, option, { selected }) => (
+                                <li {...props}>
+                                    <Checkbox
+                                        icon={icon}
+                                        checkedIcon={checkedIcon}
+                                        style={{ marginRight: 8 }}
+                                        checked={selected}
+                                    />
+                                    {option.login}
+                                </li>
+                            )}
+                            renderInput={(params) => (
+                                <TextField {...params} label="Invite users" placeholder="Invited users" />
+                            )}
+                        />
+                    }
                 </Stack>
             </DialogContent>
             <Button
@@ -264,6 +317,7 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
                     }
                 }}
                 onClick={() => {
+                    const usersList = getUsersList(invitedUsers);
                     onSubmit({
                         title: title,
                         roomUuid: activeSegment.roomUuid,
@@ -271,7 +325,7 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
                             start: startTime.toISOString(),
                             end: endTime.toISOString()
                         },
-                        invitedUsers: []
+                        invitedUsers: usersList
                     });
                 }}
             >
