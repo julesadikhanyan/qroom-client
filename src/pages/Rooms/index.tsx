@@ -15,21 +15,6 @@ const StyledTypography = styled(Typography)({
     textAlign: "center"
 });
 
-const listOfRooms: Array<string> = [
-    "Seattle",
-    "Chicago",
-    "Atlanta",
-    "Boston",
-    "Dallas",
-    "Los Angeles",
-    "Houston",
-    "Kansas City",
-    "Las Vegas",
-    "New Orleans",
-    "New York",
-    "Phoenix"
-];
-
 const Rooms: React.FC = () => {
     const history = useHistory();
     const dispatch = useDispatch();
@@ -73,10 +58,10 @@ const Rooms: React.FC = () => {
                         rowSpacing={2}
                     >
                         {
-                            listOfRooms.map((room) =>
-                                <Grid key={room} item xl={4} md={6} xs={12}>
+                            rooms.map((room) =>
+                                <Grid key={room.id} item xl={4} md={6} xs={12}>
                                     <Box
-                                        onClick={() => history.push("/room")}
+                                        onClick={() => history.push(`/rooms/${room.id}`)}
                                         sx={{
                                             position: "relative",
                                             width: 290,
@@ -104,8 +89,8 @@ const Rooms: React.FC = () => {
                                             color: "#FFFFFF",
                                             flexDirection: "column"
                                         }}>
-                                            <Typography>Meeting Room Seattle</Typography>
-                                            <Typography>6 seats</Typography>
+                                            <Typography>Meeting Room {room.name}</Typography>
+                                            <Typography>{room.numberOfSeats} seats</Typography>
                                         </Box>
                                     </Box>
                                 </Grid>
