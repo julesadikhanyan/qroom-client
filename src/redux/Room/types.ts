@@ -1,11 +1,14 @@
 export const FETCH_GET_ROOM_REQUEST = "FETCH_GET_ROOM_REQUEST";
 export const FETCH_GET_ROOM_SUCCESS = "FETCH_GET_ROOM_SUCCESS";
+export const FETCH_GET_ROOM_FAILURE = "FETCH_GET_ROOM_FAILURE";
 
 export const FETCH_GET_BOOKING_ROOM_REQUEST = "FETCH_GET_BOOKING_ROOM_REQUEST";
 export const FETCH_GET_BOOKING_ROOM_SUCCESS = "FETCH_GET_BOOKING_ROOM_SUCCESS";
+export const FETCH_GET_BOOKING_ROOM_FAILURE = "FETCH_GET_BOOKING_ROOM_FAILURE";
 
 export const FETCH_POST_BOOKING_ROOM_REQUEST = "FETCH_POST_BOOKING_ROOM_REQUEST";
 export const FETCH_POST_BOOKING_ROOM_SUCCESS = "FETCH_POST_BOOKING_ROOM_SUCCESS";
+export const FETCH_POST_BOOKING_ROOM_FAILURE = "FETCH_POST_BOOKING_ROOM_FAILURE";
 
 export const SET_ACTIVE_SEGMENT = "SET_ACTIVE_SEGMENT";
 export const DELETE_ACTIVE_SEGMENT = "DELETE_ACTIVE_SEGMENT";
@@ -75,6 +78,10 @@ export interface FetchGetRoomSuccessAction {
     }
 }
 
+export interface FetchGetRoomFailureAction {
+    type: typeof FETCH_GET_ROOM_FAILURE
+}
+
 export interface FetchGetBookingRoomRequestAction {
     type: typeof FETCH_GET_BOOKING_ROOM_REQUEST
 }
@@ -87,6 +94,10 @@ export interface FetchGetBookingRoomSuccessAction {
     }
 }
 
+export interface FetchGetBookingRoomFailureAction {
+    type: typeof FETCH_GET_BOOKING_ROOM_FAILURE
+}
+
 export interface FetchPostBookingRoomRequestAction {
     type: typeof FETCH_POST_BOOKING_ROOM_REQUEST
 }
@@ -95,6 +106,9 @@ export interface FetchPostBookingRoomSuccessAction {
     type: typeof FETCH_POST_BOOKING_ROOM_SUCCESS
 }
 
+export interface FetchPostBookingRoomFailureAction {
+    type: typeof FETCH_POST_BOOKING_ROOM_FAILURE
+}
 
 export interface SetActiveSegmentAction {
     type: typeof SET_ACTIVE_SEGMENT,
@@ -115,4 +129,7 @@ export type RoomActionTypes =
     | FetchPostBookingRoomRequestAction
     | FetchPostBookingRoomSuccessAction
     | SetActiveSegmentAction
-    | DeleteActiveSegmentAction;
+    | DeleteActiveSegmentAction
+    | FetchPostBookingRoomFailureAction
+    | FetchGetRoomFailureAction
+    | FetchGetBookingRoomFailureAction;
