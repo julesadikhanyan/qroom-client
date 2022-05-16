@@ -3,12 +3,14 @@ import {Dispatch} from "redux";
 
 import {saveDataInLocalStorage} from "../../helper/saveDataInLocalStorage";
 import {
+    FETCH_GET_USERS_REQUEST,
+    FETCH_GET_USERS_SUCCESS,
     FETCH_SIGN_UP_USER_FAILURE,
     FETCH_SIGN_UP_USER_REQUEST,
-    FETCH_SIGN_UP_USER_SUCCESS,
+    FETCH_SIGN_UP_USER_SUCCESS, FetchGetUsersRequestAction, FetchGetUsersSuccessAction,
     FetchSignUpUserFailureAction,
     FetchSignUpUserRequestAction,
-    FetchSignUpUserSuccessAction,
+    FetchSignUpUserSuccessAction, IInvitedUser,
     IUser
 } from "./types";
 
@@ -54,6 +56,21 @@ export const fetchLogInUserFailure = (): FetchSignUpUserFailureAction => {
     }
 }
 
+export const fetchGetUsersRequest = (): FetchGetUsersRequestAction => {
+    return {
+        type: FETCH_GET_USERS_REQUEST
+    }
+}
+
+export const fetchGetUsersSuccess = (invitedUsers: IInvitedUser[]): FetchGetUsersSuccessAction => {
+    return {
+        type: FETCH_GET_USERS_SUCCESS,
+        payload: {
+            invitedUsers: invitedUsers
+        }
+    }
+}
+
 export function fetchSignUpUser(name: string, login: string, password: string) {
     return function (dispatch: Dispatch<FetchSignUpUserRequestAction | FetchSignUpUserSuccessAction | FetchSignUpUserFailureAction>) {
         dispatch(fetchSignUpUserRequest());
@@ -85,6 +102,21 @@ export function fetchLogInUser(login: string, password: string) {
             })
             .catch(() => {
                 dispatch(fetchLogInUserFailure());
+            })
+    }
+}
+
+export function fetchGetUsers(token: string) {
+    const authAxios = axios.create({
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+    return function (dispatch: Dispatch<FetchGetUsersRequestAction | FetchGetUsersSuccessAction>) {
+        dispatch(fetchGetUsersRequest());
+        authAxios.get("https://qroom-server.herokuapp.com/users")
+            .then(response => {
+                dispatch(fetchGetUsersSuccess(response.data));
             })
     }
 }

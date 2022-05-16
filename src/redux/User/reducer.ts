@@ -1,4 +1,5 @@
 import {
+    FETCH_GET_USERS_REQUEST, FETCH_GET_USERS_SUCCESS,
     FETCH_LOG_IN_USER_FAILURE,
     FETCH_LOG_IN_USER_REQUEST, FETCH_LOG_IN_USER_SUCCESS,
     FETCH_SIGN_UP_USER_FAILURE,
@@ -18,7 +19,8 @@ const initialState: IUserState = {
             refreshToken: localStorage.getItem("refreshToken") || ""
         }
     },
-    loading: false
+    loading: false,
+    invitedUsers: []
 }
 
 export default (state = initialState, action: UserActionTypes) => {
@@ -53,6 +55,15 @@ export default (state = initialState, action: UserActionTypes) => {
         }
         case FETCH_LOG_IN_USER_FAILURE: {
             return state;
+        }
+        case FETCH_GET_USERS_REQUEST: {
+            return state;
+        }
+        case FETCH_GET_USERS_SUCCESS: {
+            return {
+                ...state,
+                invitedUsers: action.payload.invitedUsers
+            }
         }
         default: return state;
     }

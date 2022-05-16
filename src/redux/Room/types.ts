@@ -41,9 +41,8 @@ export interface IInvitedUsers {
 }
 
 export interface IError {
-    message: string,
-    code: string,
-    name: string
+    data: string,
+    status: number
 }
 
 export interface IPostBooking {
