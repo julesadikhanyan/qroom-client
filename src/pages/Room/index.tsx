@@ -149,6 +149,7 @@ const Room: React.FC = () => {
                             setMeetingDateOnPage={setMeetingDate}
                             deleteSegment={deleteSegment}
                             bookingRoom={bookingRoom}
+                            bookingSegments={bookingSegments}
                         />
                     }
                 </Box>

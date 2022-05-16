@@ -21,7 +21,7 @@ import {
 
 import theme from "../../style/theme";
 import {IBookingSegment, IPostBooking} from "../../redux/Room/types";
-import {setDurationHelper} from "../../helper/timeHelper";
+import {setDurationHelper, setEndTimeHelper, setStartTimeHelper} from "../../helper/timeHelper";
 
 export interface IBookingFormProps {
     open: boolean,
@@ -29,47 +29,82 @@ export interface IBookingFormProps {
     activeSegment: IBookingSegment,
     setMeetingDateOnPage: (date: Date) => void,
     deleteSegment: () => void,
-    bookingRoom: (postBooking: IPostBooking) => void;
+    bookingRoom: (postBooking: IPostBooking) => void,
+    bookingSegments: IBookingSegment[]
 }
 
 const BookingForm: React.FC<IBookingFormProps> = (props) => {
     const matches = useMediaQuery(theme.breakpoints.down('md'));
 
-    const { onClose, open, activeSegment, setMeetingDateOnPage, deleteSegment, bookingRoom } = props;
+    const { onClose, open, activeSegment, setMeetingDateOnPage, deleteSegment, bookingRoom, bookingSegments } = props;
 
     const [date, setDate] = useState<Date>(activeSegment.time.start || new Date());
     const [startTime, setStartTime] = useState<Date>(activeSegment.time.start || new Date());
     const [duration, setDuration] = useState<string>("");
     const [title, setTitle] = useState<string>("");
     const [endTime, setEndTime] = useState<Date>(activeSegment.time.end || new Date());
+    const [validStart, setValidStart] = useState<boolean>(true);
+    const [validEnd, setValidEnd] = useState<boolean>(true);
 
     const handleChangeDuration = (event: SelectChangeEvent) => {
-        console.log(startTime && setDurationHelper(startTime, event.target.value));
+        let newStartTimeDate = new Date(date);
+        newStartTimeDate.setHours(startTime.getHours(), startTime.getMinutes());
+        let newEndTimeDate = new Date(date);
+        newEndTimeDate.setHours(endTime.getHours(), endTime.getMinutes());
+        const newEndTime = setDurationHelper(newStartTimeDate, event.target.value);
+        setEndTime(newEndTime);
+        if (date) {
+            setValidEnd(setEndTimeHelper(newEndTime, newStartTimeDate, bookingSegments));
+            setValidStart(setStartTimeHelper(bookingSegments, newStartTimeDate, newEndTime));
+        }
         setDuration(event.target.value as string);
     };
 
-    const setMeetingDate = (newDate: Date | null) => {
-        if (newDate) {
-            const start = new Date(newDate);
-            start.setHours(8,0,0,0);
-            const end = new Date(newDate);
-            end.setHours(22, 0, 0,0);
-            setDate(newDate);
-            setStartTime(start);
-            setEndTime(end);
-            setDuration("");
-            setTitle("");
-            setMeetingDateOnPage(newDate);
+    const checkStartTime = (newStartTime: Date) => {
+        let newStartTimeDate = new Date(date);
+        newStartTimeDate.setHours(newStartTime.getHours(), newStartTime.getMinutes());
+        let newEndTimeDate = new Date(date);
+        newEndTimeDate.setHours(endTime.getHours(), endTime.getMinutes());
+        setValidStart(setStartTimeHelper(bookingSegments, newStartTimeDate, newEndTimeDate));
+        setValidEnd(setEndTimeHelper(newEndTimeDate, newStartTimeDate, bookingSegments));
+        setDuration("");
+        setStartTime(newStartTimeDate);
+    }
+
+    const checkEndTime = (newEndTime: Date) => {
+        let newEndTimeDate = new Date(date);
+        newEndTimeDate.setHours(newEndTime.getHours(), newEndTime.getMinutes());
+        let newStartTimeDate = new Date(date);
+        newStartTimeDate.setHours(startTime.getHours(), startTime.getMinutes());
+        if (date) {
+            setValidEnd(setEndTimeHelper(newEndTimeDate, newStartTimeDate, bookingSegments));
+            setValidStart(setStartTimeHelper(bookingSegments, newStartTimeDate, newEndTimeDate));
+
         }
+        setEndTime(newEndTimeDate);
+        setDuration("");
+    }
+
+    const setMeetingDate = (newDate: Date) => {
+        const start = new Date(newDate);
+        start.setHours(8,0,0,0);
+        const end = new Date(newDate);
+        end.setHours(22, 0, 0,0);
+        setDate(newDate);
+        setStartTime(start);
+        setEndTime(end);
+        setDuration("");
+        setTitle("");
+        setMeetingDateOnPage(newDate);
+    };
+
+    const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setTitle(event.target.value);
     };
 
     const onSubmit = (postBooking: IPostBooking) => {
         bookingRoom(postBooking);
     }
-
-    const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setTitle(event.target.value);
-    };
 
     return (
         <Dialog
@@ -130,8 +165,8 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
                         <Typography>Select meeting date:</Typography>
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
-                                onChange={(newStartTime) => {
-                                    newStartTime && setMeetingDate(newStartTime)
+                                onChange={(newDate) => {
+                                    newDate && setMeetingDate(newDate)
                                 }}
                                 value={date}
                                 minDate={new Date()}
@@ -146,7 +181,7 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <TimePicker
                                 onChange={(newStartTime) => {
-                                    newStartTime && setStartTime(newStartTime)
+                                    newStartTime && checkStartTime(newStartTime)
                                 }}
                                 ampm={false}
                                 minutesStep={5}
@@ -154,7 +189,12 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
                                 maxTime={new Date(new Date().setHours(21, 45, 0, 0))}
                                 value={startTime}
                                 renderInput={(params) =>
-                                    <TextField fullWidth {...params}/>
+                                    <TextField
+                                        {...params}
+                                        fullWidth
+                                        error={!validStart}
+                                        helperText={!validStart && "Invalid start time"}
+                                    />
                                 }
                             />
                         </LocalizationProvider>
@@ -182,7 +222,7 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <TimePicker
                                 onChange={(newEndTime) => {
-                                    newEndTime && setEndTime(newEndTime)
+                                    newEndTime && checkEndTime(newEndTime)
                                 }}
                                 ampm={false}
                                 minutesStep={5}
@@ -190,7 +230,12 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
                                 maxTime={new Date(new Date().setHours(22, 0, 0, 0))}
                                 value={endTime}
                                 renderInput={(params) =>
-                                    <TextField fullWidth {...params}/>
+                                    <TextField
+                                        {...params}
+                                        fullWidth
+                                        error={!validEnd}
+                                        helperText={!validEnd && "Invalid end time"}
+                                    />
                                 }
                             />
                         </LocalizationProvider>

@@ -97,8 +97,8 @@ export function fetchGetBookingRoom(id: string, date: Date) {
         dispatch(fetchBookingRoomRequest());
         axios.get(`https://qroom-server.herokuapp.com/rooms/booking?room_uuid=${id}&date=${dateStr}`)
             .then(response => {
-                const time = timeHelper(response.data, date);
-                dispatch(fetchBookingRoomSuccess(time, date));
+                const booking = timeHelper(response.data, date);
+                dispatch(fetchBookingRoomSuccess(booking, date));
             });
     }
 }

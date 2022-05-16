@@ -1,4 +1,5 @@
 import { IBookingSegment } from "../redux/Room/types";
+import {SetStateAction} from "react";
 
 export const timeHelper = (bookingSegments: IBookingSegment[], date: Date) => {
 
@@ -108,4 +109,49 @@ export const setDurationHelper = (startTime: Date, duration: string) => {
         return endTime;
     }
     return startTime;
+}
+
+export const setStartTimeHelper = (bookingSegments: IBookingSegment[], startTime: Date, endTime: Date) => {
+
+    let valid: SetStateAction<boolean> = false;
+
+    if (isNaN(startTime.valueOf())) {
+        return valid;
+    }
+
+    if (startTime.valueOf() >= endTime.valueOf()) {
+        return valid;
+    }
+
+    bookingSegments.map((bookingSegment) => {
+        if (endTime && startTime &&
+            bookingSegment.time.start.valueOf() <= startTime.valueOf() &&
+            bookingSegment.time.end.valueOf() > startTime.valueOf() && bookingSegment.id === "-1") {
+            valid = true;
+        }
+    });
+
+    return valid;
+}
+
+export const setEndTimeHelper = (endTime: Date, startTime: Date, bookingSegments: IBookingSegment[]) => {
+
+    let valid: SetStateAction<boolean> = false;
+
+    if (isNaN(endTime.valueOf())) {
+        return valid;
+    }
+
+    if (startTime.valueOf() >= endTime.valueOf()) {
+        return valid;
+    }
+
+    bookingSegments.map((bookingSegment) => {
+        if (endTime && startTime &&
+            bookingSegment.time.start.valueOf() < endTime.valueOf() &&
+            bookingSegment.time.end.valueOf() >= endTime.valueOf() && bookingSegment.id === "-1") {
+            valid = true;
+        }
+    })
+    return valid;
 }
