@@ -82,16 +82,33 @@ const Rooms: React.FC = () => {
                                 sx={{
                                     width: 290,
                                     height: 350,
-                                    backgroundColor: theme.palette.primary.main,
+                                    border: `1px solid ${theme.palette.primary.main}`,
                                     borderRadius: 2,
                                     cursor: "pointer",
                                     margin: "auto",
+                                    position: "relative",
                                     [theme.breakpoints.only('xs')]: {
                                         width: 260,
                                         height: 330
                                     }
                                 }}
                             >
+                                <Box sx={{
+                                    width: "100%",
+                                    height: "30%",
+                                    borderRadius: "0 0 5px 5px",
+                                    position: "absolute",
+                                    bottom: 0,
+                                    backgroundColor: "rgba(101, 119, 139, 0.5)",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    color: "#FFFFFF",
+                                    flexDirection: "column"
+                                }}>
+                                    <Typography>Meeting Room Seattle</Typography>
+                                    <Typography>6 seats</Typography>
+                                </Box>
                             </Box>
                         </Grid>
                     )
