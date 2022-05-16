@@ -1,11 +1,16 @@
-import { IAlert, SET_ALERT, SetAlertAction } from "./types";
+import {DELETE_ALERT, DeleteAlertAction, IAlert, SET_ALERT, SetAlertAction} from "./types";
 
 export const setAlert = (alert: IAlert): SetAlertAction => {
-    console.log(alert);
     return {
         type: SET_ALERT,
         payload: {
             alert: alert
         }
+    }
+}
+
+export const deleteAlert = (): DeleteAlertAction => {
+    return {
+        type: DELETE_ALERT
     }
 }

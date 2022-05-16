@@ -148,7 +148,7 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
                     onClick={() => {
                         onClose();
                         deleteSegment();
-                        setMeetingDateOnPage(new Date());
+                        setMeetingDateOnPage(date);
                     }}
                 />
             </Box>

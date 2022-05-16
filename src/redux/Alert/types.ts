@@ -1,4 +1,5 @@
 export const SET_ALERT = "SET_ALERT";
+export const DELETE_ALERT = "DELETE_ALERT";
 
 export interface IAlert {
     data: string,
@@ -16,4 +17,8 @@ export interface SetAlertAction {
     }
 }
 
-export type AlertActionTypes = SetAlertAction;
+export interface DeleteAlertAction {
+    type: typeof DELETE_ALERT
+}
+
+export type AlertActionTypes = SetAlertAction | DeleteAlertAction;

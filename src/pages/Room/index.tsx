@@ -15,6 +15,7 @@ import { RootState } from "../../redux/store";
 import {IBookingSegment, IPostBooking, IRoom} from "../../redux/Room/types";
 import {IUser} from "../../redux/User/types";
 import {IAlert} from "../../redux/Alert/types";
+import {deleteAlert} from "../../redux/Alert/actions";
 
 const Room: React.FC = () => {
     const dispatch = useDispatch();
@@ -34,6 +35,7 @@ const Room: React.FC = () => {
     }
 
     const handleClose = () => {
+        dispatch(deleteAlert());
         setOpen(false);
     }
 
