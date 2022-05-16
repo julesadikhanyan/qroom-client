@@ -21,7 +21,8 @@ const initialState: IRoomState = {
     date: new Date(),
     isPostSuccess: false,
     rooms: [],
-    loading: true
+    loading: true,
+    error: null
 }
 
 export default (state = initialState, action: RoomActionTypes) => {
@@ -79,7 +80,8 @@ export default (state = initialState, action: RoomActionTypes) => {
         case FETCH_GET_ROOMS_FAILURE: {
             return {
                 ...state,
-                loading: false
+                loading: false,
+                error: action.payload.error
             }
         }
         case SET_ACTIVE_SEGMENT: {

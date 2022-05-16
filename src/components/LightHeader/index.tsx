@@ -18,7 +18,7 @@ const LightHeader: React.FC<ILightHeaderProps>= (props) => {
     const history = useHistory();
 
     return (
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{ flexGrow: 1, marginBottom: "10px" }}>
             <AppBar sx={{
                 position: "static",
                 background: "none",

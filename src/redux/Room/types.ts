@@ -70,7 +70,8 @@ export interface IRoomState {
     date: Date,
     isPostSuccess: boolean,
     rooms: IRoom[],
-    loading: boolean
+    loading: boolean,
+    error: IError | null
 }
 
 export interface FetchGetRoomRequestAction {
@@ -128,7 +129,10 @@ export interface FetchGetRoomsSuccessAction {
 }
 
 export interface FetchGetRoomsFailureAction {
-    type: typeof FETCH_GET_ROOMS_FAILURE
+    type: typeof FETCH_GET_ROOMS_FAILURE,
+    payload: {
+        error: IError
+    }
 }
 
 export interface SetActiveSegmentAction {

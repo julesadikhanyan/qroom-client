@@ -35,7 +35,8 @@ import {
     FETCH_GET_ROOMS_FAILURE,
     FetchGetRoomsRequestAction,
     FetchGetRoomsSuccessAction,
-    FetchGetRoomsFailureAction
+    FetchGetRoomsFailureAction,
+    IError
 } from "./types";
 
 export const fetchGetRoomRequest = (): FetchGetRoomRequestAction => {
@@ -115,9 +116,12 @@ export const fetchGetRoomsSuccess = (rooms: IRoom[]): FetchGetRoomsSuccessAction
     }
 }
 
-export const fetchGetRoomsFailure = (): FetchGetRoomsFailureAction => {
+export const fetchGetRoomsFailure = (error: IError): FetchGetRoomsFailureAction => {
     return {
-        type: FETCH_GET_ROOMS_FAILURE
+        type: FETCH_GET_ROOMS_FAILURE,
+        payload: {
+            error: error
+        }
     }
 }
 
@@ -195,8 +199,7 @@ export function fetchGetRooms () {
                 dispatch(fetchGetRoomsSuccess(response.data));
             })
             .catch(error => {
-                console.log(error.response.data);
-                dispatch(fetchGetRoomsFailure());
+                dispatch(fetchGetRoomsFailure({ data: error.response.data, status: error.response.status }));
             })
     }
 }
