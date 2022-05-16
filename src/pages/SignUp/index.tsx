@@ -30,13 +30,21 @@ export const FormBox = styled(Box)({
     justifyContent: "space-between",
     alignItems: "center",
     maxHeight: "500px",
-    minHeight: "450px"
+    minHeight: "500px",
+    [theme.breakpoints.down("md")]: {
+        width: "90vw",
+        padding: "10px",
+        borderRadius: "10px"
+    }
 });
 
 export const TitleTypography = styled(Typography)({
     fontSize: 36,
     fontWeight: "bold",
-    textAlign: "center"
+    textAlign: "center",
+    [theme.breakpoints.down("md")]: {
+        fontSize: 24
+    }
 });
 
 export const FormStack = styled(Stack)({
