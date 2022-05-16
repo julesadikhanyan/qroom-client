@@ -4,6 +4,8 @@ import {
     FETCH_GET_BOOKING_ROOM_SUCCESS,
     FETCH_GET_ROOM_REQUEST,
     FETCH_GET_ROOM_SUCCESS,
+    FETCH_POST_BOOKING_ROOM_REQUEST,
+    FETCH_POST_BOOKING_ROOM_SUCCESS,
     IRoomState,
     RoomActionTypes,
     SET_ACTIVE_SEGMENT
@@ -36,6 +38,12 @@ export default (state = initialState, action: RoomActionTypes) => {
                 bookingSegments: action.payload.bookingSegments,
                 date: action.payload.date
             }
+        }
+        case FETCH_POST_BOOKING_ROOM_REQUEST: {
+            return state;
+        }
+        case FETCH_POST_BOOKING_ROOM_SUCCESS: {
+            return state;
         }
         case SET_ACTIVE_SEGMENT: {
             return {

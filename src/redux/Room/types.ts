@@ -4,6 +4,9 @@ export const FETCH_GET_ROOM_SUCCESS = "FETCH_GET_ROOM_SUCCESS";
 export const FETCH_GET_BOOKING_ROOM_REQUEST = "FETCH_GET_BOOKING_ROOM_REQUEST";
 export const FETCH_GET_BOOKING_ROOM_SUCCESS = "FETCH_GET_BOOKING_ROOM_SUCCESS";
 
+export const FETCH_POST_BOOKING_ROOM_REQUEST = "FETCH_POST_BOOKING_ROOM_REQUEST";
+export const FETCH_POST_BOOKING_ROOM_SUCCESS = "FETCH_POST_BOOKING_ROOM_SUCCESS";
+
 export const SET_ACTIVE_SEGMENT = "SET_ACTIVE_SEGMENT";
 export const DELETE_ACTIVE_SEGMENT = "DELETE_ACTIVE_SEGMENT";
 
@@ -70,6 +73,15 @@ export interface FetchGetBookingRoomSuccessAction {
     }
 }
 
+export interface FetchPostBookingRoomRequestAction {
+    type: typeof FETCH_POST_BOOKING_ROOM_REQUEST
+}
+
+export interface FetchPostBookingRoomSuccessAction {
+    type: typeof FETCH_POST_BOOKING_ROOM_SUCCESS
+}
+
+
 export interface SetActiveSegmentAction {
     type: typeof SET_ACTIVE_SEGMENT,
     payload: {
@@ -86,5 +98,7 @@ export type RoomActionTypes =
     | FetchGetRoomSuccessAction
     | FetchGetBookingRoomRequestAction
     | FetchGetBookingRoomSuccessAction
+    | FetchPostBookingRoomRequestAction
+    | FetchPostBookingRoomSuccessAction
     | SetActiveSegmentAction
     | DeleteActiveSegmentAction;

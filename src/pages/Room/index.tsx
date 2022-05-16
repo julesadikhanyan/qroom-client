@@ -5,7 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import DarkHeader from "../../components/DarkHeader";
 import theme from "../../style/theme";
 import BookingForm from "../../components/BookingForm";
-import {deleteActiveSegment, fetchGetBookingRoom, fetchGetRoom, setActiveSegment} from "../../redux/Room/actions";
+import {
+    deleteActiveSegment,
+    fetchGetBookingRoom,
+    fetchGetRoom,
+    fetchPostBookingRoom,
+    setActiveSegment
+} from "../../redux/Room/actions";
 import { RootState } from "../../redux/store";
 import {IBookingSegment, IRoom} from "../../redux/Room/types";
 import {IUser} from "../../redux/User/types";
@@ -89,6 +95,7 @@ const Room: React.FC = () => {
                                                     if (bookingSegment.id === "-1") {
                                                         handleClickOpen();
                                                         setSegment(bookingSegment);
+                                                        dispatch(fetchPostBookingRoom(localStorage.getItem("authenticateToken")));
                                                     }
                                                 }}
                                                 sx={{
