@@ -1,12 +1,13 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Typography, Box, styled, Grid } from "@mui/material";
 import { useHistory } from "react-router-dom";
 
 import theme from "../../style/theme";
 import LightHeader from "../../components/LightHeader";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {IUser} from "../../redux/User/types";
+import {fetchGetRooms} from "../../redux/Room/actions";
 
 const StyledTypography = styled(Typography)({
     textAlign: "center"
@@ -29,6 +30,11 @@ const listOfRooms: Array<string> = [
 
 const Rooms: React.FC = () => {
     const history = useHistory();
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchGetRooms());
+    }, []);
 
     const user = useSelector<RootState, IUser | null>((state) => state.userReducer.user);
 

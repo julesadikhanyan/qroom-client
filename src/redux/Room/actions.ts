@@ -29,7 +29,13 @@ import {
     IPostBooking,
     IRoom,
     SET_ACTIVE_SEGMENT,
-    SetActiveSegmentAction
+    SetActiveSegmentAction,
+    FETCH_GET_ROOMS_REQUEST,
+    FETCH_GET_ROOMS_SUCCESS,
+    FETCH_GET_ROOMS_FAILURE,
+    FetchGetRoomsRequestAction,
+    FetchGetRoomsSuccessAction,
+    FetchGetRoomsFailureAction
 } from "./types";
 
 export const fetchGetRoomRequest = (): FetchGetRoomRequestAction => {
@@ -91,6 +97,27 @@ export const fetchPostBookingRoomSuccess = (): FetchPostBookingRoomSuccessAction
 export const fetchPostBookingRoomFailure = (): FetchPostBookingRoomFailureAction => {
     return {
         type: FETCH_POST_BOOKING_ROOM_FAILURE
+    }
+}
+
+export const fetchGetRoomsRequest = (): FetchGetRoomsRequestAction => {
+    return {
+        type: FETCH_GET_ROOMS_REQUEST
+    }
+}
+
+export const fetchGetRoomsSuccess = (rooms: IRoom[]): FetchGetRoomsSuccessAction => {
+    return {
+        type: FETCH_GET_ROOMS_SUCCESS,
+        payload: {
+            rooms: rooms
+        }
+    }
+}
+
+export const fetchGetRoomsFailure = (): FetchGetRoomsFailureAction => {
+    return {
+        type: FETCH_GET_ROOMS_FAILURE
     }
 }
 
@@ -156,5 +183,20 @@ export function fetchPostBookingRoom(token: string, postBooking: IPostBooking) {
                 dispatch(fetchPostBookingRoomFailure());
                 dispatch(setAlert({ data: error.response.data, status: error.response.status }));
             });
+    }
+}
+
+export function fetchGetRooms () {
+    return function (dispatch: Dispatch<FetchGetRoomsRequestAction | FetchGetRoomsSuccessAction | FetchGetRoomsFailureAction>) {
+        dispatch(fetchGetRoomsRequest());
+        axios.get("https://qroom-server.herokuapp.com/rooms")
+            .then(response => {
+                console.log(response.data);
+                dispatch(fetchGetRoomsSuccess(response.data));
+            })
+            .catch(error => {
+                console.log(error.response.data);
+                dispatch(fetchGetRoomsFailure());
+            })
     }
 }
