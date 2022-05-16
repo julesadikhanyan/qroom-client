@@ -1,6 +1,8 @@
 import {Dispatch} from "redux";
 import axios from "axios";
 
+import { setAlert } from "../Alert/actions";
+import { SetAlertAction } from "../Alert/types";
 import {timeHelper} from "../../helper/timeHelper";
 import {
     DELETE_ACTIVE_SEGMENT,
@@ -131,7 +133,7 @@ export function fetchGetBookingRoom(id: string, date: Date) {
 }
 
 export function fetchPostBookingRoom(token: string, postBooking: IPostBooking) {
-    return function (dispatch: Dispatch<FetchPostBookingRoomRequestAction | FetchPostBookingRoomSuccessAction | FetchPostBookingRoomFailureAction>) {
+    return function (dispatch: Dispatch<FetchPostBookingRoomRequestAction | FetchPostBookingRoomSuccessAction | FetchPostBookingRoomFailureAction | SetAlertAction>) {
         dispatch(fetchPostBookingRoomRequest());
         const authAxios = axios.create({
             headers: {
@@ -139,8 +141,9 @@ export function fetchPostBookingRoom(token: string, postBooking: IPostBooking) {
             }
         });
         authAxios.post(`https://qroom-server.herokuapp.com/rooms/booking/`, postBooking)
-            .then(() => {
+            .then((response) => {
                 dispatch(fetchPostBookingRoomSuccess());
+                dispatch(setAlert({ data: response.data, status: response.status }));
             })
             .catch((error) => {
                 console.log(error);
