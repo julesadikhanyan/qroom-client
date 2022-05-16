@@ -14,6 +14,7 @@ import {
 import { RootState } from "../../redux/store";
 import {IBookingSegment, IPostBooking, IRoom} from "../../redux/Room/types";
 import {IUser} from "../../redux/User/types";
+import {IAlert} from "../../redux/Alert/types";
 
 const Room: React.FC = () => {
     const dispatch = useDispatch();
@@ -24,6 +25,7 @@ const Room: React.FC = () => {
     const user = useSelector<RootState, IUser | null>((state) => state.userReducer.user);
     const date = useSelector<RootState, Date | null>((state) => state.roomReducer.date);
     const isPostSuccess = useSelector<RootState, boolean>((state) => state.roomReducer.isPostSuccess);
+    const alert = useSelector<RootState, IAlert | null>((state) => state.alertReducer.alert);
 
     const [open, setOpen] = useState(false);
 
@@ -150,6 +152,7 @@ const Room: React.FC = () => {
                             deleteSegment={deleteSegment}
                             bookingRoom={bookingRoom}
                             bookingSegments={bookingSegments}
+                            alert={alert}
                         />
                     }
                 </Box>

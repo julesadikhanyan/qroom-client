@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { LocalizationProvider, DatePicker, TimePicker } from "@mui/lab";
+import {LocalizationProvider, DatePicker, TimePicker} from "@mui/lab";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import CloseIcon from '@mui/icons-material/Close';
 import {
@@ -16,12 +16,14 @@ import {
     InputLabel,
     Stack,
     Box,
+    Alert,
     useMediaQuery
 } from "@mui/material";
 
 import theme from "../../style/theme";
 import {IBookingSegment, IPostBooking} from "../../redux/Room/types";
 import {setDurationHelper, setEndTimeHelper, setStartTimeHelper} from "../../helper/timeHelper";
+import {IAlert} from "../../redux/Alert/types";
 
 export interface IBookingFormProps {
     open: boolean,
@@ -30,13 +32,14 @@ export interface IBookingFormProps {
     setMeetingDateOnPage: (date: Date) => void,
     deleteSegment: () => void,
     bookingRoom: (postBooking: IPostBooking) => void,
-    bookingSegments: IBookingSegment[]
+    bookingSegments: IBookingSegment[],
+    alert: IAlert | null
 }
 
 const BookingForm: React.FC<IBookingFormProps> = (props) => {
     const matches = useMediaQuery(theme.breakpoints.down('md'));
 
-    const { onClose, open, activeSegment, setMeetingDateOnPage, deleteSegment, bookingRoom, bookingSegments } = props;
+    const { onClose, open, activeSegment, setMeetingDateOnPage, deleteSegment, bookingRoom, bookingSegments, alert } = props;
 
     const [date, setDate] = useState<Date>(activeSegment.time.start || new Date());
     const [startTime, setStartTime] = useState<Date>(activeSegment.time.start || new Date());
@@ -149,6 +152,13 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
                     }}
                 />
             </Box>
+            {
+                alert &&
+                <Alert
+                    severity={(alert.status === 200 || alert.status === 201) ? "success" : "error"}>
+                    {alert.data}
+                </Alert>
+            }
             <DialogContent sx={{
                 padding: "10px"
             }}>
@@ -263,8 +273,6 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
                         },
                         invitedUsers: []
                     });
-                    onClose();
-                    deleteSegment();
                 }}
             >
                 BOOK ROOM

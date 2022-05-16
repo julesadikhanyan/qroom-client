@@ -6,20 +6,27 @@ import { SetAlertAction } from "../Alert/types";
 import {timeHelper} from "../../helper/timeHelper";
 import {
     DELETE_ACTIVE_SEGMENT,
-    DeleteActiveSegmentAction, FETCH_GET_BOOKING_ROOM_FAILURE,
+    DeleteActiveSegmentAction,
+    FETCH_GET_BOOKING_ROOM_FAILURE,
     FETCH_GET_BOOKING_ROOM_REQUEST,
-    FETCH_GET_BOOKING_ROOM_SUCCESS, FETCH_GET_ROOM_FAILURE,
+    FETCH_GET_BOOKING_ROOM_SUCCESS,
+    FETCH_GET_ROOM_FAILURE,
     FETCH_GET_ROOM_REQUEST,
-    FETCH_GET_ROOM_SUCCESS, FETCH_POST_BOOKING_ROOM_FAILURE,
+    FETCH_GET_ROOM_SUCCESS,
+    FETCH_POST_BOOKING_ROOM_FAILURE,
     FETCH_POST_BOOKING_ROOM_REQUEST,
-    FETCH_POST_BOOKING_ROOM_SUCCESS, FetchGetBookingRoomFailureAction,
+    FETCH_POST_BOOKING_ROOM_SUCCESS,
+    FetchGetBookingRoomFailureAction,
     FetchGetBookingRoomRequestAction,
-    FetchGetBookingRoomSuccessAction, FetchGetRoomFailureAction,
+    FetchGetBookingRoomSuccessAction,
+    FetchGetRoomFailureAction,
     FetchGetRoomRequestAction,
-    FetchGetRoomSuccessAction, FetchPostBookingRoomFailureAction,
+    FetchGetRoomSuccessAction,
+    FetchPostBookingRoomFailureAction,
     FetchPostBookingRoomRequestAction,
     FetchPostBookingRoomSuccessAction,
-    IBookingSegment, IPostBooking,
+    IBookingSegment,
+    IPostBooking,
     IRoom,
     SET_ACTIVE_SEGMENT,
     SetActiveSegmentAction
@@ -146,8 +153,8 @@ export function fetchPostBookingRoom(token: string, postBooking: IPostBooking) {
                 dispatch(setAlert({ data: response.data, status: response.status }));
             })
             .catch((error) => {
-                console.log(error);
                 dispatch(fetchPostBookingRoomFailure());
+                dispatch(setAlert({ data: error.response.data, status: error.response.status }));
             });
     }
 }
