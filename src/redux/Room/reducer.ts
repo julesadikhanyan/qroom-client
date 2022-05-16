@@ -20,7 +20,8 @@ const initialState: IRoomState = {
     activeSegment: null,
     date: new Date(),
     isPostSuccess: false,
-    rooms: []
+    rooms: [],
+    loading: true
 }
 
 export default (state = initialState, action: RoomActionTypes) => {
@@ -63,16 +64,23 @@ export default (state = initialState, action: RoomActionTypes) => {
             return state;
         }
         case FETCH_GET_ROOMS_REQUEST: {
-            return state;
+            return {
+                ...state,
+                loading: true
+            }
         }
         case FETCH_GET_ROOMS_SUCCESS: {
             return {
                 ...state,
-                rooms: action.payload.rooms
+                rooms: action.payload.rooms,
+                loading: false
             }
         }
         case FETCH_GET_ROOMS_FAILURE: {
-            return state;
+            return {
+                ...state,
+                loading: false
+            }
         }
         case SET_ACTIVE_SEGMENT: {
             return {

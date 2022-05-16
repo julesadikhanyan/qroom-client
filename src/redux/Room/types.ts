@@ -69,7 +69,8 @@ export interface IRoomState {
     activeSegment: IBookingSegment | null,
     date: Date,
     isPostSuccess: boolean,
-    rooms: IRoom[]
+    rooms: IRoom[],
+    loading: boolean
 }
 
 export interface FetchGetRoomRequestAction {

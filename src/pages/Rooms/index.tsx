@@ -8,6 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {IUser} from "../../redux/User/types";
 import {fetchGetRooms} from "../../redux/Room/actions";
+import Loading from "../../components/Loading";
 
 const StyledTypography = styled(Typography)({
     textAlign: "center"
@@ -37,6 +38,11 @@ const Rooms: React.FC = () => {
     }, []);
 
     const user = useSelector<RootState, IUser | null>((state) => state.userReducer.user);
+    const loading = useSelector<RootState, boolean>((state) => state.roomReducer.loading);
+
+    if (loading) {
+        return <Loading/>
+    }
 
     return (
         <Box sx={{ marginBottom: "20px", width: "80vw", margin: "auto" }}>
