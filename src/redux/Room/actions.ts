@@ -17,7 +17,7 @@ import {
     FetchGetRoomSuccessAction,
     FetchPostBookingRoomRequestAction,
     FetchPostBookingRoomSuccessAction,
-    IBookingSegment,
+    IBookingSegment, IPostBooking,
     IRoom,
     SET_ACTIVE_SEGMENT,
     SetActiveSegmentAction
@@ -103,7 +103,7 @@ export function fetchGetBookingRoom(id: string, date: Date) {
     }
 }
 
-export function fetchPostBookingRoom(token: string | null) {
+export function fetchPostBookingRoom(token: string, postBooking: IPostBooking) {
     return function (dispatch: Dispatch<FetchPostBookingRoomRequestAction | FetchPostBookingRoomSuccessAction>) {
         dispatch(fetchPostBookingRoomRequest());
         const authAxios = axios.create({
@@ -111,15 +111,7 @@ export function fetchPostBookingRoom(token: string | null) {
                 Authorization: `Bearer ${token}`
             }
         });
-        authAxios.post(`https://qroom-server.herokuapp.com/rooms/booking/`, {
-            roomUuid: "eb3c28e8-28e9-4788-afa1-758061a2f354",
-            time: {
-                start: "2022-05-16T17:00:05.261Z",
-                end: "2022-05-16T18:00:05.251Z"
-            },
-            invitedUsers: [],
-            title: "Friday Meeting"
-        })
+        authAxios.post(`https://qroom-server.herokuapp.com/rooms/booking/`, postBooking)
             .then(() => {
                 dispatch(fetchPostBookingRoomSuccess());
             })

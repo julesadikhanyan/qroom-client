@@ -8,7 +8,7 @@ import BookingForm from "../../components/BookingForm";
 import {
     deleteActiveSegment,
     fetchGetBookingRoom,
-    fetchGetRoom,
+    fetchGetRoom, fetchPostBookingRoom,
     setActiveSegment
 } from "../../redux/Room/actions";
 import { RootState } from "../../redux/store";
@@ -23,6 +23,7 @@ const Room: React.FC = () => {
     const activeSegment = useSelector<RootState, IBookingSegment | null>((state) => state.roomReducer.activeSegment);
     const user = useSelector<RootState, IUser | null>((state) => state.userReducer.user);
     const date = useSelector<RootState, Date | null>((state) => state.roomReducer.date);
+    const isPostSuccess = useSelector<RootState, boolean>((state) => state.roomReducer.isPostSuccess);
 
     const [open, setOpen] = useState(false);
 
@@ -36,13 +37,14 @@ const Room: React.FC = () => {
 
     useEffect(() => {
         dispatch(fetchGetRoom("eb3c28e8-28e9-4788-afa1-758061a2f354"));
-        dispatch(fetchGetBookingRoom("eb3c28e8-28e9-4788-afa1-758061a2f354", new Date()));
     }, []);
 
-    const setMeetingDate = (newDate: Date | null) => {
-        if (newDate) {
-            dispatch(fetchGetBookingRoom("eb3c28e8-28e9-4788-afa1-758061a2f354", newDate));
-        }
+    useEffect(() => {
+        dispatch(fetchGetBookingRoom("eb3c28e8-28e9-4788-afa1-758061a2f354", new Date()));
+    }, [isPostSuccess]);
+
+    const setMeetingDate = (newDate: Date) => {
+        dispatch(fetchGetBookingRoom("eb3c28e8-28e9-4788-afa1-758061a2f354", newDate));
     }
 
     const setSegment = (bookingSegment: IBookingSegment) => {
@@ -54,7 +56,8 @@ const Room: React.FC = () => {
     }
 
     const bookingRoom = (postBooking: IPostBooking) => {
-        console.log(postBooking);
+        const authenticateToken = localStorage.getItem("authenticateToken");
+        authenticateToken && dispatch(fetchPostBookingRoom(authenticateToken, postBooking));
     }
 
     return (

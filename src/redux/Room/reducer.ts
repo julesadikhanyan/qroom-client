@@ -15,7 +15,8 @@ const initialState: IRoomState = {
     room: null,
     bookingSegments: [],
     activeSegment: null,
-    date: null
+    date: null,
+    isPostSuccess: false
 }
 
 export default (state = initialState, action: RoomActionTypes) => {
@@ -43,7 +44,10 @@ export default (state = initialState, action: RoomActionTypes) => {
             return state;
         }
         case FETCH_POST_BOOKING_ROOM_SUCCESS: {
-            return state;
+            return {
+                ...state,
+                isPostSuccess: true
+            }
         }
         case SET_ACTIVE_SEGMENT: {
             return {
