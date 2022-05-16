@@ -9,11 +9,10 @@ import {
     deleteActiveSegment,
     fetchGetBookingRoom,
     fetchGetRoom,
-    fetchPostBookingRoom,
     setActiveSegment
 } from "../../redux/Room/actions";
 import { RootState } from "../../redux/store";
-import {IBookingSegment, IRoom} from "../../redux/Room/types";
+import {IBookingSegment, IPostBooking, IRoom} from "../../redux/Room/types";
 import {IUser} from "../../redux/User/types";
 
 const Room: React.FC = () => {
@@ -52,6 +51,10 @@ const Room: React.FC = () => {
 
     const deleteSegment = () => {
         dispatch(deleteActiveSegment());
+    }
+
+    const bookingRoom = (postBooking: IPostBooking) => {
+        console.log(postBooking);
     }
 
     return (
@@ -95,7 +98,7 @@ const Room: React.FC = () => {
                                                     if (bookingSegment.id === "-1") {
                                                         handleClickOpen();
                                                         setSegment(bookingSegment);
-                                                        dispatch(fetchPostBookingRoom(localStorage.getItem("authenticateToken")));
+                                                        /*dispatch(fetchPostBookingRoom(localStorage.getItem("authenticateToken")));*/
                                                     }
                                                 }}
                                                 sx={{
@@ -142,6 +145,7 @@ const Room: React.FC = () => {
                             activeSegment={activeSegment}
                             setMeetingDateOnPage={setMeetingDate}
                             deleteSegment={deleteSegment}
+                            bookingRoom={bookingRoom}
                         />
                     }
                 </Box>

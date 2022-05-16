@@ -43,6 +43,19 @@ export interface IError {
     name: string
 }
 
+export interface IPostBooking {
+    title: string,
+    roomUuid: string,
+    time: ITimeStr,
+    invitedUsers: string[]
+}
+
+export interface ITimeStr {
+    start: string,
+    end: string
+}
+
+
 export interface IRoomState {
     room: IRoom | null,
     bookingSegments: IBookingSegment[],

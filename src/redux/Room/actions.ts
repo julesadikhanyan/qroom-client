@@ -97,7 +97,6 @@ export function fetchGetBookingRoom(id: string, date: Date) {
         dispatch(fetchBookingRoomRequest());
         axios.get(`https://qroom-server.herokuapp.com/rooms/booking?room_uuid=${id}&date=${dateStr}`)
             .then(response => {
-                console.log(response.data);
                 const time = timeHelper(response.data, date);
                 dispatch(fetchBookingRoomSuccess(time, date));
             });
@@ -115,8 +114,8 @@ export function fetchPostBookingRoom(token: string | null) {
         authAxios.post(`https://qroom-server.herokuapp.com/rooms/booking/`, {
             roomUuid: "eb3c28e8-28e9-4788-afa1-758061a2f354",
             time: {
-                start: "2022-05-16T12:00:05.261Z",
-                end: "2022-05-16T13:00:05.251Z"
+                start: "2022-05-16T17:00:05.261Z",
+                end: "2022-05-16T18:00:05.251Z"
             },
             invitedUsers: [],
             title: "Friday Meeting"

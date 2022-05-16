@@ -20,27 +20,28 @@ import {
 } from "@mui/material";
 
 import theme from "../../style/theme";
-import {IBookingSegment} from "../../redux/Room/types";
+import {IBookingSegment, IPostBooking} from "../../redux/Room/types";
 import {setDurationHelper} from "../../helper/timeHelper";
 
 export interface IBookingFormProps {
     open: boolean,
     onClose: () => void,
     activeSegment: IBookingSegment,
-    setMeetingDateOnPage: (date: Date | null) => void,
-    deleteSegment: () => void;
+    setMeetingDateOnPage: (date: Date) => void,
+    deleteSegment: () => void,
+    bookingRoom: (postBooking: IPostBooking) => void;
 }
 
 const BookingForm: React.FC<IBookingFormProps> = (props) => {
     const matches = useMediaQuery(theme.breakpoints.down('md'));
 
-    const { onClose, open, activeSegment, setMeetingDateOnPage, deleteSegment } = props;
+    const { onClose, open, activeSegment, setMeetingDateOnPage, deleteSegment, bookingRoom } = props;
 
-    const [date, setDate] = useState<Date | null>(activeSegment.time.start || new Date());
-    const [startTime, setStartTime] = useState<Date | null>(activeSegment.time.start || new Date());
+    const [date, setDate] = useState<Date>(activeSegment.time.start || new Date());
+    const [startTime, setStartTime] = useState<Date>(activeSegment.time.start || new Date());
     const [duration, setDuration] = useState<string>("");
     const [title, setTitle] = useState<string>("");
-    const [endTime, setEndTime] = useState<Date | null>(activeSegment.time.end || new Date());
+    const [endTime, setEndTime] = useState<Date>(activeSegment.time.end || new Date());
 
     const handleChangeDuration = (event: SelectChangeEvent) => {
         console.log(startTime && setDurationHelper(startTime, event.target.value));
@@ -62,8 +63,8 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
         }
     };
 
-    const onSubmit = () => {
-        console.log(date, startTime, duration, title, endTime);
+    const onSubmit = (postBooking: IPostBooking) => {
+        bookingRoom(postBooking);
     }
 
     const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,10 +102,17 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
                 >
                     BOOKING THE MEETING ROOM
                 </DialogTitle>
-                <CloseIcon sx={{
-                    cursor: "pointer",
-                    color: "#FFFFFF"
-                }} onClick={() => onClose()}/>
+                <CloseIcon
+                    sx={{
+                        cursor: "pointer",
+                        color: "#FFFFFF"
+                    }}
+                    onClick={() => {
+                        onClose();
+                        deleteSegment();
+                        setMeetingDateOnPage(new Date());
+                    }}
+                />
             </Box>
             <DialogContent sx={{
                 padding: "10px"
@@ -122,8 +130,8 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
                         <Typography>Select meeting date:</Typography>
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
-                                onChange={(newDate) => {
-                                    setMeetingDate(newDate)
+                                onChange={(newStartTime) => {
+                                    newStartTime && setMeetingDate(newStartTime)
                                 }}
                                 value={date}
                                 minDate={new Date()}
@@ -138,7 +146,7 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <TimePicker
                                 onChange={(newStartTime) => {
-                                    setStartTime(newStartTime)
+                                    newStartTime && setStartTime(newStartTime)
                                 }}
                                 ampm={false}
                                 minutesStep={5}
@@ -174,7 +182,7 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <TimePicker
                                 onChange={(newEndTime) => {
-                                    setEndTime(newEndTime)
+                                    newEndTime && setEndTime(newEndTime)
                                 }}
                                 ampm={false}
                                 minutesStep={5}
@@ -201,7 +209,15 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
                     }
                 }}
                 onClick={() => {
-                    onSubmit();
+                    onSubmit({
+                        title: title,
+                        roomUuid: activeSegment.roomUuid,
+                        time: {
+                            start: startTime.toISOString(),
+                            end: endTime.toISOString()
+                        },
+                        invitedUsers: []
+                    });
                     onClose();
                     deleteSegment();
                 }}
