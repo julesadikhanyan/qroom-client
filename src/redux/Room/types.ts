@@ -10,13 +10,14 @@ export const FETCH_POST_BOOKING_ROOM_REQUEST = "FETCH_POST_BOOKING_ROOM_REQUEST"
 export const FETCH_POST_BOOKING_ROOM_SUCCESS = "FETCH_POST_BOOKING_ROOM_SUCCESS";
 export const FETCH_POST_BOOKING_ROOM_FAILURE = "FETCH_POST_BOOKING_ROOM_FAILURE";
 
-
 export const FETCH_GET_ROOMS_REQUEST = "FETCH_GET_ROOMS_REQUEST";
 export const FETCH_GET_ROOMS_SUCCESS = "FETCH_GET_ROOMS_SUCCESS";
 export const FETCH_GET_ROOMS_FAILURE = "FETCH_GET_ROOMS_FAILURE";
 
 export const SET_ACTIVE_SEGMENT = "SET_ACTIVE_SEGMENT";
 export const DELETE_ACTIVE_SEGMENT = "DELETE_ACTIVE_SEGMENT";
+
+export const SET_LOST_PAGE = "SET_LOST_PAGE";
 
 export interface IRoom {
     id: string,
@@ -72,7 +73,8 @@ export interface IRoomState {
     isPostSuccess: boolean,
     rooms: IRoom[],
     loading: boolean,
-    error: IError | null
+    error: IError | null,
+    lostPage: string
 }
 
 export interface FetchGetRoomRequestAction {
@@ -147,6 +149,13 @@ export interface DeleteActiveSegmentAction {
     type: typeof DELETE_ACTIVE_SEGMENT
 }
 
+export interface SetLostPageAction {
+    type: typeof SET_LOST_PAGE,
+    payload: {
+        lostPage: string
+    }
+}
+
 export type RoomActionTypes =
     | FetchGetRoomRequestAction
     | FetchGetRoomSuccessAction
@@ -161,4 +170,5 @@ export type RoomActionTypes =
     | FetchGetBookingRoomFailureAction
     | FetchGetRoomsRequestAction
     | FetchGetRoomsSuccessAction
-    | FetchGetRoomsFailureAction;
+    | FetchGetRoomsFailureAction
+    | SetLostPageAction;

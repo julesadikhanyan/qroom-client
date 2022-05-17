@@ -9,7 +9,7 @@ import {
     deleteActiveSegment,
     fetchGetBookingRoom,
     fetchGetRoom, fetchPostBookingRoom,
-    setActiveSegment
+    setActiveSegment, setLostPage
 } from "../../redux/Room/actions";
 import { RootState } from "../../redux/store";
 import {IBookingSegment, IPostBooking, IRoom} from "../../redux/Room/types";
@@ -17,6 +17,7 @@ import {IInvitedUser, IUser} from "../../redux/User/types";
 import {IAlert} from "../../redux/Alert/types";
 import {deleteAlert} from "../../redux/Alert/actions";
 import {fetchGetUsers, logOutUser} from "../../redux/User/actions";
+import {useParams} from "react-router-dom";
 
 const Room: React.FC = () => {
     const dispatch = useDispatch();
@@ -29,6 +30,9 @@ const Room: React.FC = () => {
     const isPostSuccess = useSelector<RootState, boolean>((state) => state.roomReducer.isPostSuccess);
     const alert = useSelector<RootState, IAlert | null>((state) => state.alertReducer.alert);
     const users = useSelector<RootState, IInvitedUser[]>((state) => state.userReducer.invitedUsers);
+    const lostPage = useSelector<RootState, string>((state) => state.roomReducer.lostPage);
+
+    const params = useParams<{id?: string}>();
 
     const [open, setOpen] = useState(false);
 
@@ -54,6 +58,14 @@ const Room: React.FC = () => {
     useEffect(() => {
         dispatch(fetchGetBookingRoom("eb3c28e8-28e9-4788-afa1-758061a2f354", date));
     }, [isPostSuccess]);
+
+    useEffect(() => {
+        const id = params.id;
+        return () => {
+            console.log(id);
+            dispatch(setLostPage(`/rooms/${id}`))
+        }
+    }, []);
 
     const setMeetingDate = (newDate: Date) => {
         dispatch(fetchGetBookingRoom("eb3c28e8-28e9-4788-afa1-758061a2f354", newDate));
@@ -81,7 +93,7 @@ const Room: React.FC = () => {
                         height: "100vh"
                     }
                 }}>
-                    <DarkHeader name={user?.name} logOut={logOut}/>
+                    <DarkHeader name={user?.name} logOut={logOut} lostPage={lostPage}/>
                     <Grid container>
                         <Grid item xs={12} xl={6}>
                             <Box sx={{

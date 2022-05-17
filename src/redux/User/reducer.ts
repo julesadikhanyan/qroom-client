@@ -133,7 +133,15 @@ export default (state = initialState, action: UserActionTypes) => {
         case LOG_OUT_USER: {
             return {
                 ...state,
-                user: initialState.user
+                user: {
+                    id: "",
+                    name: "",
+                    login: "",
+                    tokens: {
+                        authenticateToken: "",
+                        refreshToken: ""
+                    }
+                }
             }
         }
         default: return state;

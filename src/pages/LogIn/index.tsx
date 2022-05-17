@@ -10,6 +10,7 @@ import Loading from "../../components/Loading";
 import { ContentBox, FormBox, FormStack, SubmitButton, TitleTypography } from "../SignUp";
 import {cleanUser, fetchLogInUser, logOutUser} from "../../redux/User/actions";
 import {IError} from "../../redux/Room/types";
+import {Redirect} from "react-router-dom";
 
 export interface IFormInput {
     email: string,
@@ -22,6 +23,7 @@ const LogIn: React.FC = () => {
     const user = useSelector<RootState, IUser>((state) => state.userReducer.user);
     const loading = useSelector<RootState, boolean>((state) => state.userReducer.loading);
     const error = useSelector<RootState, IError | null>((state) => state.userReducer.error);
+    const lostPage = useSelector<RootState, string >((state) => state.roomReducer.lostPage);
 
     useEffect(() => {
         return () => {
@@ -46,6 +48,10 @@ const LogIn: React.FC = () => {
         });
     }, [user]);
 
+    if (user?.name !== "") {
+        return <Redirect push to={lostPage}/>
+    }
+
     if (loading) {
         return <Loading/>
     }
@@ -55,7 +61,7 @@ const LogIn: React.FC = () => {
             <Box sx={{
                 height: "100vh"
             }}>
-                <DarkHeader name={user?.name} logOut={logOut}/>
+                <DarkHeader name={user?.name} logOut={logOut} lostPage={lostPage}/>
                 {
                     error &&
                     <Alert severity="error" sx={{

@@ -10,6 +10,7 @@ import { RootState } from "../../redux/store";
 import { IUser } from "../../redux/User/types";
 import Loading from "../../components/Loading";
 import {IError} from "../../redux/Room/types";
+import {Redirect} from "react-router-dom";
 
 export const ContentBox = styled(Box)({
     height: "calc(100vh - 70px)",
@@ -74,6 +75,7 @@ const SignUp: React.FC = () => {
     const user = useSelector<RootState, IUser>((state) => state.userReducer.user);
     const loading = useSelector<RootState, boolean>((state) => state.userReducer.loading);
     const error = useSelector<RootState, IError | null>((state) => state.userReducer.error);
+    const lostPage = useSelector<RootState, string >((state) => state.roomReducer.lostPage);
 
     useEffect(() => {
         return () => {
@@ -103,11 +105,15 @@ const SignUp: React.FC = () => {
         dispatch(logOutUser());
     }
 
+    if (user?.name !== "") {
+        return <Redirect push to={lostPage}/>
+    }
+
     return (
         <Box sx={{
             height: "100vh"
         }}>
-            <DarkHeader name={user?.name} logOut={logOut}/>
+            <DarkHeader name={user?.name} logOut={logOut} lostPage={lostPage}/>
             {
                 error &&
                 <Alert severity="error" sx={{

@@ -15,11 +15,12 @@ export const StyledButton = styled(Button)({
 
 export interface IDarkHeaderProps {
     name: string | undefined,
-    logOut: () => void
+    logOut: () => void,
+    lostPage: string
 }
 
 const DarkHeader: React.FC<IDarkHeaderProps>= (props) => {
-    const { name, logOut } = props;
+    const { name, logOut, lostPage } = props;
 
     const history = useHistory();
     const locations = useLocation();
@@ -45,7 +46,7 @@ const DarkHeader: React.FC<IDarkHeaderProps>= (props) => {
                         direction="row"
                     >
                         <Button
-                            onClick={() => history.push("/rooms")}
+                            onClick={() => history.push(lostPage)}
                             sx={{
                                 backgroundColor: "#FFFFFF",
                                 color: theme.palette.primary.main,

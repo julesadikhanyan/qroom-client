@@ -36,7 +36,7 @@ import {
     FetchGetRoomsRequestAction,
     FetchGetRoomsSuccessAction,
     FetchGetRoomsFailureAction,
-    IError
+    IError, SetLostPageAction, SET_LOST_PAGE
 } from "./types";
 
 export const fetchGetRoomRequest = (): FetchGetRoomRequestAction => {
@@ -137,6 +137,15 @@ export const setActiveSegment = (activeSegment: IBookingSegment): SetActiveSegme
 export const deleteActiveSegment = (): DeleteActiveSegmentAction => {
     return {
         type: DELETE_ACTIVE_SEGMENT
+    }
+}
+
+export const setLostPage = (lostPage: string): SetLostPageAction => {
+    return {
+        type: SET_LOST_PAGE,
+        payload: {
+            lostPage: lostPage
+        }
     }
 }
 

@@ -11,7 +11,7 @@ import {
     SET_ACTIVE_SEGMENT,
     FETCH_GET_ROOMS_REQUEST,
     FETCH_GET_ROOMS_SUCCESS,
-    FETCH_GET_ROOMS_FAILURE,
+    FETCH_GET_ROOMS_FAILURE, SET_LOST_PAGE,
 } from "./types";
 
 const initialState: IRoomState = {
@@ -22,7 +22,8 @@ const initialState: IRoomState = {
     isPostSuccess: false,
     rooms: [],
     loading: true,
-    error: null
+    error: null,
+    lostPage: "/rooms"
 }
 
 export default (state = initialState, action: RoomActionTypes) => {
@@ -94,6 +95,12 @@ export default (state = initialState, action: RoomActionTypes) => {
             return {
                 ...state,
                 activeSegment: initialState.activeSegment
+            }
+        }
+        case SET_LOST_PAGE: {
+            return {
+                ...state,
+                lostPage: action.payload.lostPage
             }
         }
         default: return state;

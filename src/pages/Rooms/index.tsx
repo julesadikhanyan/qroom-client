@@ -7,7 +7,7 @@ import LightHeader from "../../components/LightHeader";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {IUser} from "../../redux/User/types";
-import {fetchGetRooms} from "../../redux/Room/actions";
+import {fetchGetRooms, setLostPage} from "../../redux/Room/actions";
 import Loading from "../../components/Loading";
 import {IError, IRoom} from "../../redux/Room/types";
 import {logOutUser} from "../../redux/User/actions";
@@ -47,6 +47,12 @@ const Rooms: React.FC = () => {
     const logOut = () => {
         dispatch(logOutUser());
     }
+
+    useEffect(() => {
+        return () => {
+            dispatch(setLostPage("/rooms"));
+        }
+    }, []);
 
     if (loading) {
         return <Loading/>

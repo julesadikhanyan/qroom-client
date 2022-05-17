@@ -10,7 +10,7 @@ import {IUser} from "../../redux/User/types";
 import {StyledTypography} from "../Rooms";
 import {IBookingSegment, IRoom} from "../../redux/Room/types";
 import HistoryTabs from "../../components/HistoryTabs";
-import {fetchGetRooms} from "../../redux/Room/actions";
+import {fetchGetRooms, setLostPage} from "../../redux/Room/actions";
 
 const History = () => {
     const dispatch = useDispatch();
@@ -23,6 +23,7 @@ const History = () => {
     const invitations = useSelector<RootState, IBookingSegment[]>((state) => state.userReducer.invitations);
     const pastMeetings = useSelector<RootState, IBookingSegment[]>((state) => state.userReducer.pastMeetings);
     const activeMeeting = useSelector<RootState, IBookingSegment | null>((state) => state.userReducer.activeMeeting);
+    const lostPage = useSelector<RootState, string >((state) => state.roomReducer.lostPage);
 
     const setActiveMeetingOnPage = (meeting: IBookingSegment) => {
         dispatch(setActiveMeeting(meeting));
@@ -39,6 +40,12 @@ const History = () => {
         dispatch(fetchGetRooms());
     }, []);
 
+    useEffect(() => {
+        return () => {
+            dispatch(setLostPage("/history"));
+        }
+    }, []);
+
     const logOut = () => {
         dispatch(logOutUser());
     }
@@ -49,7 +56,7 @@ const History = () => {
 
     return (
         <Box>
-            <DarkHeader name={user?.name} logOut={logOut}/>
+            <DarkHeader name={user?.name} logOut={logOut} lostPage={lostPage}/>
             <StyledTypography>HISTORY</StyledTypography>
             <HistoryTabs
                 organizedMeetings={organizedMeetings}
