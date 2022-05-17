@@ -9,6 +9,12 @@ const theme = createTheme({
         },
         secondary: {
             main: "#F8BF4C"
+        },
+        warning: {
+            main: "#c62828"
+        },
+        success: {
+            main: "#4caf50"
         }
     },
     breakpoints: {

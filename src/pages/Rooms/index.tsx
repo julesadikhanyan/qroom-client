@@ -11,16 +11,18 @@ import {fetchGetRooms} from "../../redux/Room/actions";
 import Loading from "../../components/Loading";
 import {IError, IRoom} from "../../redux/Room/types";
 
-const StyledTypography = styled(Typography)({
-    textAlign: "center"
+export const StyledTypography = styled(Typography)({
+    textAlign: "center",
+    margin: "20px 0 20px 0",
+    fontWeight: "bold"
 });
 
-const RoomBox = styled(Box)({
+export const RoomBox = styled(Box)({
     position: "relative",
     width: 290,
     height: 350,
     border: `1px solid ${theme.palette.primary.main}`,
-    borderRadius: 2,
+    borderRadius: "5px",
     cursor: "pointer",
     margin: "auto",
     [theme.breakpoints.only('xs')]: {
@@ -58,14 +60,7 @@ const Rooms: React.FC = () => {
             {
                 rooms.length > 0 &&
                 <Box>
-                    <StyledTypography
-                        sx={{
-                            margin: "20px 0 20px 0",
-                            fontWeight: "bold"
-                        }}
-                    >
-                        LIST OF ROOMS
-                    </StyledTypography>
+                    <StyledTypography>LIST OF ROOMS</StyledTypography>
                     <Grid
                         container
                         columns={{xl: 12, md: 12, xs: 12}}
