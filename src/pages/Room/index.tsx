@@ -30,11 +30,11 @@ const Room: React.FC = () => {
     const room = useSelector<RootState, IRoom | null>((state) => state.roomReducer["room"]);
     const bookingSegments = useSelector<RootState, IBookingSegment[]>((state) => state.roomReducer["bookingSegments"]);
     const activeSegment = useSelector<RootState, IBookingSegment | null>((state) => state.roomReducer["activeSegment"]);
-    const user = useSelector<RootState, IUser | null>((state) => state.userReducer.user);
+    const user = useSelector<RootState, IUser | null>((state) => state.userReducer["user"]);
     const date = useSelector<RootState, Date>((state) => state.roomReducer["date"]);
     const isPostSuccess = useSelector<RootState, boolean>((state) => state.roomReducer["isPostSuccess"]);
     const alert = useSelector<RootState, IAlert | null>((state) => state.alertReducer.alert);
-    const users = useSelector<RootState, IInvitedUser[]>((state) => state.userReducer.invitedUsers);
+    const users = useSelector<RootState, IInvitedUser[]>((state) => state.userReducer["invitedUsers"]);
     const lostPage = useSelector<RootState, string>((state) => state.roomReducer["lostPage"]);
     const loading = useSelector<RootState, boolean>((state) => state.roomReducer.loading);
     const params = useParams<{id?: string}>();
@@ -185,7 +185,8 @@ const Room: React.FC = () => {
                         </Grid>
                         <Grid item xs={12} xl={6}>
                             <Box sx={{
-                                backgroundColor: theme.palette.primary.main,
+                                backgroundSize: "cover",
+                                backgroundImage: `url(https://69fa-5-167-210-139.ngrok.io/images/${room.photoUrl})`,
                                 height: "calc(100vh - 70px)",
                                 [theme.breakpoints.down("xl")]: {
                                     marginTop: "20px",

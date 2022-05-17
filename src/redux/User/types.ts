@@ -16,6 +16,7 @@ export const FETCH_GET_HISTORY_SUCCESS = "FETCH_GET_HISTORY_SUCCESS";
 export const FETCH_GET_HISTORY_FAILURE = "FETCH_GET_HISTORY_FAILURE";
 
 export const CLEAN_USER = "CLEAN_USER";
+export const CLEAN_ERROR = "CLEAN_ERROR";
 
 export const SET_ACTIVE_MEETING = "SET_ACTIVE_MEETING";
 export const DELETE_ACTIVE_MEETING = "DELETE_ACTIVE_MEETING";
@@ -139,6 +140,10 @@ export interface LogOutUserAction {
     type: typeof LOG_OUT_USER
 }
 
+export interface CleanErrorAction {
+    type: typeof CLEAN_ERROR
+}
+
 export type  UserActionTypes =
     | FetchSignUpUserRequestAction
     | FetchSignUpUserSuccessAction
@@ -154,4 +159,5 @@ export type  UserActionTypes =
     | CleanUserAction
     | SetActiveMeetingAction
     | DeleteActiveMeetingAction
-    | LogOutUserAction;
+    | LogOutUserAction
+    | CleanErrorAction;

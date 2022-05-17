@@ -2,7 +2,7 @@ import React from "react";
 import {Box} from "@mui/material";
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {deleteActiveMeeting, fetchGetHistory, logOutUser, setActiveMeeting} from "../../redux/User/actions";
+import {cleanError, deleteActiveMeeting, fetchGetHistory, logOutUser, setActiveMeeting} from "../../redux/User/actions";
 import Loading from "../../components/Loading";
 import {RootState} from "../../redux/store";
 import DarkHeader from "../../components/DarkHeader";
@@ -15,14 +15,14 @@ import {fetchGetRooms, setLostPage} from "../../redux/Room/actions";
 const History = () => {
     const dispatch = useDispatch();
 
-    const loadingHistory = useSelector<RootState, boolean>((state) => state.userReducer.historyLoading);
+    const loadingHistory = useSelector<RootState, boolean>((state) => state.userReducer["historyLoading"]);
     const rooms = useSelector<RootState, IRoom[]>((state) => state.roomReducer.rooms);
     const loadingRoom = useSelector<RootState, boolean >((state) => state.roomReducer.loading);
-    const user = useSelector<RootState, IUser>((state) => state.userReducer.user);
-    const organizedMeetings = useSelector<RootState, IBookingSegment[]>((state) => state.userReducer.organizedMeetings);
-    const invitations = useSelector<RootState, IBookingSegment[]>((state) => state.userReducer.invitations);
-    const pastMeetings = useSelector<RootState, IBookingSegment[]>((state) => state.userReducer.pastMeetings);
-    const activeMeeting = useSelector<RootState, IBookingSegment | null>((state) => state.userReducer.activeMeeting);
+    const user = useSelector<RootState, IUser>((state) => state.userReducer["user"]);
+    const organizedMeetings = useSelector<RootState, IBookingSegment[]>((state) => state.userReducer["organizedMeetings"]);
+    const invitations = useSelector<RootState, IBookingSegment[]>((state) => state.userReducer["invitations"]);
+    const pastMeetings = useSelector<RootState, IBookingSegment[]>((state) => state.userReducer["pastMeetings"]);
+    const activeMeeting = useSelector<RootState, IBookingSegment | null>((state) => state.userReducer["activeMeeting"]);
     const lostPage = useSelector<RootState, string >((state) => state.roomReducer.lostPage);
 
     const setActiveMeetingOnPage = (meeting: IBookingSegment) => {
@@ -43,6 +43,7 @@ const History = () => {
     useEffect(() => {
         return () => {
             dispatch(setLostPage("/history"));
+            dispatch(cleanError());
         }
     }, []);
 

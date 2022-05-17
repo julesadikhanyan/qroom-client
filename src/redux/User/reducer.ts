@@ -1,4 +1,5 @@
 import {
+    CLEAN_ERROR,
     CLEAN_USER,
     DELETE_ACTIVE_MEETING,
     FETCH_GET_HISTORY_FAILURE,
@@ -142,6 +143,11 @@ export default (state = initialState, action: UserActionTypes) => {
                         refreshToken: ""
                     }
                 }
+            }
+        }
+        case CLEAN_ERROR: {
+            return {
+                error: initialState.error
             }
         }
         default: return state;

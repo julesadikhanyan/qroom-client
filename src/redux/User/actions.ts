@@ -5,7 +5,8 @@ import {saveDataInLocalStorage} from "../../helper/saveDataInLocalStorage";
 import {historyHelper} from "../../helper/historyHelper";
 
 import {
-    CLEAN_USER,
+    CLEAN_ERROR,
+    CLEAN_USER, CleanErrorAction,
     CleanUserAction, DELETE_ACTIVE_MEETING, DeleteActiveMeetingAction,
     FETCH_GET_HISTORY_FAILURE,
     FETCH_GET_HISTORY_REQUEST,
@@ -154,6 +155,12 @@ export const logOutUser = (): LogOutUserAction => {
     localStorage.removeItem("id");
     return {
         type: LOG_OUT_USER
+    }
+}
+
+export const cleanError = (): CleanErrorAction => {
+    return {
+        type: CLEAN_ERROR
     }
 }
 export function fetchSignUpUser(name: string, login: string, password: string) {

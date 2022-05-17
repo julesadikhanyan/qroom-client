@@ -20,9 +20,9 @@ export interface IFormInput {
 const LogIn: React.FC = () => {
     const dispatch = useDispatch();
 
-    const user = useSelector<RootState, IUser>((state) => state.userReducer.user);
-    const loading = useSelector<RootState, boolean>((state) => state.userReducer.loading);
-    const error = useSelector<RootState, IError | null>((state) => state.userReducer.error);
+    const user = useSelector<RootState, IUser>((state) => state.userReducer["user"]);
+    const loading = useSelector<RootState, boolean>((state) => state.userReducer["loading"]);
+    const error = useSelector<RootState, IError | null>((state) => state.userReducer["error"]);
     const lostPage = useSelector<RootState, string >((state) => state.roomReducer.lostPage);
 
     useEffect(() => {

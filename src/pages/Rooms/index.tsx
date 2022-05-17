@@ -39,7 +39,7 @@ const Rooms: React.FC = () => {
         dispatch(fetchGetRooms());
     }, []);
 
-    const user = useSelector<RootState, IUser | null>((state) => state.userReducer.user);
+    const user = useSelector<RootState, IUser | null>((state) => state.userReducer["user"]);
     const loading = useSelector<RootState, boolean>((state) => state.roomReducer["loading"]);
     const rooms = useSelector<RootState, IRoom[]>((state) => state.roomReducer.rooms);
     const error = useSelector<RootState, IError | null>((state) => state.roomReducer.error);
@@ -89,7 +89,9 @@ const Rooms: React.FC = () => {
                             rooms.map((room) =>
                                 <Grid key={room.id} item xl={4} md={6} xs={12}>
                                     <RoomBox
-                                        sx={{ backgroundImage: `url(https://69fa-5-167-210-139.ngrok.io/${room.photoUrl})` }}
+                                        sx={{
+                                            backgroundSize: "cover",
+                                            backgroundImage: `url(https://69fa-5-167-210-139.ngrok.io/images/${room.photoUrl})` }}
                                         onClick={() => history.push(`/rooms/${room.id}`)}>
                                         {
                                             room.isFree &&
