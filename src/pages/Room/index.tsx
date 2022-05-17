@@ -20,20 +20,21 @@ import {IAlert} from "../../redux/Alert/types";
 import {deleteAlert} from "../../redux/Alert/actions";
 import {fetchGetUsers, logOutUser} from "../../redux/User/actions";
 import {useParams} from "react-router-dom";
+import Loading from "../../components/Loading";
 
 const Room: React.FC = () => {
     const dispatch = useDispatch();
 
-    const room = useSelector<RootState, IRoom | null>((state) => state.roomReducer.room);
-    const bookingSegments = useSelector<RootState, IBookingSegment[]>((state) => state.roomReducer.bookingSegments);
-    const activeSegment = useSelector<RootState, IBookingSegment | null>((state) => state.roomReducer.activeSegment);
+    const room = useSelector<RootState, IRoom | null>((state) => state.roomReducer["room"]);
+    const bookingSegments = useSelector<RootState, IBookingSegment[]>((state) => state.roomReducer["bookingSegments"]);
+    const activeSegment = useSelector<RootState, IBookingSegment | null>((state) => state.roomReducer["activeSegment"]);
     const user = useSelector<RootState, IUser | null>((state) => state.userReducer.user);
-    const date = useSelector<RootState, Date>((state) => state.roomReducer.date);
-    const isPostSuccess = useSelector<RootState, boolean>((state) => state.roomReducer.isPostSuccess);
+    const date = useSelector<RootState, Date>((state) => state.roomReducer["date"]);
+    const isPostSuccess = useSelector<RootState, boolean>((state) => state.roomReducer["isPostSuccess"]);
     const alert = useSelector<RootState, IAlert | null>((state) => state.alertReducer.alert);
     const users = useSelector<RootState, IInvitedUser[]>((state) => state.userReducer.invitedUsers);
-    const lostPage = useSelector<RootState, string>((state) => state.roomReducer.lostPage);
-
+    const lostPage = useSelector<RootState, string>((state) => state.roomReducer["lostPage"]);
+    const loading = useSelector<RootState, boolean>((state) => state.roomReducer.loading);
     const params = useParams<{id?: string}>();
 
     const [open, setOpen] = useState(false);
@@ -84,6 +85,11 @@ const Room: React.FC = () => {
         const authenticateToken = localStorage.getItem("authenticateToken");
         authenticateToken && dispatch(fetchPostBookingRoom(authenticateToken, postBooking));
     }
+
+    if (loading) {
+        return <Loading/>
+    }
+
 
     return (
         <>

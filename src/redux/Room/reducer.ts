@@ -29,16 +29,23 @@ const initialState: IRoomState = {
 export default (state = initialState, action: RoomActionTypes) => {
     switch (action.type) {
         case FETCH_GET_ROOM_REQUEST: {
-            return state;
+            return {
+                ...state,
+                loading: true
+            }
         }
         case FETCH_GET_ROOM_SUCCESS: {
             return {
                 ...state,
-                room: action.payload.room
+                room: action.payload.room,
+                loading: false
             }
         }
         case FETCH_GET_ROOM_FAILURE: {
-            return state;
+            return {
+                ...state,
+                loading: false
+            }
         }
         case FETCH_GET_BOOKING_ROOM_REQUEST: {
             return state;

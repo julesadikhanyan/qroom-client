@@ -40,7 +40,7 @@ const Rooms: React.FC = () => {
     }, []);
 
     const user = useSelector<RootState, IUser | null>((state) => state.userReducer.user);
-    const loading = useSelector<RootState, boolean>((state) => state.roomReducer.loading);
+    const loading = useSelector<RootState, boolean>((state) => state.roomReducer["loading"]);
     const rooms = useSelector<RootState, IRoom[]>((state) => state.roomReducer.rooms);
     const error = useSelector<RootState, IError | null>((state) => state.roomReducer.error);
 
