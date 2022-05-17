@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from "react";
 import { Grid, Box, Typography, Stack } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
+import SimpleBar from 'simplebar-react';
+import 'simplebar/dist/simplebar.min.css';
 
 import DarkHeader from "../../components/DarkHeader";
 import theme from "../../style/theme";
@@ -52,23 +54,22 @@ const Room: React.FC = () => {
     }
 
     useEffect(() => {
-        dispatch(fetchGetRoom("eb3c28e8-28e9-4788-afa1-758061a2f354"));
+        params.id && dispatch(fetchGetRoom(params.id));
     }, []);
 
     useEffect(() => {
-        dispatch(fetchGetBookingRoom("eb3c28e8-28e9-4788-afa1-758061a2f354", date));
+        params.id && dispatch(fetchGetBookingRoom(params.id, date));
     }, [isPostSuccess]);
 
     useEffect(() => {
         const id = params.id;
         return () => {
-            console.log(id);
             dispatch(setLostPage(`/rooms/${id}`))
         }
     }, []);
 
     const setMeetingDate = (newDate: Date) => {
-        dispatch(fetchGetBookingRoom("eb3c28e8-28e9-4788-afa1-758061a2f354", newDate));
+        params.id && dispatch(fetchGetBookingRoom(params.id, newDate));
     }
 
     const setSegment = (bookingSegment: IBookingSegment) => {
@@ -96,61 +97,63 @@ const Room: React.FC = () => {
                     <DarkHeader name={user?.name} logOut={logOut} lostPage={lostPage}/>
                     <Grid container>
                         <Grid item xs={12} xl={6}>
-                            <Box sx={{
-                                textAlign: "center",
-                                paddingTop: "40px"
-                            }}>
-                                <Stack spacing={2}>
-                                    <Typography sx={{
-                                        fontSize: 36,
-                                        [theme.breakpoints.down("md")]: {
-                                            fontSize: 24
+                            <SimpleBar style={{ maxHeight: "calc(100vh - 70px)" }}>
+                                <Box sx={{
+                                    textAlign: "center",
+                                    paddingTop: "40px"
+                                }}>
+                                    <Stack spacing={2}>
+                                        <Typography sx={{
+                                            fontSize: 36,
+                                            [theme.breakpoints.down("md")]: {
+                                                fontSize: 24
+                                            }
+                                        }}>Meeting Room {room.name}</Typography>
+                                        <Typography>NUMBER OF SEATS: {room.numberOfSeats}</Typography>
+                                        <Typography>FLOOR: {room.floor}</Typography>
+                                    </Stack>
+                                    <Box sx={{ marginTop: "20px" }}>
+                                        <Typography sx={{
+                                            fontWeight: "bold"
+                                        }}>BOOKING SCHEDULE</Typography>
+                                        <Typography sx={{
+                                            marginBottom: "10px"
+                                        }}>{date?.toLocaleDateString()}</Typography>
+                                        {
+                                            bookingSegments.length > 0 && bookingSegments.map((bookingSegment)  =>
+                                                <Box
+                                                    key={bookingSegment.time.start.getTime()}
+                                                    onClick={() => {
+                                                        if (bookingSegment.id === "-1") {
+                                                            handleClickOpen();
+                                                            setSegment(bookingSegment);
+                                                        }
+                                                    }}
+                                                    sx={{
+                                                        display: "flex",
+                                                        justifyContent: "space-between",
+                                                        alignItems: "center",
+                                                        height: 70,
+                                                        backgroundColor:
+                                                            bookingSegment.id === "-1" ?
+                                                                theme.palette.secondary.main : theme.palette.primary.main,
+                                                        color: "#FFFFFF",
+                                                        borderBottom: "1px solid #FFFFFF",
+                                                        padding: "0 20px 0 20px",
+                                                        cursor: "pointer",
+                                                    }}
+                                                >
+                                                    <Typography>
+                                                        {bookingSegment.time.start.toLocaleTimeString().slice(0, 5)} - {
+                                                        bookingSegment.time.end.toLocaleTimeString().slice(0, 5)}
+                                                    </Typography>
+                                                    <Typography>{bookingSegment.id === "-1" ? "FREE" : "NOT FREE"}</Typography>
+                                                </Box>
+                                            )
                                         }
-                                    }}>Meeting Room {room.name}</Typography>
-                                    <Typography>NUMBER OF SEATS: {room.numberOfSeats}</Typography>
-                                    <Typography>FLOOR: {room.floor}</Typography>
-                                </Stack>
-                                <Box sx={{ marginTop: "20px" }}>
-                                    <Typography sx={{
-                                        fontWeight: "bold"
-                                    }}>BOOKING SCHEDULE</Typography>
-                                    <Typography sx={{
-                                        marginBottom: "10px"
-                                    }}>{date?.toLocaleDateString()}</Typography>
-                                    {
-                                        bookingSegments.length > 0 && bookingSegments.map((bookingSegment)  =>
-                                            <Box
-                                                key={bookingSegment.time.start.getTime()}
-                                                onClick={() => {
-                                                    if (bookingSegment.id === "-1") {
-                                                        handleClickOpen();
-                                                        setSegment(bookingSegment);
-                                                    }
-                                                }}
-                                                sx={{
-                                                    display: "flex",
-                                                    justifyContent: "space-between",
-                                                    alignItems: "center",
-                                                    height: 70,
-                                                    backgroundColor:
-                                                        bookingSegment.id === "-1" ?
-                                                            theme.palette.secondary.main : theme.palette.primary.main,
-                                                    color: "#FFFFFF",
-                                                    borderBottom: "1px solid #FFFFFF",
-                                                    padding: "0 20px 0 20px",
-                                                    cursor: "pointer",
-                                                }}
-                                            >
-                                                <Typography>
-                                                    {bookingSegment.time.start.toLocaleTimeString().slice(0, 5)} - {
-                                                    bookingSegment.time.end.toLocaleTimeString().slice(0, 5)}
-                                                </Typography>
-                                                <Typography>{bookingSegment.id === "-1" ? "FREE" : "NOT FREE"}</Typography>
-                                            </Box>
-                                        )
-                                    }
+                                    </Box>
                                 </Box>
-                            </Box>
+                            </SimpleBar>
                         </Grid>
                         <Grid item xs={12} xl={6}>
                             <Box sx={{
