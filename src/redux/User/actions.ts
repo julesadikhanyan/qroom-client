@@ -2,6 +2,8 @@ import axios from "axios";
 import {Dispatch} from "redux";
 
 import {saveDataInLocalStorage} from "../../helper/saveDataInLocalStorage";
+import { historyHelper } from "../../helper/historyHelper";
+
 import {
     CLEAN_USER,
     CleanUserAction,
@@ -21,10 +23,16 @@ import {
     FetchSignUpUserFailureAction,
     FetchSignUpUserRequestAction,
     FetchSignUpUserSuccessAction,
+    FETCH_GET_HISTORY_FAILURE,
+    FETCH_GET_HISTORY_REQUEST,
+    FETCH_GET_HISTORY_SUCCESS,
+    FetchGetHistoryFailureAction,
+    FetchGetHistoryRequestAction,
+    FetchGetHistorySuccessAction,
     IInvitedUser,
     IUser
 } from "./types";
-import {IError} from "../Room/types";
+import {IError, IBookingSegment} from "../Room/types";
 
 export const fetchSignUpUserRequest = (): FetchSignUpUserRequestAction => {
     return {
@@ -89,6 +97,33 @@ export const fetchGetUsersSuccess = (invitedUsers: IInvitedUser[]): FetchGetUser
     }
 }
 
+export const fetchGetHistoryRequest = (): FetchGetHistoryRequestAction => {
+    return {
+        type: FETCH_GET_HISTORY_REQUEST
+    }
+}
+
+export const fetchGetHistorySuccess =
+    (organizedMeetings: IBookingSegment[], invitations: IBookingSegment[], pastMeetings: IBookingSegment[]): FetchGetHistorySuccessAction => {
+    return {
+        type: FETCH_GET_HISTORY_SUCCESS,
+        payload: {
+            organizedMeetings: organizedMeetings,
+            invitations: invitations,
+            pastMeetings: pastMeetings
+        }
+    }
+}
+
+export const fetchGetHistoryFailure = (error: IError): FetchGetHistoryFailureAction => {
+    return {
+        type: FETCH_GET_HISTORY_FAILURE,
+        payload: {
+            error: error
+        }
+    }
+}
+
 export const cleanUser = (): CleanUserAction => {
     return {
         type: CLEAN_USER
@@ -143,4 +178,24 @@ export function fetchGetUsers(token: string) {
                 dispatch(fetchGetUsersSuccess(response.data));
             })
     }
+}
+
+export function fetchGetHistory (token: string, id: string) {
+    return function (dispatch: Dispatch<FetchGetHistoryRequestAction | FetchGetHistorySuccessAction | FetchGetHistoryFailureAction>) {
+        const authAxios = axios.create({
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        dispatch(fetchGetHistoryRequest());
+        authAxios.get("https://qroom-server.herokuapp.com/users/history")
+            .then(response => {
+                const meetings = historyHelper(response.data, id);
+                dispatch(fetchGetHistorySuccess(meetings.organizedMeetings, meetings.invitations, meetings.pastMeetings));
+            })
+            .catch((error) => {
+                dispatch(fetchGetHistoryFailure({ data: error.response.data, status: error.response.status }));
+            })
+    }
+
 }

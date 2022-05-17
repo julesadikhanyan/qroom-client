@@ -1,11 +1,16 @@
 import {
     CLEAN_USER,
-    FETCH_GET_USERS_REQUEST, FETCH_GET_USERS_SUCCESS,
+    FETCH_GET_USERS_REQUEST,
+    FETCH_GET_USERS_SUCCESS,
     FETCH_LOG_IN_USER_FAILURE,
-    FETCH_LOG_IN_USER_REQUEST, FETCH_LOG_IN_USER_SUCCESS,
+    FETCH_LOG_IN_USER_REQUEST,
+    FETCH_LOG_IN_USER_SUCCESS,
     FETCH_SIGN_UP_USER_FAILURE,
     FETCH_SIGN_UP_USER_REQUEST,
     FETCH_SIGN_UP_USER_SUCCESS,
+    FETCH_GET_HISTORY_FAILURE,
+    FETCH_GET_HISTORY_REQUEST,
+    FETCH_GET_HISTORY_SUCCESS,
     IUserState,
     UserActionTypes
 } from "./types";
@@ -22,7 +27,10 @@ const initialState: IUserState = {
     },
     loading: false,
     invitedUsers: [],
-    error: null
+    error: null,
+    organizedMeetings: [],
+    invitations: [],
+    pastMeetings: []
 }
 
 export default (state = initialState, action: UserActionTypes) => {
@@ -74,6 +82,23 @@ export default (state = initialState, action: UserActionTypes) => {
             return {
                 ...state,
                 invitedUsers: action.payload.invitedUsers
+            }
+        }
+        case FETCH_GET_HISTORY_REQUEST: {
+            return state;
+        }
+        case FETCH_GET_HISTORY_SUCCESS: {
+            return {
+                ...state,
+                organizedMeetings: action.payload.organizedMeetings,
+                invitations: action.payload.invitations,
+                pastMeetings: action.payload.pastMeetings
+            }
+        }
+        case FETCH_GET_HISTORY_FAILURE: {
+            return {
+                ...state,
+                error: action.payload.error
             }
         }
         case CLEAN_USER: {

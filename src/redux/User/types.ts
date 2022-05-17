@@ -1,4 +1,4 @@
-import {IError} from "../Room/types";
+import {IBookingSegment, IError} from "../Room/types";
 
 export const FETCH_SIGN_UP_USER_REQUEST = "FETCH_SIGN_UP_USER_REQUEST";
 export const FETCH_SIGN_UP_USER_SUCCESS = "FETCH_SIGN_UP_USER_SUCCESS";
@@ -10,6 +10,10 @@ export const FETCH_LOG_IN_USER_FAILURE = "FETCH_LOG_IN_USER_FAILURE";
 
 export const FETCH_GET_USERS_REQUEST = "FETCH_GET_USERS_REQUEST";
 export const FETCH_GET_USERS_SUCCESS = "FETCH_GET_USERS_SUCCESS";
+
+export const FETCH_GET_HISTORY_REQUEST = "FETCH_GET_HISTORY_REQUEST";
+export const FETCH_GET_HISTORY_SUCCESS = "FETCH_GET_HISTORY_SUCCESS";
+export const FETCH_GET_HISTORY_FAILURE = "FETCH_GET_HISTORY_FAILURE";
 
 export const CLEAN_USER = "CLEAN_USER";
 
@@ -31,7 +35,10 @@ export interface IUserState {
     user: IUser,
     loading: boolean,
     invitedUsers: IInvitedUser[],
-    error: IError | null
+    error: IError | null,
+    organizedMeetings: IBookingSegment[],
+    invitations: IBookingSegment[],
+    pastMeetings: IBookingSegment[]
 }
 
 export interface ITokens {
@@ -86,6 +93,26 @@ export interface FetchGetUsersSuccessAction {
     }
 }
 
+export interface FetchGetHistoryRequestAction {
+    type: typeof FETCH_GET_HISTORY_REQUEST
+}
+
+export interface FetchGetHistorySuccessAction {
+    type: typeof FETCH_GET_HISTORY_SUCCESS,
+    payload: {
+        organizedMeetings: IBookingSegment[],
+        invitations: IBookingSegment[],
+        pastMeetings: IBookingSegment[]
+    }
+}
+
+export interface FetchGetHistoryFailureAction {
+    type: typeof FETCH_GET_HISTORY_FAILURE,
+    payload: {
+        error: IError
+    }
+}
+
 export interface CleanUserAction {
     type: typeof CLEAN_USER
 }
@@ -99,4 +126,7 @@ export type  UserActionTypes =
     | FetchLogInUserFailureAction
     | FetchGetUsersRequestAction
     | FetchGetUsersSuccessAction
+    | FetchGetHistoryRequestAction
+    | FetchGetHistorySuccessAction
+    | FetchGetHistoryFailureAction
     | CleanUserAction;

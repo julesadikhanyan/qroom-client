@@ -15,6 +15,20 @@ const StyledTypography = styled(Typography)({
     textAlign: "center"
 });
 
+const RoomBox = styled(Box)({
+    position: "relative",
+    width: 290,
+    height: 350,
+    border: `1px solid ${theme.palette.primary.main}`,
+    borderRadius: 2,
+    cursor: "pointer",
+    margin: "auto",
+    [theme.breakpoints.only('xs')]: {
+        width: 260,
+        height: 330
+    }
+});
+
 const Rooms: React.FC = () => {
     const history = useHistory();
     const dispatch = useDispatch();
@@ -60,22 +74,7 @@ const Rooms: React.FC = () => {
                         {
                             rooms.map((room) =>
                                 <Grid key={room.id} item xl={4} md={6} xs={12}>
-                                    <Box
-                                        onClick={() => history.push(`/rooms/${room.id}`)}
-                                        sx={{
-                                            position: "relative",
-                                            width: 290,
-                                            height: 350,
-                                            border: `1px solid ${theme.palette.primary.main}`,
-                                            borderRadius: 2,
-                                            cursor: "pointer",
-                                            margin: "auto",
-                                            [theme.breakpoints.only('xs')]: {
-                                                width: 260,
-                                                height: 330
-                                            }
-                                        }}
-                                    >
+                                    <RoomBox onClick={() => history.push(`/rooms/${room.id}`)}>
                                         <Box sx={{
                                             width: "100%",
                                             height: "30%",
@@ -92,7 +91,7 @@ const Rooms: React.FC = () => {
                                             <Typography>Meeting Room {room.name}</Typography>
                                             <Typography>{room.numberOfSeats} seats</Typography>
                                         </Box>
-                                    </Box>
+                                    </RoomBox>
                                 </Grid>
                             )
                         }
