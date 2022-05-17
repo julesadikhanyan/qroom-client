@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { Grid, Box, Typography, Stack } from "@mui/material";
+import {Grid, Box, Typography, Stack, TextField} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import SimpleBar from 'simplebar-react';
 import 'simplebar/dist/simplebar.min.css';
@@ -21,6 +21,8 @@ import {deleteAlert} from "../../redux/Alert/actions";
 import {fetchGetUsers, logOutUser} from "../../redux/User/actions";
 import {useParams} from "react-router-dom";
 import Loading from "../../components/Loading";
+import {DatePicker, LocalizationProvider} from "@mui/lab";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
 
 const Room: React.FC = () => {
     const dispatch = useDispatch();
@@ -122,9 +124,29 @@ const Room: React.FC = () => {
                                         <Typography sx={{
                                             fontWeight: "bold"
                                         }}>BOOKING SCHEDULE</Typography>
-                                        <Typography sx={{
-                                            marginBottom: "10px"
-                                        }}>{date?.toLocaleDateString()}</Typography>
+                                        <Box sx={{
+                                            width: "50%",
+                                            margin: "auto",
+                                            marginBottom: "20px",
+                                            marginTop: "20px"
+                                        }}>
+                                            {
+                                                date &&
+                                                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                                    <DatePicker
+                                                        disableMaskedInput
+                                                        onChange={(newDate) => {
+                                                            newDate && setMeetingDate(newDate)
+                                                        }}
+                                                        value={date}
+                                                        minDate={new Date()}
+                                                        renderInput={(params) =>
+                                                            <TextField {...params} fullWidth/>
+                                                        }
+                                                    />
+                                                </LocalizationProvider>
+                                            }
+                                        </Box>
                                         {
                                             bookingSegments.length > 0 && bookingSegments.map((bookingSegment)  =>
                                                 <Box

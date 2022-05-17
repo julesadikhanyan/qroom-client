@@ -88,7 +88,9 @@ const Rooms: React.FC = () => {
                         {
                             rooms.map((room) =>
                                 <Grid key={room.id} item xl={4} md={6} xs={12}>
-                                    <RoomBox onClick={() => history.push(`/rooms/${room.id}`)}>
+                                    <RoomBox
+                                        sx={{ backgroundImage: `url(https://69fa-5-167-210-139.ngrok.io/${room.photoUrl})` }}
+                                        onClick={() => history.push(`/rooms/${room.id}`)}>
                                         {
                                             room.isFree &&
                                             <Typography

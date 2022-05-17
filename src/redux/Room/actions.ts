@@ -152,7 +152,7 @@ export const setLostPage = (lostPage: string): SetLostPageAction => {
 export function fetchGetRoom(id: string) {
     return function (dispatch: Dispatch<FetchGetRoomRequestAction | FetchGetRoomSuccessAction | FetchGetRoomFailureAction>){
         dispatch(fetchGetRoomRequest());
-        axios.get(`https://qroom-server.herokuapp.com/rooms/${id}`)
+        axios.get(`https://69fa-5-167-210-139.ngrok.io/rooms/${id}`)
             .then(response => {
                 dispatch(fetchGetRoomSuccess(response.data));
             })
@@ -167,7 +167,7 @@ export function fetchGetBookingRoom(id: string, date: Date) {
     const dateStr = date.toLocaleDateString();
     return function (dispatch: Dispatch<FetchGetBookingRoomRequestAction | FetchGetBookingRoomSuccessAction | FetchGetBookingRoomFailureAction>){
         dispatch(fetchGetBookingRoomRequest());
-        axios.get(`https://qroom-server.herokuapp.com/rooms/booking?room_uuid=${id}&date=${dateStr}`)
+        axios.get(`https://69fa-5-167-210-139.ngrok.io/rooms/booking?room_uuid=${id}&date=${dateStr}`)
             .then(response => {
                 const booking = timeHelper(response.data, date);
                 dispatch(fetchGetBookingRoomSuccess(booking, date));
@@ -187,7 +187,7 @@ export function fetchPostBookingRoom(token: string, postBooking: IPostBooking) {
                 Authorization: `Bearer ${token}`
             }
         });
-        authAxios.post(`https://qroom-server.herokuapp.com/rooms/booking/`, postBooking)
+        authAxios.post(`https://69fa-5-167-210-139.ngrok.io/rooms/booking/`, postBooking)
             .then((response) => {
                 dispatch(fetchPostBookingRoomSuccess());
                 dispatch(setAlert({ data: response.data, status: response.status }));
@@ -202,7 +202,7 @@ export function fetchPostBookingRoom(token: string, postBooking: IPostBooking) {
 export function fetchGetRooms () {
     return function (dispatch: Dispatch<FetchGetRoomsRequestAction | FetchGetRoomsSuccessAction | FetchGetRoomsFailureAction>) {
         dispatch(fetchGetRoomsRequest());
-        axios.get("https://qroom-server.herokuapp.com/rooms")
+        axios.get("https://69fa-5-167-210-139.ngrok.io/rooms")
             .then(response => {
                 dispatch(fetchGetRoomsSuccess(response.data));
             })

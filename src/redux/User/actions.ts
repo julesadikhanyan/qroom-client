@@ -159,7 +159,7 @@ export const logOutUser = (): LogOutUserAction => {
 export function fetchSignUpUser(name: string, login: string, password: string) {
     return function (dispatch: Dispatch<FetchSignUpUserRequestAction | FetchSignUpUserSuccessAction | FetchSignUpUserFailureAction>) {
         dispatch(fetchSignUpUserRequest());
-        axios.post("https://qroom-server.herokuapp.com/users/register", {
+        axios.post("https://69fa-5-167-210-139.ngrok.io/users/register", {
             name: name,
             login: login,
             password: password
@@ -177,7 +177,7 @@ export function fetchSignUpUser(name: string, login: string, password: string) {
 export function fetchLogInUser(login: string, password: string) {
     return function (dispatch: Dispatch<FetchLogInUserRequestAction | FetchLogInUserSuccessAction | FetchLogInUserFailureAction>) {
         dispatch(fetchLogInUserRequest());
-        axios.post("https://qroom-server.herokuapp.com/users/authenticate", {
+        axios.post("https://69fa-5-167-210-139.ngrok.io/users/authenticate", {
             login: login,
             password: password
         })
@@ -199,7 +199,7 @@ export function fetchGetUsers(token: string) {
     });
     return function (dispatch: Dispatch<FetchGetUsersRequestAction | FetchGetUsersSuccessAction>) {
         dispatch(fetchGetUsersRequest());
-        authAxios.get("https://qroom-server.herokuapp.com/users")
+        authAxios.get("https://69fa-5-167-210-139.ngrok.io/users")
             .then(response => {
                 dispatch(fetchGetUsersSuccess(response.data));
             })
@@ -214,7 +214,7 @@ export function fetchGetHistory (token: string, id: string) {
             }
         });
         dispatch(fetchGetHistoryRequest());
-        authAxios.get("https://qroom-server.herokuapp.com/users/history")
+        authAxios.get("https://69fa-5-167-210-139.ngrok.io/users/history")
             .then(response => {
                 const meetings = historyHelper(response.data, id);
                 dispatch(fetchGetHistorySuccess(meetings.organizedMeetings, meetings.invitations, meetings.pastMeetings));
