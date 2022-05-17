@@ -30,7 +30,8 @@ const initialState: IUserState = {
     error: null,
     organizedMeetings: [],
     invitations: [],
-    pastMeetings: []
+    pastMeetings: [],
+    historyLoading: true
 }
 
 export default (state = initialState, action: UserActionTypes) => {
@@ -85,20 +86,25 @@ export default (state = initialState, action: UserActionTypes) => {
             }
         }
         case FETCH_GET_HISTORY_REQUEST: {
-            return state;
+            return {
+                ...state,
+                historyLoading: true
+            }
         }
         case FETCH_GET_HISTORY_SUCCESS: {
             return {
                 ...state,
                 organizedMeetings: action.payload.organizedMeetings,
                 invitations: action.payload.invitations,
-                pastMeetings: action.payload.pastMeetings
+                pastMeetings: action.payload.pastMeetings,
+                historyLoading: false
             }
         }
         case FETCH_GET_HISTORY_FAILURE: {
             return {
                 ...state,
-                error: action.payload.error
+                error: action.payload.error,
+                historyLoading: false
             }
         }
         case CLEAN_USER: {

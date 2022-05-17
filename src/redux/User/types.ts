@@ -38,7 +38,8 @@ export interface IUserState {
     error: IError | null,
     organizedMeetings: IBookingSegment[],
     invitations: IBookingSegment[],
-    pastMeetings: IBookingSegment[]
+    pastMeetings: IBookingSegment[],
+    historyLoading: boolean
 }
 
 export interface ITokens {
