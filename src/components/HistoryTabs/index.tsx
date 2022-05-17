@@ -1,9 +1,9 @@
-import React, {SyntheticEvent, useState} from "react";
+import React, {SyntheticEvent, useEffect, useState} from "react";
 import {Box, Grid, Stack, styled, Tab, Tabs, Typography} from "@mui/material";
 import {IBookingSegment, IRoom} from "../../redux/Room/types";
 import { RoomBox } from "../../pages/Rooms";
 import theme from "../../style/theme";
-
+import HistoryForm from "../HistoryForm";
 
 export const InfoBox = styled(Box)({
     width: "100%",
@@ -69,13 +69,16 @@ export interface IHistoryTabsProps {
     organizedMeetings: IBookingSegment[],
     invitations: IBookingSegment[],
     pastMeetings: IBookingSegment[],
-    rooms: IRoom[]
+    rooms: IRoom[],
+    activeMeeting: IBookingSegment | null,
+    setActiveMeeting: (meeting: IBookingSegment) => void,
+    deleteActiveMeeting: () => void
 }
 
 const HistoryTabs: React.FC<IHistoryTabsProps>= (props) => {
-    const id = localStorage.getItem("id");
+    const { organizedMeetings, invitations, pastMeetings, rooms, activeMeeting, setActiveMeeting, deleteActiveMeeting } = props;
 
-    const { organizedMeetings, invitations, pastMeetings, rooms } = props;
+    const id = localStorage.getItem("id");
 
     let roomDictionary: {[key: string]: IRoom} = {};
 
@@ -89,6 +92,22 @@ const HistoryTabs: React.FC<IHistoryTabsProps>= (props) => {
         setValue(newValue);
     };
 
+    const [open, setOpen] = React.useState(false);
+
+    useEffect(() => {
+        setOpen(true)
+    }, [activeMeeting !== null]);
+
+    const handleOpen = (meeting: IBookingSegment) => {
+        setActiveMeeting(meeting);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+        deleteActiveMeeting();
+    };
+
+
     return (
         <Box sx={{
             width: "80vw",
@@ -98,7 +117,7 @@ const HistoryTabs: React.FC<IHistoryTabsProps>= (props) => {
                 <Tabs value={value} onChange={handleChange}>
                     <Tab label="Organized meetings" {...a11yProps(0)} />
                     <Tab label="Invitations" {...a11yProps(1)} />
-                    <Tab label="Past meetings" {...a11yProps(1)} />
+                    <Tab label="Past meetings" {...a11yProps(2)} />
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
@@ -110,7 +129,7 @@ const HistoryTabs: React.FC<IHistoryTabsProps>= (props) => {
                 {
                     organizedMeetings.length > 0 && organizedMeetings.map((meeting) =>
                         <Grid key={meeting.id} item xl={4} md={6} xs={12}>
-                            <RoomBox>
+                            <RoomBox onClick={() => handleOpen(meeting)}>
                                 <InfoBox>
                                     <StyledStack spacing={2}>
                                         { meeting.status === "CANCELED" &&
@@ -144,20 +163,13 @@ const HistoryTabs: React.FC<IHistoryTabsProps>= (props) => {
                     {
                         invitations.length > 0 && invitations.map((meeting) =>
                             <Grid key={meeting.id} item xl={4} md={6} xs={12}>
-                                <RoomBox>
+                                <RoomBox onClick={() => handleOpen(meeting)}>
                                     <InfoBox>
                                         <StyledStack spacing={2}>
                                             { id && meeting.invitedUsers[id] === 'PENDING' &&
                                                 <StatusTypography
                                                     variant="button"
-                                                    sx={{
-                                                        backgroundColor: theme.palette.secondary.main,
-                                                        color: "#FFFFFF",
-                                                        fontWeight: "bold",
-                                                        borderRadius: "5px",
-                                                        width: "150px",
-                                                        textAlign: "center"
-                                                    }}
+                                                    sx={{ backgroundColor: theme.palette.secondary.main }}
                                                 >
                                                     PENDING
                                                 </StatusTypography>
@@ -201,7 +213,7 @@ const HistoryTabs: React.FC<IHistoryTabsProps>= (props) => {
                     {
                         pastMeetings.length > 0 && pastMeetings.map((meeting) =>
                             <Grid key={meeting.id} item xl={4} md={6} xs={12}>
-                                <RoomBox>
+                                <RoomBox onClick={() => handleOpen(meeting)}>
                                     <InfoBox>
                                         <StyledStack spacing={2}>
                                             <Typography variant="h5">{meeting.title}</Typography>
@@ -213,11 +225,23 @@ const HistoryTabs: React.FC<IHistoryTabsProps>= (props) => {
                                         </StyledStack>
                                     </InfoBox>
                                 </RoomBox>
+
                             </Grid>
                         )
                     }
                 </Grid>
             </TabPanel>
+            {
+                activeMeeting &&
+                <HistoryForm
+                    open={open}
+                    onClose={handleClose}
+                    meeting={activeMeeting}
+                    roomName={roomDictionary[activeMeeting.roomUuid].name}
+                    userId={id}
+                    userStatus={""}
+                />
+            }
         </Box>
     )
 };

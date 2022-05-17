@@ -17,6 +17,8 @@ export const FETCH_GET_HISTORY_FAILURE = "FETCH_GET_HISTORY_FAILURE";
 
 export const CLEAN_USER = "CLEAN_USER";
 
+export const SET_ACTIVE_MEETING = "SET_ACTIVE_MEETING";
+export const DELETE_ACTIVE_MEETING = "DELETE_ACTIVE_MEETING";
 
 export interface IUser {
     id: string,
@@ -39,7 +41,8 @@ export interface IUserState {
     organizedMeetings: IBookingSegment[],
     invitations: IBookingSegment[],
     pastMeetings: IBookingSegment[],
-    historyLoading: boolean
+    historyLoading: boolean,
+    activeMeeting: IBookingSegment | null
 }
 
 export interface ITokens {
@@ -114,6 +117,18 @@ export interface FetchGetHistoryFailureAction {
     }
 }
 
+export interface SetActiveMeetingAction {
+    type: typeof SET_ACTIVE_MEETING,
+    payload: {
+        activeMeeting: IBookingSegment
+    }
+}
+
+export interface DeleteActiveMeetingAction {
+    type: typeof DELETE_ACTIVE_MEETING
+}
+
+
 export interface CleanUserAction {
     type: typeof CLEAN_USER
 }
@@ -130,4 +145,6 @@ export type  UserActionTypes =
     | FetchGetHistoryRequestAction
     | FetchGetHistorySuccessAction
     | FetchGetHistoryFailureAction
-    | CleanUserAction;
+    | CleanUserAction
+    | SetActiveMeetingAction
+    | DeleteActiveMeetingAction;

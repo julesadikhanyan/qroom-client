@@ -2,11 +2,14 @@ import axios from "axios";
 import {Dispatch} from "redux";
 
 import {saveDataInLocalStorage} from "../../helper/saveDataInLocalStorage";
-import { historyHelper } from "../../helper/historyHelper";
+import {historyHelper} from "../../helper/historyHelper";
 
 import {
     CLEAN_USER,
-    CleanUserAction,
+    CleanUserAction, DELETE_ACTIVE_MEETING, DeleteActiveMeetingAction,
+    FETCH_GET_HISTORY_FAILURE,
+    FETCH_GET_HISTORY_REQUEST,
+    FETCH_GET_HISTORY_SUCCESS,
     FETCH_GET_USERS_REQUEST,
     FETCH_GET_USERS_SUCCESS,
     FETCH_LOG_IN_USER_FAILURE,
@@ -15,6 +18,9 @@ import {
     FETCH_SIGN_UP_USER_FAILURE,
     FETCH_SIGN_UP_USER_REQUEST,
     FETCH_SIGN_UP_USER_SUCCESS,
+    FetchGetHistoryFailureAction,
+    FetchGetHistoryRequestAction,
+    FetchGetHistorySuccessAction,
     FetchGetUsersRequestAction,
     FetchGetUsersSuccessAction,
     FetchLogInUserFailureAction,
@@ -23,16 +29,11 @@ import {
     FetchSignUpUserFailureAction,
     FetchSignUpUserRequestAction,
     FetchSignUpUserSuccessAction,
-    FETCH_GET_HISTORY_FAILURE,
-    FETCH_GET_HISTORY_REQUEST,
-    FETCH_GET_HISTORY_SUCCESS,
-    FetchGetHistoryFailureAction,
-    FetchGetHistoryRequestAction,
-    FetchGetHistorySuccessAction,
     IInvitedUser,
-    IUser
+    IUser, SET_ACTIVE_MEETING,
+    SetActiveMeetingAction
 } from "./types";
-import {IError, IBookingSegment} from "../Room/types";
+import {IBookingSegment, IError} from "../Room/types";
 
 export const fetchSignUpUserRequest = (): FetchSignUpUserRequestAction => {
     return {
@@ -130,6 +131,20 @@ export const cleanUser = (): CleanUserAction => {
     }
 }
 
+export const setActiveMeeting = (activeMeeting: IBookingSegment): SetActiveMeetingAction => {
+    return {
+       type: SET_ACTIVE_MEETING,
+       payload: {
+           activeMeeting: activeMeeting
+       }
+    }
+}
+
+export const deleteActiveMeeting = (): DeleteActiveMeetingAction => {
+    return {
+        type: DELETE_ACTIVE_MEETING
+    }
+}
 export function fetchSignUpUser(name: string, login: string, password: string) {
     return function (dispatch: Dispatch<FetchSignUpUserRequestAction | FetchSignUpUserSuccessAction | FetchSignUpUserFailureAction>) {
         dispatch(fetchSignUpUserRequest());

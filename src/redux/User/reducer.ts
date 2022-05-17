@@ -1,5 +1,8 @@
 import {
-    CLEAN_USER,
+    CLEAN_USER, DELETE_ACTIVE_MEETING,
+    FETCH_GET_HISTORY_FAILURE,
+    FETCH_GET_HISTORY_REQUEST,
+    FETCH_GET_HISTORY_SUCCESS,
     FETCH_GET_USERS_REQUEST,
     FETCH_GET_USERS_SUCCESS,
     FETCH_LOG_IN_USER_FAILURE,
@@ -8,10 +11,7 @@ import {
     FETCH_SIGN_UP_USER_FAILURE,
     FETCH_SIGN_UP_USER_REQUEST,
     FETCH_SIGN_UP_USER_SUCCESS,
-    FETCH_GET_HISTORY_FAILURE,
-    FETCH_GET_HISTORY_REQUEST,
-    FETCH_GET_HISTORY_SUCCESS,
-    IUserState,
+    IUserState, SET_ACTIVE_MEETING,
     UserActionTypes
 } from "./types";
 
@@ -31,7 +31,8 @@ const initialState: IUserState = {
     organizedMeetings: [],
     invitations: [],
     pastMeetings: [],
-    historyLoading: true
+    historyLoading: true,
+    activeMeeting: null
 }
 
 export default (state = initialState, action: UserActionTypes) => {
@@ -112,6 +113,18 @@ export default (state = initialState, action: UserActionTypes) => {
                 ...state,
                 error: initialState.error,
                 loading: initialState.loading
+            }
+        }
+        case SET_ACTIVE_MEETING: {
+            return {
+                ...state,
+                activeMeeting: action.payload.activeMeeting
+            }
+        }
+        case DELETE_ACTIVE_MEETING: {
+            return {
+                ...state,
+                activeMeeting: initialState.activeMeeting
             }
         }
         default: return state;

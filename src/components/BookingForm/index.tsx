@@ -4,7 +4,6 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-
 import {
     Dialog,
     DialogTitle,
@@ -20,7 +19,7 @@ import {
     Stack,
     Box,
     Alert,
-    useMediaQuery, Autocomplete, Checkbox
+    useMediaQuery, Autocomplete, Checkbox, styled
 } from "@mui/material";
 
 import theme from "../../style/theme";
@@ -28,6 +27,39 @@ import {IBookingSegment, IPostBooking} from "../../redux/Room/types";
 import {setDurationHelper, setEndTimeHelper, setStartTimeHelper} from "../../helper/timeHelper";
 import {IAlert} from "../../redux/Alert/types";
 import {IInvitedUser} from "../../redux/User/types";
+
+export const HeaderDialogBox = styled(Box)({
+    flexGrow: 1,
+    display: "flex",
+    backgroundColor: theme.palette.primary.main,
+});
+
+export const StyledDialogTitle = styled(DialogTitle)({
+    flexGrow: 1,
+    fontSize: 24,
+    [theme.breakpoints.down("md")]: {
+        fontSize: 20
+    },
+    color: "#FFFFFF",
+    textAlign: "center",
+    marginBottom: "10px"
+});
+
+export const StyledButton = styled(Button)({
+    width: 200,
+    backgroundColor: theme.palette.secondary.main,
+    color: "#FFFFFF",
+    margin: "auto",
+    marginBottom: "10px",
+    "&:hover": {
+        backgroundColor: theme.palette.secondary.main
+    }
+});
+
+export const StyledCloseIcon = styled(CloseIcon)({
+    cursor: "pointer",
+    color: "#FFFFFF"
+});
 
 export interface IBookingFormProps {
     open: boolean,
@@ -149,26 +181,9 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
                     }
                 }}}
         >
-            <Box sx={{
-                flexGrow: 1,
-                display: "flex",
-                backgroundColor: theme.palette.primary.main
-            }}>
-                <DialogTitle
-                    sx={{
-                        flexGrow: 1,
-                        fontSize: 24,
-                        [theme.breakpoints.down("md")]: {
-                            fontSize: 20
-                        },
-                        color: "#FFFFFF",
-                        textAlign: "center",
-                        marginBottom: "10px"
-                    }}
-                >
-                    BOOKING THE MEETING ROOM
-                </DialogTitle>
-                <CloseIcon
+            <HeaderDialogBox>
+                <StyledDialogTitle>BOOKING THE MEETING ROOM</StyledDialogTitle>
+                <StyledCloseIcon
                     sx={{
                         cursor: "pointer",
                         color: "#FFFFFF"
@@ -179,7 +194,7 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
                         setMeetingDateOnPage(date);
                     }}
                 />
-            </Box>
+            </HeaderDialogBox>
             {
                 alert &&
                 <Alert
@@ -305,17 +320,7 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
                     }
                 </Stack>
             </DialogContent>
-            <Button
-                sx={{
-                    width: 200,
-                    backgroundColor: theme.palette.secondary.main,
-                    color: "#FFFFFF",
-                    margin: "auto",
-                    marginBottom: "10px",
-                    "&:hover": {
-                        backgroundColor: theme.palette.secondary.main
-                    }
-                }}
+            <StyledButton
                 onClick={() => {
                     const usersList = getUsersList(invitedUsers);
                     onSubmit({
@@ -330,7 +335,7 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
                 }}
             >
                 BOOK ROOM
-            </Button>
+            </StyledButton>
         </Dialog>
     )
 }

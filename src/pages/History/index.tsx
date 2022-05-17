@@ -2,7 +2,7 @@ import React from "react";
 import {Box} from "@mui/material";
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchGetHistory} from "../../redux/User/actions";
+import {deleteActiveMeeting, fetchGetHistory, setActiveMeeting} from "../../redux/User/actions";
 import Loading from "../../components/Loading";
 import {RootState} from "../../redux/store";
 import DarkHeader from "../../components/DarkHeader";
@@ -22,6 +22,15 @@ const History = () => {
     const organizedMeetings = useSelector<RootState, IBookingSegment[]>((state) => state.userReducer.organizedMeetings);
     const invitations = useSelector<RootState, IBookingSegment[]>((state) => state.userReducer.invitations);
     const pastMeetings = useSelector<RootState, IBookingSegment[]>((state) => state.userReducer.pastMeetings);
+    const activeMeeting = useSelector<RootState, IBookingSegment | null>((state) => state.userReducer.activeMeeting);
+
+    const setActiveMeetingOnPage = (meeting: IBookingSegment) => {
+        dispatch(setActiveMeeting(meeting));
+    }
+
+    const deleteActiveMeetingOnPage = () => {
+        dispatch(deleteActiveMeeting());
+    }
 
     useEffect(() => {
         const authenticateToken = localStorage.getItem("authenticateToken");
@@ -43,6 +52,9 @@ const History = () => {
                 invitations={invitations}
                 pastMeetings={pastMeetings}
                 rooms={rooms}
+                activeMeeting={activeMeeting}
+                setActiveMeeting={setActiveMeetingOnPage}
+                deleteActiveMeeting={deleteActiveMeetingOnPage}
             />
         </Box>
     )
