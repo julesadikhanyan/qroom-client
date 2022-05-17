@@ -8,7 +8,7 @@ import { RootState } from "../../redux/store";
 import { IUser } from "../../redux/User/types";
 import Loading from "../../components/Loading";
 import { ContentBox, FormBox, FormStack, SubmitButton, TitleTypography } from "../SignUp";
-import { cleanUser, fetchLogInUser } from "../../redux/User/actions";
+import {cleanUser, fetchLogInUser, logOutUser} from "../../redux/User/actions";
 import {IError} from "../../redux/Room/types";
 
 export interface IFormInput {
@@ -28,6 +28,11 @@ const LogIn: React.FC = () => {
             dispatch(cleanUser());
         }
     }, []);
+
+    const logOut = () => {
+        dispatch(logOutUser());
+    }
+
     const { control, handleSubmit, reset } = useForm<IFormInput>();
 
     const onSubmit: SubmitHandler<IFormInput> = data => {
@@ -50,7 +55,7 @@ const LogIn: React.FC = () => {
             <Box sx={{
                 height: "100vh"
             }}>
-                <DarkHeader name={user?.name}/>
+                <DarkHeader name={user?.name} logOut={logOut}/>
                 {
                     error &&
                     <Alert severity="error" sx={{

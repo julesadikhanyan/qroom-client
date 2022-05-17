@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import DarkHeader from "../../components/DarkHeader";
 import theme from "../../style/theme";
-import {cleanUser, fetchSignUpUser} from "../../redux/User/actions";
+import {cleanUser, fetchSignUpUser, logOutUser} from "../../redux/User/actions";
 import { RootState } from "../../redux/store";
 import { IUser } from "../../redux/User/types";
 import Loading from "../../components/Loading";
@@ -99,11 +99,15 @@ const SignUp: React.FC = () => {
         return <Loading/>
     }
 
+    const logOut = () => {
+        dispatch(logOutUser());
+    }
+
     return (
         <Box sx={{
             height: "100vh"
         }}>
-            <DarkHeader name={user?.name}/>
+            <DarkHeader name={user?.name} logOut={logOut}/>
             {
                 error &&
                 <Alert severity="error" sx={{

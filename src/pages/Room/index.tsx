@@ -16,7 +16,7 @@ import {IBookingSegment, IPostBooking, IRoom} from "../../redux/Room/types";
 import {IInvitedUser, IUser} from "../../redux/User/types";
 import {IAlert} from "../../redux/Alert/types";
 import {deleteAlert} from "../../redux/Alert/actions";
-import {fetchGetUsers} from "../../redux/User/actions";
+import {fetchGetUsers, logOutUser} from "../../redux/User/actions";
 
 const Room: React.FC = () => {
     const dispatch = useDispatch();
@@ -41,6 +41,10 @@ const Room: React.FC = () => {
     const handleClose = () => {
         dispatch(deleteAlert());
         setOpen(false);
+    }
+
+    const logOut = () => {
+        dispatch(logOutUser());
     }
 
     useEffect(() => {
@@ -77,7 +81,7 @@ const Room: React.FC = () => {
                         height: "100vh"
                     }
                 }}>
-                    <DarkHeader name={user?.name}/>
+                    <DarkHeader name={user?.name} logOut={logOut}/>
                     <Grid container>
                         <Grid item xs={12} xl={6}>
                             <Box sx={{

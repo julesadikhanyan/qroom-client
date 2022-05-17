@@ -30,7 +30,7 @@ import {
     FetchSignUpUserRequestAction,
     FetchSignUpUserSuccessAction,
     IInvitedUser,
-    IUser, SET_ACTIVE_MEETING,
+    IUser, LOG_OUT_USER, LogOutUserAction, SET_ACTIVE_MEETING,
     SetActiveMeetingAction
 } from "./types";
 import {IBookingSegment, IError} from "../Room/types";
@@ -143,6 +143,17 @@ export const setActiveMeeting = (activeMeeting: IBookingSegment): SetActiveMeeti
 export const deleteActiveMeeting = (): DeleteActiveMeetingAction => {
     return {
         type: DELETE_ACTIVE_MEETING
+    }
+}
+
+export const logOutUser = (): LogOutUserAction => {
+    localStorage.removeItem("name");
+    localStorage.removeItem("login");
+    localStorage.removeItem("authenticateToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("id");
+    return {
+        type: LOG_OUT_USER
     }
 }
 export function fetchSignUpUser(name: string, login: string, password: string) {

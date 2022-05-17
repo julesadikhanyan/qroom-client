@@ -1,11 +1,12 @@
 import React from "react";
-import { AppBar, Box, Button, Toolbar, Typography, Stack, styled } from "@mui/material";
+import {AppBar, Box, Button, Toolbar, Typography, Stack, styled} from "@mui/material";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useHistory, useLocation } from "react-router-dom";
 
 import theme from "../../style/theme";
+import MenuComponent from "../Menu";
 
-const StyledButton = styled(Button)({
+export const StyledButton = styled(Button)({
     border: "1px solid #FFFFFF",
     "&:disabled": {
         border: "none"
@@ -13,11 +14,12 @@ const StyledButton = styled(Button)({
 });
 
 export interface IDarkHeaderProps {
-    name: string | undefined
+    name: string | undefined,
+    logOut: () => void
 }
 
 const DarkHeader: React.FC<IDarkHeaderProps>= (props) => {
-    const { name } = props;
+    const { name, logOut } = props;
 
     const history = useHistory();
     const locations = useLocation();
@@ -71,7 +73,7 @@ const DarkHeader: React.FC<IDarkHeaderProps>= (props) => {
                     </Stack>
                     {
                         name ?
-                            <StyledButton color="inherit">{name}</StyledButton> :
+                            <MenuComponent name={name} logOut={logOut}/> :
                             <Stack
                                 spacing={2}
                                 direction="row"

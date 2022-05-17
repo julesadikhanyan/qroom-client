@@ -1,5 +1,6 @@
 import {
-    CLEAN_USER, DELETE_ACTIVE_MEETING,
+    CLEAN_USER,
+    DELETE_ACTIVE_MEETING,
     FETCH_GET_HISTORY_FAILURE,
     FETCH_GET_HISTORY_REQUEST,
     FETCH_GET_HISTORY_SUCCESS,
@@ -11,7 +12,9 @@ import {
     FETCH_SIGN_UP_USER_FAILURE,
     FETCH_SIGN_UP_USER_REQUEST,
     FETCH_SIGN_UP_USER_SUCCESS,
-    IUserState, SET_ACTIVE_MEETING,
+    IUserState,
+    LOG_OUT_USER,
+    SET_ACTIVE_MEETING,
     UserActionTypes
 } from "./types";
 
@@ -125,6 +128,12 @@ export default (state = initialState, action: UserActionTypes) => {
             return {
                 ...state,
                 activeMeeting: initialState.activeMeeting
+            }
+        }
+        case LOG_OUT_USER: {
+            return {
+                ...state,
+                user: initialState.user
             }
         }
         default: return state;

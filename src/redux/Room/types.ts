@@ -23,7 +23,8 @@ export interface IRoom {
     name: string,
     photoUrl: string,
     numberOfSeats: number,
-    floor: number
+    floor: number,
+    isFree: boolean
 }
 
 export interface IBookingSegment {

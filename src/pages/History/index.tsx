@@ -2,7 +2,7 @@ import React from "react";
 import {Box} from "@mui/material";
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {deleteActiveMeeting, fetchGetHistory, setActiveMeeting} from "../../redux/User/actions";
+import {deleteActiveMeeting, fetchGetHistory, logOutUser, setActiveMeeting} from "../../redux/User/actions";
 import Loading from "../../components/Loading";
 import {RootState} from "../../redux/store";
 import DarkHeader from "../../components/DarkHeader";
@@ -39,13 +39,17 @@ const History = () => {
         dispatch(fetchGetRooms());
     }, []);
 
+    const logOut = () => {
+        dispatch(logOutUser());
+    }
+
     if (loadingRoom || loadingHistory) {
         return <Loading/>
     }
 
     return (
         <Box>
-            <DarkHeader name={user?.name}/>
+            <DarkHeader name={user?.name} logOut={logOut}/>
             <StyledTypography>HISTORY</StyledTypography>
             <HistoryTabs
                 organizedMeetings={organizedMeetings}

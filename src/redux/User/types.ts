@@ -20,6 +20,8 @@ export const CLEAN_USER = "CLEAN_USER";
 export const SET_ACTIVE_MEETING = "SET_ACTIVE_MEETING";
 export const DELETE_ACTIVE_MEETING = "DELETE_ACTIVE_MEETING";
 
+export const LOG_OUT_USER = "LOG_OUT_USER";
+
 export interface IUser {
     id: string,
     login: string,
@@ -133,6 +135,10 @@ export interface CleanUserAction {
     type: typeof CLEAN_USER
 }
 
+export interface LogOutUserAction {
+    type: typeof LOG_OUT_USER
+}
+
 export type  UserActionTypes =
     | FetchSignUpUserRequestAction
     | FetchSignUpUserSuccessAction
@@ -147,4 +153,5 @@ export type  UserActionTypes =
     | FetchGetHistoryFailureAction
     | CleanUserAction
     | SetActiveMeetingAction
-    | DeleteActiveMeetingAction;
+    | DeleteActiveMeetingAction
+    | LogOutUserAction;

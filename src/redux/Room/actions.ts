@@ -195,10 +195,10 @@ export function fetchGetRooms () {
         dispatch(fetchGetRoomsRequest());
         axios.get("https://qroom-server.herokuapp.com/rooms")
             .then(response => {
-                console.log(response.data);
                 dispatch(fetchGetRoomsSuccess(response.data));
             })
             .catch(error => {
+                console.log(error.response);
                 dispatch(fetchGetRoomsFailure({ data: error.response.data, status: error.response.status }));
             })
     }
