@@ -274,31 +274,27 @@ export function fetchGetRooms () {
 }
 
 export function fetchCancelMeeting (bookingId: string) {
-    return function (dispatch: Dispatch<FetchCancelMeetingRequestAction | FetchCancelMeetingSuccessAction | FetchCancelMeetingFailureAction | SetAlertAction>) {
+    return function (dispatch: Dispatch<FetchCancelMeetingRequestAction | FetchCancelMeetingSuccessAction | FetchCancelMeetingFailureAction>) {
         dispatch(fetchCancelMeetingRequest());
         axiosApiInstance.delete(`https://69fa-5-167-210-139.ngrok.io/rooms/booking/${bookingId}`)
             .then((response: { data: string; status: number; }) => {
                 dispatch(fetchCancelMeetingSuccess());
-                dispatch(setAlert({ data: response.data, status: response.status }));
             })
             .catch((error: { response: { data: string; status: number; }; }) => {
                 dispatch(fetchCancelMeetingFailure());
-                dispatch(setAlert({ data: error.response.data, status: error.response.status }));
             });
     }
 }
 
 export function fetchChangeStatus (bookingId: string) {
-    return function (dispatch: Dispatch<FetchChangeStatusFailureAction | FetchChangeStatusSuccessAction | FetchChangeStatusRequestAction | SetAlertAction>) {
+    return function (dispatch: Dispatch<FetchChangeStatusFailureAction | FetchChangeStatusSuccessAction | FetchChangeStatusRequestAction>) {
         dispatch(fetchChangeStatusRequest());
         axiosApiInstance.put(`https://69fa-5-167-210-139.ngrok.io/rooms/booking/${bookingId}`)
             .then((response: { data: string; status: number; }) => {
                 dispatch(fetchChangeStatusSuccess());
-                dispatch(setAlert({ data: response.data, status: response.status }));
             })
             .catch((error: { response: { data: string; status: number; }; }) => {
                 dispatch(fetchChangeStatusFailure());
-                dispatch(setAlert({ data: error.response.data, status: error.response.status }));
             });
     }
 }

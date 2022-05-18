@@ -67,6 +67,7 @@ const Room: React.FC = () => {
 
     const handleClose = () => {
         dispatch(deleteAlert());
+        deleteSegment();
         setOpen(false);
     }
 
