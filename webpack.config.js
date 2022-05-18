@@ -28,9 +28,15 @@ module.exports = {
     },
     plugins: [
         new HTMLWebpackPlugin({
-            template: "./public/index.html"
+            template: "./public/index.html",
+            favicon: "./public/favicon.svg"
         }),
-        new CleanWebpackPlugin()
+        new CleanWebpackPlugin(),
+        new CopyWebpackPlugin({
+            patterns: [
+                { from: './public/favicon.svg' },
+            ]
+        })
     ],
     devServer: {
         historyApiFallback: true
