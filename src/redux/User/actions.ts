@@ -35,6 +35,7 @@ import {
     SetActiveMeetingAction
 } from "./types";
 import {IBookingSegment, IError} from "../Room/types";
+import {axiosApiInstance} from "../../helper/tokenHelper";
 
 export const fetchSignUpUserRequest = (): FetchSignUpUserRequestAction => {
     return {
@@ -199,15 +200,10 @@ export function fetchLogInUser(login: string, password: string) {
 }
 
 export function fetchGetUsers(token: string) {
-    const authAxios = axios.create({
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    });
     return function (dispatch: Dispatch<FetchGetUsersRequestAction | FetchGetUsersSuccessAction>) {
         dispatch(fetchGetUsersRequest());
-        authAxios.get("https://69fa-5-167-210-139.ngrok.io/users")
-            .then(response => {
+        axiosApiInstance.get("https://69fa-5-167-210-139.ngrok.io/users")
+            .then((response: { data: ISystemUser[]; }) => {
                 dispatch(fetchGetUsersSuccess(response.data));
             })
     }
@@ -215,18 +211,13 @@ export function fetchGetUsers(token: string) {
 
 export function fetchGetHistory (token: string, id: string) {
     return function (dispatch: Dispatch<FetchGetHistoryRequestAction | FetchGetHistorySuccessAction | FetchGetHistoryFailureAction>) {
-        const authAxios = axios.create({
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
         dispatch(fetchGetHistoryRequest());
-        authAxios.get("https://69fa-5-167-210-139.ngrok.io/users/history")
-            .then(response => {
+        axiosApiInstance.get("https://69fa-5-167-210-139.ngrok.io/users/history")
+            .then((response: { data: IBookingSegment[]; }) => {
                 const meetings = historyHelper(response.data, id);
                 dispatch(fetchGetHistorySuccess(meetings.organizedMeetings, meetings.invitations, meetings.pastMeetings));
             })
-            .catch((error) => {
+            .catch((error: { response: { data: string; status: number; }; }) => {
                 dispatch(fetchGetHistoryFailure({ data: error.response.data, status: error.response.status }));
             })
     }

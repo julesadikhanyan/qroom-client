@@ -41,6 +41,7 @@ import {
     SetLostPageAction
 } from "./types";
 import {setAlert} from "../Alert/actions";
+import {axiosApiInstance} from "../../helper/tokenHelper";
 
 export const fetchGetRoomRequest = (): FetchGetRoomRequestAction => {
     return {
@@ -196,17 +197,12 @@ export function fetchPostBookingRoom(token: string, postBooking: IPostBooking) {
                              | FetchPostBookingRoomFailureAction
                              | SetAlertAction>) {
         dispatch(fetchPostBookingRoomRequest());
-        const authAxios = axios.create({
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
-        authAxios.post(`https://69fa-5-167-210-139.ngrok.io/rooms/booking/`, postBooking)
-            .then((response) => {
+        axiosApiInstance.post(`https://69fa-5-167-210-139.ngrok.io/rooms/booking/`, postBooking)
+            .then((response: { data: string; status: number; }) => {
                 dispatch(fetchPostBookingRoomSuccess());
                 dispatch(setAlert({ data: response.data, status: response.status }));
             })
-            .catch((error) => {
+            .catch((error: { response: { data: string; status: number; }; }) => {
                 dispatch(fetchPostBookingRoomFailure());
                 dispatch(setAlert({ data: error.response.data, status: error.response.status }));
             });
