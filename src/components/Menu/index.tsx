@@ -77,18 +77,9 @@ const MenuComponent: React.FC<IMenuProps>= (props) => {
                 <MenuItem onClick={() => history.push("/history")}>
                     History
                 </MenuItem>
-                {
-                    location.pathname === "/history" ?
-                        <MenuItem onClick={() => {
-                            logOut();
-                            history.push("/login");
-                        }}>
-                            Log out
-                        </MenuItem> :
-                        <MenuItem onClick={logOut}>
-                            Log out
-                        </MenuItem>
-                }
+                <MenuItem onClick={logOut}>
+                    Log out
+                </MenuItem>
             </StyledMenu>
         </>
     )

@@ -2,18 +2,27 @@ import React from "react";
 import {Box} from "@mui/material";
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {cleanError, deleteActiveMeeting, fetchGetHistory, logOutUser, setActiveMeeting} from "../../redux/User/actions";
+import {
+    cleanError,
+    deleteActiveMeeting,
+    fetchGetHistory,
+    fetchGetUsers,
+    logOutUser,
+    setActiveMeeting
+} from "../../redux/User/actions";
 import Loading from "../../components/Loading";
 import {RootState} from "../../redux/store";
 import DarkHeader from "../../components/DarkHeader";
-import {IUser} from "../../redux/User/types";
+import {ISystemUser, IUser} from "../../redux/User/types";
 import {StyledTypography} from "../Rooms";
 import {IBookingSegment, IRoom} from "../../redux/Room/types";
 import HistoryTabs from "../../components/HistoryTabs";
 import {fetchGetRooms, setLostPage} from "../../redux/Room/actions";
+import {useHistory} from "react-router-dom";
 
 const History = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const loadingHistory = useSelector<RootState, boolean>((state) => state.userReducer["historyLoading"]);
     const rooms = useSelector<RootState, IRoom[]>((state) => state.roomReducer["rooms"]);
@@ -24,6 +33,7 @@ const History = () => {
     const pastMeetings = useSelector<RootState, IBookingSegment[]>((state) => state.userReducer["pastMeetings"]);
     const activeMeeting = useSelector<RootState, IBookingSegment | null>((state) => state.userReducer["activeMeeting"]);
     const lostPage = useSelector<RootState, string >((state) => state.roomReducer["lostPage"]);
+    const systemUsers = useSelector<RootState, ISystemUser[]>((state) => state.userReducer["systemUsers"]);
 
     const setActiveMeetingOnPage = (meeting: IBookingSegment) => {
         dispatch(setActiveMeeting(meeting));
@@ -37,6 +47,7 @@ const History = () => {
         const authenticateToken = localStorage.getItem("authenticateToken");
         const id = localStorage.getItem("id");
         authenticateToken && id && dispatch(fetchGetHistory(authenticateToken, id));
+        authenticateToken && dispatch(fetchGetUsers(authenticateToken));
         dispatch(fetchGetRooms());
     }, []);
 
@@ -49,6 +60,7 @@ const History = () => {
 
     const logOut = () => {
         dispatch(logOutUser());
+        history.push("/login");
     }
 
     if (loadingRoom || loadingHistory) {
@@ -67,6 +79,7 @@ const History = () => {
                 activeMeeting={activeMeeting}
                 setActiveMeeting={setActiveMeetingOnPage}
                 deleteActiveMeeting={deleteActiveMeetingOnPage}
+                systemUsers={systemUsers}
             />
         </Box>
     )

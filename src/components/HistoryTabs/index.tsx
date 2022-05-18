@@ -4,6 +4,7 @@ import {IBookingSegment, IRoom} from "../../redux/Room/types";
 import { RoomBox } from "../../pages/Rooms";
 import theme from "../../style/theme";
 import HistoryForm from "../HistoryForm";
+import {ISystemUser} from "../../redux/User/types";
 
 export const InfoBox = styled(Box)({
     width: "100%",
@@ -72,11 +73,12 @@ export interface IHistoryTabsProps {
     rooms: IRoom[],
     activeMeeting: IBookingSegment | null,
     setActiveMeeting: (meeting: IBookingSegment) => void,
-    deleteActiveMeeting: () => void
+    deleteActiveMeeting: () => void,
+    systemUsers: ISystemUser[]
 }
 
 const HistoryTabs: React.FC<IHistoryTabsProps>= (props) => {
-    const { organizedMeetings, invitations, pastMeetings, rooms, activeMeeting, setActiveMeeting, deleteActiveMeeting } = props;
+    const { organizedMeetings, invitations, pastMeetings, rooms, activeMeeting, setActiveMeeting, deleteActiveMeeting, systemUsers } = props;
 
     const id = localStorage.getItem("id");
 
@@ -240,7 +242,7 @@ const HistoryTabs: React.FC<IHistoryTabsProps>= (props) => {
                     roomName={roomDictionary[activeMeeting.roomUuid].name}
                     userId={id}
                     userStatus={""}
-                    systemUsers={[{ id: "", name: "", login: ""}]}
+                    systemUsers={systemUsers}
                 />
             }
         </Box>

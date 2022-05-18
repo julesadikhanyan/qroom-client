@@ -11,6 +11,7 @@ import theme from "../../style/theme";
 import {HeaderDialogBox, StyledButton, StyledCloseIcon, StyledDialogTitle} from "../BookingForm";
 import {IBookingSegment} from "../../redux/Room/types";
 import {ISystemUser} from "../../redux/User/types";
+import InvitedUsersList from "../InvitedUsersList";
 
 const StyledTypography = styled(Typography)({
     fontWeight: "bold"
@@ -66,7 +67,13 @@ const SimpleDialog: React.FC<IHistoryDialogProps>= (props) => {
                 <StyledTypography variant="h5">END TIME: <span style={{ fontWeight: "normal", fontSize: "20px" }}>{new Date(meeting.time.end).toLocaleTimeString().slice(0, 5)}</span></StyledTypography>
                 <StyledTypography variant="h5">ORGANIZER: <span style={{ fontWeight: "normal", fontSize: "20px" }}>{adminUser.name}</span></StyledTypography>
                 <StyledTypography variant="h5">ORGANIZER EMAIL: <span style={{ fontWeight: "normal", fontSize: "20px" }}>{adminUser.login}</span></StyledTypography>
-                <StyledTypography variant="h5">PARTICIPANTS:</StyledTypography>
+                {
+                    meeting.invitedUsers !== {} &&
+                    <>
+                        <StyledTypography variant="h5">PARTICIPANTS:</StyledTypography>
+                        <InvitedUsersList users={meeting.invitedUsers} systemUsers={systemUsers}/>
+                    </>
+                }
             </DialogContent>
             <DialogActions>
                 { (userId === meeting.adminUuid) && (meeting.status === "BOOKED") &&

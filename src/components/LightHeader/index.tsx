@@ -32,10 +32,12 @@ const LightHeader: React.FC<ILightHeaderProps>= (props) => {
                 <Toolbar>
                     <Typography
                         component="div"
+                        onClick={() => history.push("/rooms")}
                         sx={{
                             flexGrow: 1,
                             fontSize: 36,
-                            fontWeight: "bold"
+                            fontWeight: "bold",
+                            cursor: "pointer"
                         }}
                     >
                         QR

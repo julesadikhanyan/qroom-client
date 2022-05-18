@@ -63,10 +63,12 @@ const DarkHeader: React.FC<IDarkHeaderProps>= (props) => {
                         </Button>
                         <Typography
                             component="div"
+                            onClick={() => history.push("/rooms")}
                             sx={{
                                 fontSize: 36,
                                 fontWeight: "bold",
-                                color: "#FFFFFF"
+                                color: "#FFFFFF",
+                                cursor: "pointer"
                             }}
                         >
                             QR
