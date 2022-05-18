@@ -17,7 +17,7 @@ import {ISystemUser, IUser} from "../../redux/User/types";
 import {StyledTypography} from "../Rooms";
 import {IBookingSegment, IRoom} from "../../redux/Room/types";
 import HistoryTabs from "../../components/HistoryTabs";
-import {fetchGetRooms, setLostPage} from "../../redux/Room/actions";
+import {fetchCancelMeeting, fetchChangeStatus, fetchGetRooms, setLostPage} from "../../redux/Room/actions";
 import {useHistory} from "react-router-dom";
 
 const History = () => {
@@ -34,6 +34,7 @@ const History = () => {
     const activeMeeting = useSelector<RootState, IBookingSegment | null>((state) => state.userReducer["activeMeeting"]);
     const lostPage = useSelector<RootState, string >((state) => state.roomReducer["lostPage"]);
     const systemUsers = useSelector<RootState, ISystemUser[]>((state) => state.userReducer["systemUsers"]);
+    const isPostSuccess = useSelector<RootState, boolean>((state) => state.roomReducer["isPostSuccess"]);
 
     const setActiveMeetingOnPage = (meeting: IBookingSegment) => {
         dispatch(setActiveMeeting(meeting));
@@ -43,13 +44,21 @@ const History = () => {
         dispatch(deleteActiveMeeting());
     }
 
+    const cancelMeeting = (bookingId: string) => {
+        dispatch(fetchCancelMeeting(bookingId));
+    }
+
+    const changeStatus = (bookingId: string) => {
+        dispatch(fetchChangeStatus(bookingId));
+    }
+
     useEffect(() => {
         const authenticateToken = localStorage.getItem("authenticateToken");
         const id = localStorage.getItem("id");
         authenticateToken && id && dispatch(fetchGetHistory(authenticateToken, id));
         authenticateToken && dispatch(fetchGetUsers(authenticateToken));
         dispatch(fetchGetRooms());
-    }, []);
+    }, [isPostSuccess]);
 
     useEffect(() => {
         return () => {
@@ -80,6 +89,9 @@ const History = () => {
                 setActiveMeeting={setActiveMeetingOnPage}
                 deleteActiveMeeting={deleteActiveMeetingOnPage}
                 systemUsers={systemUsers}
+                cancelMeeting={cancelMeeting}
+                isPostStatus={isPostSuccess}
+                changeStatus={changeStatus}
             />
         </Box>
     )

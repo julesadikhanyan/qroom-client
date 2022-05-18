@@ -24,11 +24,13 @@ export interface IHistoryDialogProps {
     roomName: string,
     userId: string | null,
     userStatus: string,
-    systemUsers: ISystemUser[]
+    systemUsers: ISystemUser[],
+    cancelMeeting: (bookingId: string) => void;
+    changeStatus: (bookingId: string) => void
 }
 
 const SimpleDialog: React.FC<IHistoryDialogProps>= (props) => {
-    const { onClose, open, meeting, roomName, userId, userStatus, systemUsers } = props;
+    const { onClose, open, meeting, roomName, userId, userStatus, systemUsers, cancelMeeting, changeStatus } = props;
 
     const matches = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -43,6 +45,8 @@ const SimpleDialog: React.FC<IHistoryDialogProps>= (props) => {
             adminUser = user;
         }
     });
+
+    console.log(userStatus);
 
     return (
         <Dialog
@@ -75,23 +79,23 @@ const SimpleDialog: React.FC<IHistoryDialogProps>= (props) => {
                     </>
                 }
             </DialogContent>
-            <DialogActions>
+            <DialogActions sx={{ display: "flex", justifyContent: "center" }}>
                 { (userId === meeting.adminUuid) && (meeting.status === "BOOKED") &&
-                    <StyledButton>CANCEL THE MEETING</StyledButton>
+                    <StyledButton onClick={() => cancelMeeting(meeting.id)}>CANCEL THE MEETING</StyledButton>
                 }
                 {
                     userId !== meeting.adminUuid && userStatus === "CONFIRMED" &&
-                    <StyledButton>I WILL NOT ATTEND</StyledButton>
+                    <StyledButton onClick={() => cancelMeeting(meeting.id)}>I WILL NOT ATTEND</StyledButton>
                 }
                 {
                     userId !== meeting.adminUuid && userStatus === "REJECTED" &&
-                    <StyledButton>I WILL ATTEND</StyledButton>
+                    <StyledButton onClick={() => changeStatus(meeting.id)}>I WILL ATTEND</StyledButton>
                 }
                 {
-                    userId !== meeting.adminUuid && userStatus === "REJECTED" &&
+                    userId !== meeting.adminUuid && userStatus === "PENDING" &&
                     <Stack spacing={2} direction="row">
-                        <StyledButton>I WILL ATTEND</StyledButton>
-                        <StyledButton>I WILL NOT ATTEND</StyledButton>
+                        <StyledButton sx={{ height: "50px" }} onClick={() => changeStatus(meeting.id)}>I WILL ATTEND</StyledButton>
+                        <StyledButton sx={{ height: "50px" }} onClick={() => cancelMeeting(meeting.id)}>I WILL NOT ATTEND</StyledButton>
                     </Stack>
                 }
             </DialogActions>

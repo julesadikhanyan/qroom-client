@@ -147,6 +147,7 @@ export default (state = initialState, action: UserActionTypes) => {
         }
         case CLEAN_ERROR: {
             return {
+                ...state,
                 error: initialState.error
             }
         }

@@ -1,17 +1,27 @@
 import {
-    DELETE_ACTIVE_SEGMENT, FETCH_GET_BOOKING_ROOM_FAILURE,
+    CLEAN_ROOM,
+    DELETE_ACTIVE_SEGMENT,
+    FETCH_CANCEL_MEETING_FAILURE,
+    FETCH_CANCEL_MEETING_REQUEST,
+    FETCH_CANCEL_MEETING_SUCCESS, FETCH_CHANGE_STATUS_FAILURE,
+    FETCH_CHANGE_STATUS_REQUEST,
+    FETCH_CHANGE_STATUS_SUCCESS,
+    FETCH_GET_BOOKING_ROOM_FAILURE,
     FETCH_GET_BOOKING_ROOM_REQUEST,
-    FETCH_GET_BOOKING_ROOM_SUCCESS, FETCH_GET_ROOM_FAILURE,
+    FETCH_GET_BOOKING_ROOM_SUCCESS,
+    FETCH_GET_ROOM_FAILURE,
     FETCH_GET_ROOM_REQUEST,
-    FETCH_GET_ROOM_SUCCESS, FETCH_POST_BOOKING_ROOM_FAILURE,
+    FETCH_GET_ROOM_SUCCESS,
+    FETCH_GET_ROOMS_FAILURE,
+    FETCH_GET_ROOMS_REQUEST,
+    FETCH_GET_ROOMS_SUCCESS,
+    FETCH_POST_BOOKING_ROOM_FAILURE,
     FETCH_POST_BOOKING_ROOM_REQUEST,
     FETCH_POST_BOOKING_ROOM_SUCCESS,
     IRoomState,
     RoomActionTypes,
     SET_ACTIVE_SEGMENT,
-    FETCH_GET_ROOMS_REQUEST,
-    FETCH_GET_ROOMS_SUCCESS,
-    FETCH_GET_ROOMS_FAILURE, SET_LOST_PAGE, CLEAN_ROOM,
+    SET_LOST_PAGE,
 } from "./types";
 
 const initialState: IRoomState = {
@@ -97,6 +107,36 @@ export default (state = initialState, action: RoomActionTypes) => {
                 loading: false,
                 error: action.payload.error
             }
+        }
+        case FETCH_CANCEL_MEETING_REQUEST: {
+            return {
+                ...state,
+                isPostSuccess: false
+            }
+        }
+        case FETCH_CANCEL_MEETING_SUCCESS: {
+            return {
+                ...state,
+                isPostSuccess: true
+            }
+        }
+        case FETCH_CANCEL_MEETING_FAILURE: {
+            return state;
+        }
+        case FETCH_CHANGE_STATUS_REQUEST: {
+            return {
+                ...state,
+                isPostSuccess: false
+            }
+        }
+        case FETCH_CHANGE_STATUS_SUCCESS: {
+            return {
+                ...state,
+                isPostSuccess: true
+            }
+        }
+        case FETCH_CHANGE_STATUS_FAILURE: {
+            return state;
         }
         case SET_ACTIVE_SEGMENT: {
             return {

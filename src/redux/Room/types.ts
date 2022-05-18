@@ -21,6 +21,14 @@ export const SET_LOST_PAGE = "SET_LOST_PAGE";
 
 export const CLEAN_ROOM = "CLEAN_ROOM";
 
+export const FETCH_CANCEL_MEETING_REQUEST = "FETCH_CANCEL_MEETING_REQUEST";
+export const FETCH_CANCEL_MEETING_SUCCESS = "FETCH_CANCEL_MEETING_SUCCESS";
+export const FETCH_CANCEL_MEETING_FAILURE = "FETCH_CANCEL_MEETING_FAILURE";
+
+export const FETCH_CHANGE_STATUS_REQUEST = "FETCH_CHANGE_STATUS_REQUEST";
+export const FETCH_CHANGE_STATUS_SUCCESS = "FETCH_CHANGE_STATUS_SUCCESS";
+export const FETCH_CHANGE_STATUS_FAILURE = "FETCH_CHANGE_STATUS_FAILURE";
+
 export interface IRoom {
     id: string,
     name: string,
@@ -162,6 +170,30 @@ export interface CleanRoomAction {
     type: typeof CLEAN_ROOM
 }
 
+export interface FetchCancelMeetingRequestAction {
+    type: typeof FETCH_CANCEL_MEETING_REQUEST
+}
+
+export interface FetchCancelMeetingSuccessAction {
+    type: typeof FETCH_CANCEL_MEETING_SUCCESS
+}
+
+export interface FetchCancelMeetingFailureAction {
+    type: typeof FETCH_CANCEL_MEETING_FAILURE
+}
+
+export interface FetchChangeStatusRequestAction {
+    type: typeof FETCH_CHANGE_STATUS_REQUEST
+}
+
+export interface FetchChangeStatusSuccessAction {
+    type: typeof FETCH_CHANGE_STATUS_SUCCESS
+}
+
+export interface FetchChangeStatusFailureAction {
+    type: typeof FETCH_CHANGE_STATUS_FAILURE
+}
+
 export type RoomActionTypes =
     | FetchGetRoomRequestAction
     | FetchGetRoomSuccessAction
@@ -178,4 +210,10 @@ export type RoomActionTypes =
     | FetchGetRoomsSuccessAction
     | FetchGetRoomsFailureAction
     | SetLostPageAction
-    | CleanRoomAction;
+    | CleanRoomAction
+    | FetchCancelMeetingFailureAction
+    | FetchCancelMeetingRequestAction
+    | FetchCancelMeetingSuccessAction
+    | FetchChangeStatusFailureAction
+    | FetchChangeStatusRequestAction
+    | FetchChangeStatusSuccessAction;

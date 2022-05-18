@@ -74,11 +74,26 @@ export interface IHistoryTabsProps {
     activeMeeting: IBookingSegment | null,
     setActiveMeeting: (meeting: IBookingSegment) => void,
     deleteActiveMeeting: () => void,
-    systemUsers: ISystemUser[]
+    systemUsers: ISystemUser[],
+    cancelMeeting: (bookingId: string) => void,
+    isPostStatus: boolean,
+    changeStatus: (bookingId: string) => void
 }
 
 const HistoryTabs: React.FC<IHistoryTabsProps>= (props) => {
-    const { organizedMeetings, invitations, pastMeetings, rooms, activeMeeting, setActiveMeeting, deleteActiveMeeting, systemUsers } = props;
+    const {
+        organizedMeetings,
+        invitations,
+        pastMeetings,
+        rooms,
+        activeMeeting,
+        setActiveMeeting,
+        deleteActiveMeeting,
+        systemUsers,
+        cancelMeeting,
+        isPostStatus,
+        changeStatus
+    } = props;
 
     const id = localStorage.getItem("id");
 
@@ -109,6 +124,9 @@ const HistoryTabs: React.FC<IHistoryTabsProps>= (props) => {
         deleteActiveMeeting();
     };
 
+    useEffect(() => {
+        handleClose();
+    }, [isPostStatus]);
 
     return (
         <Box sx={{
@@ -131,7 +149,10 @@ const HistoryTabs: React.FC<IHistoryTabsProps>= (props) => {
                 {
                     organizedMeetings.length > 0 && organizedMeetings.map((meeting) =>
                         <Grid key={meeting.id} item xl={4} md={6} xs={12}>
-                            <RoomBox onClick={() => handleOpen(meeting)}>
+                            <RoomBox onClick={() => handleOpen(meeting)} sx={{
+                                backgroundSize: "cover",
+                                backgroundImage: `url(https://69fa-5-167-210-139.ngrok.io/images/${roomDictionary[meeting.roomUuid].photoUrl})` }}
+                            >
                                 <InfoBox>
                                     <StyledStack spacing={2}>
                                         { meeting.status === "CANCELED" &&
@@ -165,7 +186,10 @@ const HistoryTabs: React.FC<IHistoryTabsProps>= (props) => {
                     {
                         invitations.length > 0 && invitations.map((meeting) =>
                             <Grid key={meeting.id} item xl={4} md={6} xs={12}>
-                                <RoomBox onClick={() => handleOpen(meeting)}>
+                                <RoomBox onClick={() => handleOpen(meeting)} sx={{
+                                    backgroundSize: "cover",
+                                    backgroundImage: `url(https://69fa-5-167-210-139.ngrok.io/images/${roomDictionary[meeting.roomUuid].photoUrl})`
+                                }}>
                                     <InfoBox>
                                         <StyledStack spacing={2}>
                                             { id && meeting.invitedUsers[id] === 'PENDING' &&
@@ -215,7 +239,10 @@ const HistoryTabs: React.FC<IHistoryTabsProps>= (props) => {
                     {
                         pastMeetings.length > 0 && pastMeetings.map((meeting) =>
                             <Grid key={meeting.id} item xl={4} md={6} xs={12}>
-                                <RoomBox onClick={() => handleOpen(meeting)}>
+                                <RoomBox onClick={() => handleOpen(meeting)} sx={{
+                                    backgroundSize: "cover",
+                                    backgroundImage: `url(https://69fa-5-167-210-139.ngrok.io/images/${roomDictionary[meeting.roomUuid].photoUrl})`
+                                }}>
                                     <InfoBox>
                                         <StyledStack spacing={2}>
                                             <Typography variant="h5">{meeting.title}</Typography>
@@ -234,15 +261,17 @@ const HistoryTabs: React.FC<IHistoryTabsProps>= (props) => {
                 </Grid>
             </TabPanel>
             {
-                activeMeeting &&
+                activeMeeting && id &&
                 <HistoryForm
                     open={open}
                     onClose={handleClose}
                     meeting={activeMeeting}
                     roomName={roomDictionary[activeMeeting.roomUuid].name}
                     userId={id}
-                    userStatus={""}
+                    userStatus={activeMeeting.invitedUsers[id]}
                     systemUsers={systemUsers}
+                    cancelMeeting={cancelMeeting}
+                    changeStatus={changeStatus}
                 />
             }
         </Box>

@@ -7,6 +7,12 @@ import {
     CleanRoomAction,
     DELETE_ACTIVE_SEGMENT,
     DeleteActiveSegmentAction,
+    FETCH_CANCEL_MEETING_FAILURE,
+    FETCH_CANCEL_MEETING_REQUEST,
+    FETCH_CANCEL_MEETING_SUCCESS,
+    FETCH_CHANGE_STATUS_FAILURE,
+    FETCH_CHANGE_STATUS_REQUEST,
+    FETCH_CHANGE_STATUS_SUCCESS,
     FETCH_GET_BOOKING_ROOM_FAILURE,
     FETCH_GET_BOOKING_ROOM_REQUEST,
     FETCH_GET_BOOKING_ROOM_SUCCESS,
@@ -19,6 +25,12 @@ import {
     FETCH_POST_BOOKING_ROOM_FAILURE,
     FETCH_POST_BOOKING_ROOM_REQUEST,
     FETCH_POST_BOOKING_ROOM_SUCCESS,
+    FetchCancelMeetingFailureAction,
+    FetchCancelMeetingRequestAction,
+    FetchCancelMeetingSuccessAction,
+    FetchChangeStatusFailureAction,
+    FetchChangeStatusRequestAction,
+    FetchChangeStatusSuccessAction,
     FetchGetBookingRoomFailureAction,
     FetchGetBookingRoomRequestAction,
     FetchGetBookingRoomSuccessAction,
@@ -159,6 +171,44 @@ export const cleanRoom = (): CleanRoomAction => {
     }
 }
 
+export const fetchCancelMeetingRequest = (): FetchCancelMeetingRequestAction => {
+    return {
+        type: FETCH_CANCEL_MEETING_REQUEST
+    }
+}
+
+export const fetchCancelMeetingSuccess = (): FetchCancelMeetingSuccessAction => {
+    return {
+        type: FETCH_CANCEL_MEETING_SUCCESS
+    }
+}
+
+
+export const fetchCancelMeetingFailure = (): FetchCancelMeetingFailureAction => {
+    return {
+        type: FETCH_CANCEL_MEETING_FAILURE
+    }
+}
+
+export const fetchChangeStatusRequest = (): FetchChangeStatusRequestAction => {
+    return {
+        type: FETCH_CHANGE_STATUS_REQUEST
+    }
+}
+
+export const fetchChangeStatusSuccess = (): FetchChangeStatusSuccessAction => {
+    return {
+        type: FETCH_CHANGE_STATUS_SUCCESS
+    }
+}
+
+
+export const fetchChangeStatusFailure = (): FetchChangeStatusFailureAction => {
+    return {
+        type: FETCH_CHANGE_STATUS_FAILURE
+    }
+}
+
 export function fetchGetRoom(id: string) {
     return function (dispatch: Dispatch<FetchGetRoomRequestAction | FetchGetRoomSuccessAction | FetchGetRoomFailureAction>){
         dispatch(fetchGetRoomRequest());
@@ -220,5 +270,35 @@ export function fetchGetRooms () {
                 console.log(error.response);
                 dispatch(fetchGetRoomsFailure({ data: error.response.data, status: error.response.status }));
             })
+    }
+}
+
+export function fetchCancelMeeting (bookingId: string) {
+    return function (dispatch: Dispatch<FetchCancelMeetingRequestAction | FetchCancelMeetingSuccessAction | FetchCancelMeetingFailureAction | SetAlertAction>) {
+        dispatch(fetchCancelMeetingRequest());
+        axiosApiInstance.delete(`https://69fa-5-167-210-139.ngrok.io/rooms/booking/${bookingId}`)
+            .then((response: { data: string; status: number; }) => {
+                dispatch(fetchCancelMeetingSuccess());
+                dispatch(setAlert({ data: response.data, status: response.status }));
+            })
+            .catch((error: { response: { data: string; status: number; }; }) => {
+                dispatch(fetchCancelMeetingFailure());
+                dispatch(setAlert({ data: error.response.data, status: error.response.status }));
+            });
+    }
+}
+
+export function fetchChangeStatus (bookingId: string) {
+    return function (dispatch: Dispatch<FetchChangeStatusFailureAction | FetchChangeStatusSuccessAction | FetchChangeStatusRequestAction | SetAlertAction>) {
+        dispatch(fetchChangeStatusRequest());
+        axiosApiInstance.put(`https://69fa-5-167-210-139.ngrok.io/rooms/booking/${bookingId}`)
+            .then((response: { data: string; status: number; }) => {
+                dispatch(fetchChangeStatusSuccess());
+                dispatch(setAlert({ data: response.data, status: response.status }));
+            })
+            .catch((error: { response: { data: string; status: number; }; }) => {
+                dispatch(fetchChangeStatusFailure());
+                dispatch(setAlert({ data: error.response.data, status: error.response.status }));
+            });
     }
 }

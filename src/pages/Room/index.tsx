@@ -9,7 +9,7 @@ import theme from "../../style/theme";
 import BookingForm from "../../components/BookingForm";
 import {
     cleanRoom,
-    deleteActiveSegment,
+    deleteActiveSegment, fetchCancelMeeting, fetchChangeStatus,
     fetchGetBookingRoom,
     fetchGetRoom, fetchPostBookingRoom,
     setActiveSegment, setLostPage
@@ -57,7 +57,13 @@ const Room: React.FC = () => {
         }
     }
 
+    const cancelMeeting = (bookingId: string) => {
+        dispatch(fetchCancelMeeting(bookingId));
+    }
 
+    const changeStatus = (bookingId: string) => {
+        dispatch(fetchChangeStatus(bookingId));
+    }
 
     const handleClose = () => {
         dispatch(deleteAlert());
@@ -80,6 +86,7 @@ const Room: React.FC = () => {
     }, []);
 
     useEffect(() => {
+        setOpenHistoryForm(false);
         params.id && dispatch(fetchGetBookingRoom(params.id, date));
     }, [isPostSuccess]);
 
@@ -237,6 +244,8 @@ const Room: React.FC = () => {
                             userId={user.id}
                             userStatus={""}
                             systemUsers={users}
+                            cancelMeeting={cancelMeeting}
+                            changeStatus={changeStatus}
                         />
                     }
                 </Box>
