@@ -30,7 +30,7 @@ export interface IUser {
     tokens: ITokens
 }
 
-export interface IInvitedUser {
+export interface ISystemUser {
     id: string,
     login: string,
     name: string,
@@ -39,7 +39,7 @@ export interface IInvitedUser {
 export interface IUserState {
     user: IUser,
     loading: boolean,
-    invitedUsers: IInvitedUser[],
+    systemUsers: ISystemUser[],
     error: IError | null,
     organizedMeetings: IBookingSegment[],
     invitations: IBookingSegment[],
@@ -96,7 +96,7 @@ export interface FetchGetUsersRequestAction {
 export interface FetchGetUsersSuccessAction {
     type: typeof FETCH_GET_USERS_SUCCESS,
     payload: {
-        invitedUsers: IInvitedUser[]
+        systemUsers: ISystemUser[]
     }
 }
 

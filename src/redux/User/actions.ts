@@ -30,7 +30,7 @@ import {
     FetchSignUpUserFailureAction,
     FetchSignUpUserRequestAction,
     FetchSignUpUserSuccessAction,
-    IInvitedUser,
+    ISystemUser,
     IUser, LOG_OUT_USER, LogOutUserAction, SET_ACTIVE_MEETING,
     SetActiveMeetingAction
 } from "./types";
@@ -90,11 +90,11 @@ export const fetchGetUsersRequest = (): FetchGetUsersRequestAction => {
     }
 }
 
-export const fetchGetUsersSuccess = (invitedUsers: IInvitedUser[]): FetchGetUsersSuccessAction => {
+export const fetchGetUsersSuccess = (systemUsers: ISystemUser[]): FetchGetUsersSuccessAction => {
     return {
         type: FETCH_GET_USERS_SUCCESS,
         payload: {
-            invitedUsers: invitedUsers
+            systemUsers: systemUsers
         }
     }
 }

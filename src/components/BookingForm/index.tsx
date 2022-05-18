@@ -26,7 +26,7 @@ import theme from "../../style/theme";
 import {IBookingSegment, IPostBooking} from "../../redux/Room/types";
 import {setDurationHelper, setEndTimeHelper, setStartTimeHelper} from "../../helper/timeHelper";
 import {IAlert} from "../../redux/Alert/types";
-import {IInvitedUser} from "../../redux/User/types";
+import {ISystemUser} from "../../redux/User/types";
 
 export const HeaderDialogBox = styled(Box)({
     flexGrow: 1,
@@ -70,7 +70,8 @@ export interface IBookingFormProps {
     bookingRoom: (postBooking: IPostBooking) => void,
     bookingSegments: IBookingSegment[],
     alert: IAlert | null,
-    users: IInvitedUser[];
+    users: ISystemUser[],
+    userId: string
 }
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
@@ -88,8 +89,13 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
         bookingRoom,
         bookingSegments,
         alert,
-        users
+        users,
+        userId
     } = props;
+
+    const invitedUsersList = users.filter(function(user) {
+         return user.id !== userId;
+    });
 
     const [date, setDate] = useState<Date>(activeSegment.time.start || new Date());
     const [startTime, setStartTime] = useState<Date>(activeSegment.time.start || new Date());
@@ -98,9 +104,9 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
     const [endTime, setEndTime] = useState<Date>(activeSegment.time.end || new Date());
     const [validStart, setValidStart] = useState<boolean>(true);
     const [validEnd, setValidEnd] = useState<boolean>(true);
-    const [invitedUsers, setInvitedUsers] = useState<IInvitedUser[]>([]);
+    const [invitedUsers, setInvitedUsers] = useState<ISystemUser[]>([]);
 
-    const getUsersList = (users: IInvitedUser[]) => {
+    const getUsersList = (users: ISystemUser[]) => {
         const usersList: string[] = [];
         users.map((user) => {
             usersList.push(user.id);
@@ -155,6 +161,8 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
         end.setHours(22, 0, 0,0);
         setDate(newDate);
         setStartTime(start);
+        setValidStart(true);
+        setValidEnd(true);
         setEndTime(end);
         setDuration("");
         setTitle("");
@@ -294,10 +302,10 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
                         </LocalizationProvider>
                     </Box>
                     {
-                        users &&
+                        invitedUsersList &&
                         <Autocomplete
                             multiple
-                            options={users}
+                            options={invitedUsersList}
                             disableCloseOnSelect
                             getOptionLabel={(option) => `${option.login} - ${option.name}`}
                             onChange={(event,
@@ -310,7 +318,7 @@ const BookingForm: React.FC<IBookingFormProps> = (props) => {
                                         style={{ marginRight: 8 }}
                                         checked={selected}
                                     />
-                                    {option.login}
+                                    {option.login} - {option.name}
                                 </li>
                             )}
                             renderInput={(params) => (

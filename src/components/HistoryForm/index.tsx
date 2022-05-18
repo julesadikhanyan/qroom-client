@@ -10,6 +10,7 @@ import {
 import theme from "../../style/theme";
 import {HeaderDialogBox, StyledButton, StyledCloseIcon, StyledDialogTitle} from "../BookingForm";
 import {IBookingSegment} from "../../redux/Room/types";
+import {ISystemUser} from "../../redux/User/types";
 
 const StyledTypography = styled(Typography)({
     fontWeight: "bold"
@@ -21,13 +22,26 @@ export interface IHistoryDialogProps {
     meeting: IBookingSegment,
     roomName: string,
     userId: string | null,
-    userStatus: string
+    userStatus: string,
+    systemUsers: ISystemUser[]
 }
 
 const SimpleDialog: React.FC<IHistoryDialogProps>= (props) => {
-    const { onClose, open, meeting, roomName, userId, userStatus } = props;
+    const { onClose, open, meeting, roomName, userId, userStatus, systemUsers } = props;
 
     const matches = useMediaQuery(theme.breakpoints.down('md'));
+
+    let adminUser: ISystemUser = {
+        id: "",
+        login: "",
+        name: ""
+    };
+
+    systemUsers.forEach((user) => {
+        if (user.id === meeting.adminUuid) {
+            adminUser = user;
+        }
+    });
 
     return (
         <Dialog
@@ -50,8 +64,8 @@ const SimpleDialog: React.FC<IHistoryDialogProps>= (props) => {
                 <StyledTypography variant="h5">DATE: <span style={{ fontWeight: "normal", fontSize: "20px" }}>{new Date(meeting.time.start).toLocaleDateString()}</span></StyledTypography>
                 <StyledTypography variant="h5">START TIME: <span style={{ fontWeight: "normal", fontSize: "20px" }}>{new Date(meeting.time.start).toLocaleTimeString().slice(0, 5)}</span></StyledTypography>
                 <StyledTypography variant="h5">END TIME: <span style={{ fontWeight: "normal", fontSize: "20px" }}>{new Date(meeting.time.end).toLocaleTimeString().slice(0, 5)}</span></StyledTypography>
-                <StyledTypography variant="h5">ORGANIZER: <span style={{ fontWeight: "normal", fontSize: "20px" }}>Ivan Tsarev</span></StyledTypography>
-                <StyledTypography variant="h5">ORGANIZER EMAIL: <span style={{ fontWeight: "normal", fontSize: "20px" }}>ivan_tsarev@gmail.com</span></StyledTypography>
+                <StyledTypography variant="h5">ORGANIZER: <span style={{ fontWeight: "normal", fontSize: "20px" }}>{adminUser.name}</span></StyledTypography>
+                <StyledTypography variant="h5">ORGANIZER EMAIL: <span style={{ fontWeight: "normal", fontSize: "20px" }}>{adminUser.login}</span></StyledTypography>
                 <StyledTypography variant="h5">PARTICIPANTS:</StyledTypography>
             </DialogContent>
             <DialogActions>

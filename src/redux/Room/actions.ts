@@ -1,10 +1,10 @@
 import {Dispatch} from "redux";
 import axios from "axios";
-
-import { setAlert } from "../Alert/actions";
-import { SetAlertAction } from "../Alert/types";
+import {SetAlertAction} from "../Alert/types";
 import {timeHelper} from "../../helper/timeHelper";
 import {
+    CLEAN_ROOM,
+    CleanRoomAction,
     DELETE_ACTIVE_SEGMENT,
     DeleteActiveSegmentAction,
     FETCH_GET_BOOKING_ROOM_FAILURE,
@@ -13,6 +13,9 @@ import {
     FETCH_GET_ROOM_FAILURE,
     FETCH_GET_ROOM_REQUEST,
     FETCH_GET_ROOM_SUCCESS,
+    FETCH_GET_ROOMS_FAILURE,
+    FETCH_GET_ROOMS_REQUEST,
+    FETCH_GET_ROOMS_SUCCESS,
     FETCH_POST_BOOKING_ROOM_FAILURE,
     FETCH_POST_BOOKING_ROOM_REQUEST,
     FETCH_POST_BOOKING_ROOM_SUCCESS,
@@ -21,23 +24,23 @@ import {
     FetchGetBookingRoomSuccessAction,
     FetchGetRoomFailureAction,
     FetchGetRoomRequestAction,
+    FetchGetRoomsFailureAction,
+    FetchGetRoomsRequestAction,
+    FetchGetRoomsSuccessAction,
     FetchGetRoomSuccessAction,
     FetchPostBookingRoomFailureAction,
     FetchPostBookingRoomRequestAction,
     FetchPostBookingRoomSuccessAction,
     IBookingSegment,
+    IError,
     IPostBooking,
     IRoom,
     SET_ACTIVE_SEGMENT,
+    SET_LOST_PAGE,
     SetActiveSegmentAction,
-    FETCH_GET_ROOMS_REQUEST,
-    FETCH_GET_ROOMS_SUCCESS,
-    FETCH_GET_ROOMS_FAILURE,
-    FetchGetRoomsRequestAction,
-    FetchGetRoomsSuccessAction,
-    FetchGetRoomsFailureAction,
-    IError, SetLostPageAction, SET_LOST_PAGE
+    SetLostPageAction
 } from "./types";
+import {setAlert} from "../Alert/actions";
 
 export const fetchGetRoomRequest = (): FetchGetRoomRequestAction => {
     return {
@@ -149,6 +152,12 @@ export const setLostPage = (lostPage: string): SetLostPageAction => {
     }
 }
 
+export const cleanRoom = (): CleanRoomAction => {
+    return {
+        type: CLEAN_ROOM
+    }
+}
+
 export function fetchGetRoom(id: string) {
     return function (dispatch: Dispatch<FetchGetRoomRequestAction | FetchGetRoomSuccessAction | FetchGetRoomFailureAction>){
         dispatch(fetchGetRoomRequest());
@@ -169,7 +178,8 @@ export function fetchGetBookingRoom(id: string, date: Date) {
         dispatch(fetchGetBookingRoomRequest());
         axios.get(`https://69fa-5-167-210-139.ngrok.io/rooms/booking?room_uuid=${id}&date=${dateStr}`)
             .then(response => {
-                const booking = timeHelper(response.data, date);
+                const booking = timeHelper(response.data, date, id);
+                console.log(response.data);
                 dispatch(fetchGetBookingRoomSuccess(booking, date));
             })
             .catch((error) => {
@@ -180,7 +190,11 @@ export function fetchGetBookingRoom(id: string, date: Date) {
 }
 
 export function fetchPostBookingRoom(token: string, postBooking: IPostBooking) {
-    return function (dispatch: Dispatch<FetchPostBookingRoomRequestAction | FetchPostBookingRoomSuccessAction | FetchPostBookingRoomFailureAction | SetAlertAction>) {
+    return function (dispatch:
+                         Dispatch<FetchPostBookingRoomRequestAction
+                             | FetchPostBookingRoomSuccessAction
+                             | FetchPostBookingRoomFailureAction
+                             | SetAlertAction>) {
         dispatch(fetchPostBookingRoomRequest());
         const authAxios = axios.create({
             headers: {

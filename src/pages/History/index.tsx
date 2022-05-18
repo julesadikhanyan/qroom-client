@@ -16,14 +16,14 @@ const History = () => {
     const dispatch = useDispatch();
 
     const loadingHistory = useSelector<RootState, boolean>((state) => state.userReducer["historyLoading"]);
-    const rooms = useSelector<RootState, IRoom[]>((state) => state.roomReducer.rooms);
-    const loadingRoom = useSelector<RootState, boolean >((state) => state.roomReducer.loading);
+    const rooms = useSelector<RootState, IRoom[]>((state) => state.roomReducer["rooms"]);
+    const loadingRoom = useSelector<RootState, boolean >((state) => state.roomReducer["loading"]);
     const user = useSelector<RootState, IUser>((state) => state.userReducer["user"]);
     const organizedMeetings = useSelector<RootState, IBookingSegment[]>((state) => state.userReducer["organizedMeetings"]);
     const invitations = useSelector<RootState, IBookingSegment[]>((state) => state.userReducer["invitations"]);
     const pastMeetings = useSelector<RootState, IBookingSegment[]>((state) => state.userReducer["pastMeetings"]);
     const activeMeeting = useSelector<RootState, IBookingSegment | null>((state) => state.userReducer["activeMeeting"]);
-    const lostPage = useSelector<RootState, string >((state) => state.roomReducer.lostPage);
+    const lostPage = useSelector<RootState, string >((state) => state.roomReducer["lostPage"]);
 
     const setActiveMeetingOnPage = (meeting: IBookingSegment) => {
         dispatch(setActiveMeeting(meeting));

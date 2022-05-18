@@ -30,7 +30,7 @@ const initialState: IUserState = {
         }
     },
     loading: false,
-    invitedUsers: [],
+    systemUsers: [],
     error: null,
     organizedMeetings: [],
     invitations: [],
@@ -87,7 +87,7 @@ export default (state = initialState, action: UserActionTypes) => {
         case FETCH_GET_USERS_SUCCESS: {
             return {
                 ...state,
-                invitedUsers: action.payload.invitedUsers
+                systemUsers: action.payload.systemUsers
             }
         }
         case FETCH_GET_HISTORY_REQUEST: {

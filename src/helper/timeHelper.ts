@@ -1,7 +1,7 @@
 import { IBookingSegment } from "../redux/Room/types";
 import {SetStateAction} from "react";
 
-export const timeHelper = (bookingSegments: IBookingSegment[], date: Date) => {
+export const timeHelper = (bookingSegments: IBookingSegment[], date: Date, id: string) => {
 
     const booking = Array<IBookingSegment>();
 
@@ -16,7 +16,7 @@ export const timeHelper = (bookingSegments: IBookingSegment[], date: Date) => {
         endTimeMorning.setHours(13, 0, 0, 0)
         booking.push({
             id: "-1",
-            roomUuid: "eb3c28e8-28e9-4788-afa1-758061a2f354",
+            roomUuid: id,
             time: {
                 start: startDay,
                 end: endTimeMorning,
@@ -30,7 +30,7 @@ export const timeHelper = (bookingSegments: IBookingSegment[], date: Date) => {
         endTimeAfternoon.setHours(18, 0, 0, 0);
         booking.push({
             id: "-1",
-            roomUuid: "eb3c28e8-28e9-4788-afa1-758061a2f354",
+            roomUuid: id,
             time: {
                 start: endTimeMorning,
                 end: endTimeAfternoon,
@@ -42,7 +42,7 @@ export const timeHelper = (bookingSegments: IBookingSegment[], date: Date) => {
         })
         booking.push({
             id: "-1",
-            roomUuid: "eb3c28e8-28e9-4788-afa1-758061a2f354",
+            roomUuid: id,
             time: {
                 start: endTimeAfternoon,
                 end: endDay,
@@ -66,7 +66,7 @@ export const timeHelper = (bookingSegments: IBookingSegment[], date: Date) => {
             if (bookingSegment.time.start.getTime() !== startDay.getTime()) {
                 booking.push({
                     id: "-1",
-                    roomUuid: "eb3c28e8-28e9-4788-afa1-758061a2f354",
+                    roomUuid: id,
                     time: {
                         start: startDay,
                         end: bookingSegment.time.start,
@@ -86,7 +86,7 @@ export const timeHelper = (bookingSegments: IBookingSegment[], date: Date) => {
         if (booking[booking.length - 1].time.end.toLocaleTimeString() !== endDay.toLocaleTimeString()) {
             booking.push({
                 id: "-1",
-                roomUuid: "eb3c28e8-28e9-4788-afa1-758061a2f354",
+                roomUuid: id,
                 time: {
                     start: booking[booking.length - 1].time.end,
                     end: endDay,

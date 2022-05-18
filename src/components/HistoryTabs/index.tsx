@@ -240,6 +240,7 @@ const HistoryTabs: React.FC<IHistoryTabsProps>= (props) => {
                     roomName={roomDictionary[activeMeeting.roomUuid].name}
                     userId={id}
                     userStatus={""}
+                    systemUsers={[{ id: "", name: "", login: ""}]}
                 />
             }
         </Box>

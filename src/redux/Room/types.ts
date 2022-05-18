@@ -19,6 +19,8 @@ export const DELETE_ACTIVE_SEGMENT = "DELETE_ACTIVE_SEGMENT";
 
 export const SET_LOST_PAGE = "SET_LOST_PAGE";
 
+export const CLEAN_ROOM = "CLEAN_ROOM";
+
 export interface IRoom {
     id: string,
     name: string,
@@ -156,6 +158,10 @@ export interface SetLostPageAction {
     }
 }
 
+export interface CleanRoomAction {
+    type: typeof CLEAN_ROOM
+}
+
 export type RoomActionTypes =
     | FetchGetRoomRequestAction
     | FetchGetRoomSuccessAction
@@ -171,4 +177,5 @@ export type RoomActionTypes =
     | FetchGetRoomsRequestAction
     | FetchGetRoomsSuccessAction
     | FetchGetRoomsFailureAction
-    | SetLostPageAction;
+    | SetLostPageAction
+    | CleanRoomAction;

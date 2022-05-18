@@ -11,7 +11,7 @@ import {
     SET_ACTIVE_SEGMENT,
     FETCH_GET_ROOMS_REQUEST,
     FETCH_GET_ROOMS_SUCCESS,
-    FETCH_GET_ROOMS_FAILURE, SET_LOST_PAGE,
+    FETCH_GET_ROOMS_FAILURE, SET_LOST_PAGE, CLEAN_ROOM,
 } from "./types";
 
 const initialState: IRoomState = {
@@ -61,7 +61,10 @@ export default (state = initialState, action: RoomActionTypes) => {
             return state;
         }
         case FETCH_POST_BOOKING_ROOM_REQUEST: {
-            return state;
+            return {
+                ...state,
+                isPostSuccess: false
+            }
         }
         case FETCH_POST_BOOKING_ROOM_SUCCESS: {
             return {
@@ -70,7 +73,10 @@ export default (state = initialState, action: RoomActionTypes) => {
             }
         }
         case FETCH_POST_BOOKING_ROOM_FAILURE: {
-            return state;
+            return {
+                ...state,
+                isPostSuccess: false
+            }
         }
         case FETCH_GET_ROOMS_REQUEST: {
             return {
@@ -108,6 +114,16 @@ export default (state = initialState, action: RoomActionTypes) => {
             return {
                 ...state,
                 lostPage: action.payload.lostPage
+            }
+        }
+        case CLEAN_ROOM: {
+            return {
+                ...state,
+                date: initialState.date,
+                error: initialState.error,
+                isPostSuccess: initialState.isPostSuccess,
+                room: initialState.room,
+                bookingSegments: initialState.bookingSegments
             }
         }
         default: return state;
