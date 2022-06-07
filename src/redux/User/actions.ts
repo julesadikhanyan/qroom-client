@@ -36,6 +36,7 @@ import {
 } from "./types";
 import {IBookingSegment, IError} from "../Room/types";
 import {axiosApiInstance} from "../../helper/tokenHelper";
+import {serverURL} from "../Room/actions";
 
 export const fetchSignUpUserRequest = (): FetchSignUpUserRequestAction => {
     return {
@@ -167,7 +168,7 @@ export const cleanError = (): CleanErrorAction => {
 export function fetchSignUpUser(name: string, login: string, password: string) {
     return function (dispatch: Dispatch<FetchSignUpUserRequestAction | FetchSignUpUserSuccessAction | FetchSignUpUserFailureAction>) {
         dispatch(fetchSignUpUserRequest());
-        axios.post("https://69fa-5-167-210-139.ngrok.io/users/register", {
+        axios.post(`${serverURL}/users/register`, {
             name: name,
             login: login,
             password: password
@@ -185,7 +186,7 @@ export function fetchSignUpUser(name: string, login: string, password: string) {
 export function fetchLogInUser(login: string, password: string) {
     return function (dispatch: Dispatch<FetchLogInUserRequestAction | FetchLogInUserSuccessAction | FetchLogInUserFailureAction>) {
         dispatch(fetchLogInUserRequest());
-        axios.post("https://69fa-5-167-210-139.ngrok.io/users/authenticate", {
+        axios.post(`${serverURL}/users/authenticate`, {
             login: login,
             password: password
         })
@@ -202,7 +203,7 @@ export function fetchLogInUser(login: string, password: string) {
 export function fetchGetUsers(token: string) {
     return function (dispatch: Dispatch<FetchGetUsersRequestAction | FetchGetUsersSuccessAction>) {
         dispatch(fetchGetUsersRequest());
-        axiosApiInstance.get("https://69fa-5-167-210-139.ngrok.io/users")
+        axiosApiInstance.get(`${serverURL}/users`)
             .then((response: { data: ISystemUser[]; }) => {
                 dispatch(fetchGetUsersSuccess(response.data));
             })
@@ -212,7 +213,7 @@ export function fetchGetUsers(token: string) {
 export function fetchGetHistory (token: string, id: string) {
     return function (dispatch: Dispatch<FetchGetHistoryRequestAction | FetchGetHistorySuccessAction | FetchGetHistoryFailureAction>) {
         dispatch(fetchGetHistoryRequest());
-        axiosApiInstance.get("https://69fa-5-167-210-139.ngrok.io/users/history")
+        axiosApiInstance.get(`${serverURL}/users/history`)
             .then((response: { data: IBookingSegment[]; }) => {
                 const meetings = historyHelper(response.data, id);
                 dispatch(fetchGetHistorySuccess(meetings.organizedMeetings, meetings.invitations, meetings.pastMeetings));

@@ -209,10 +209,12 @@ export const fetchChangeStatusFailure = (): FetchChangeStatusFailureAction => {
     }
 }
 
+export const serverURL = "https://bce9-5-167-210-139.ngrok.io";
+
 export function fetchGetRoom(id: string) {
     return function (dispatch: Dispatch<FetchGetRoomRequestAction | FetchGetRoomSuccessAction | FetchGetRoomFailureAction>){
         dispatch(fetchGetRoomRequest());
-        axios.get(`https://69fa-5-167-210-139.ngrok.io/rooms/${id}`)
+        axios.get(`${serverURL}/rooms/${id}`)
             .then(response => {
                 dispatch(fetchGetRoomSuccess(response.data));
             })
@@ -227,7 +229,7 @@ export function fetchGetBookingRoom(id: string, date: Date) {
     const dateStr = date.toLocaleDateString();
     return function (dispatch: Dispatch<FetchGetBookingRoomRequestAction | FetchGetBookingRoomSuccessAction | FetchGetBookingRoomFailureAction>){
         dispatch(fetchGetBookingRoomRequest());
-        axios.get(`https://69fa-5-167-210-139.ngrok.io/rooms/booking?room_uuid=${id}&date=${dateStr}`)
+        axios.get(`${serverURL}/rooms/booking?room_uuid=${id}&date=${dateStr}`)
             .then(response => {
                 const booking = timeHelper(response.data, date, id);
                 console.log(response.data);
@@ -247,7 +249,7 @@ export function fetchPostBookingRoom(token: string, postBooking: IPostBooking) {
                              | FetchPostBookingRoomFailureAction
                              | SetAlertAction>) {
         dispatch(fetchPostBookingRoomRequest());
-        axiosApiInstance.post(`https://69fa-5-167-210-139.ngrok.io/rooms/booking/`, postBooking)
+        axiosApiInstance.post(`${serverURL}/rooms/booking/`, postBooking)
             .then((response: { data: string; status: number; }) => {
                 dispatch(fetchPostBookingRoomSuccess());
                 dispatch(setAlert({ data: response.data, status: response.status }));
@@ -262,12 +264,11 @@ export function fetchPostBookingRoom(token: string, postBooking: IPostBooking) {
 export function fetchGetRooms () {
     return function (dispatch: Dispatch<FetchGetRoomsRequestAction | FetchGetRoomsSuccessAction | FetchGetRoomsFailureAction>) {
         dispatch(fetchGetRoomsRequest());
-        axios.get("https://69fa-5-167-210-139.ngrok.io/rooms")
+        axios.get(`${serverURL}/rooms`)
             .then(response => {
                 dispatch(fetchGetRoomsSuccess(response.data));
             })
             .catch(error => {
-                console.log(error.response);
                 dispatch(fetchGetRoomsFailure({ data: error.response.data, status: error.response.status }));
             })
     }
@@ -276,7 +277,7 @@ export function fetchGetRooms () {
 export function fetchCancelMeeting (bookingId: string) {
     return function (dispatch: Dispatch<FetchCancelMeetingRequestAction | FetchCancelMeetingSuccessAction | FetchCancelMeetingFailureAction>) {
         dispatch(fetchCancelMeetingRequest());
-        axiosApiInstance.delete(`https://69fa-5-167-210-139.ngrok.io/rooms/booking/${bookingId}`)
+        axiosApiInstance.delete(`${serverURL}/rooms/booking/${bookingId}`)
             .then((response: { data: string; status: number; }) => {
                 dispatch(fetchCancelMeetingSuccess());
             })
@@ -289,7 +290,7 @@ export function fetchCancelMeeting (bookingId: string) {
 export function fetchChangeStatus (bookingId: string) {
     return function (dispatch: Dispatch<FetchChangeStatusFailureAction | FetchChangeStatusSuccessAction | FetchChangeStatusRequestAction>) {
         dispatch(fetchChangeStatusRequest());
-        axiosApiInstance.put(`https://69fa-5-167-210-139.ngrok.io/rooms/booking/${bookingId}`)
+        axiosApiInstance.put(`${serverURL}/rooms/booking/${bookingId}`)
             .then((response: { data: string; status: number; }) => {
                 dispatch(fetchChangeStatusSuccess());
             })

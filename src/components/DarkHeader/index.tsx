@@ -25,6 +25,13 @@ const DarkHeader: React.FC<IDarkHeaderProps>= (props) => {
     const history = useHistory();
     const locations = useLocation();
 
+    const onLostPage = () => {
+        if ((lostPage === "/history" && !name)) {
+            history.push("/rooms");
+        } else {
+            history.push(lostPage);
+        }
+    }
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar
@@ -46,7 +53,7 @@ const DarkHeader: React.FC<IDarkHeaderProps>= (props) => {
                         direction="row"
                     >
                         <Button
-                            onClick={() => history.push(lostPage)}
+                            onClick={() => onLostPage()}
                             sx={{
                                 backgroundColor: "#FFFFFF",
                                 color: theme.palette.primary.main,

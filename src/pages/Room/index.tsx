@@ -11,7 +11,7 @@ import {
     cleanRoom,
     deleteActiveSegment, fetchCancelMeeting, fetchChangeStatus,
     fetchGetBookingRoom,
-    fetchGetRoom, fetchPostBookingRoom,
+    fetchGetRoom, fetchPostBookingRoom, serverURL,
     setActiveSegment, setLostPage
 } from "../../redux/Room/actions";
 import { RootState } from "../../redux/store";
@@ -43,6 +43,8 @@ const Room: React.FC = () => {
     const params = useParams<{id?: string}>();
 
     const [open, setOpen] = useState(false);
+
+
     const [openHistoryForm, setOpenHistoryForm] = useState(false);
 
     const handleClickOpen = (bookingSegment: IBookingSegment) => {
@@ -82,14 +84,18 @@ const Room: React.FC = () => {
 
     useEffect(() => {
         params.id && dispatch(fetchGetRoom(params.id));
-        const authenticateToken = localStorage.getItem("authenticateToken");
-        authenticateToken && dispatch(fetchGetUsers(authenticateToken));
+
     }, []);
 
     useEffect(() => {
         setOpenHistoryForm(false);
         params.id && dispatch(fetchGetBookingRoom(params.id, date));
     }, [isPostSuccess]);
+
+    useEffect(() => {
+        const authenticateToken = localStorage.getItem("authenticateToken");
+        authenticateToken && dispatch(fetchGetUsers(authenticateToken));
+    }, [activeSegment]);
 
     useEffect(() => {
         const id = params.id;
@@ -211,7 +217,7 @@ const Room: React.FC = () => {
                         <Grid item xs={12} xl={6}>
                             <Box sx={{
                                 backgroundSize: "cover",
-                                backgroundImage: `url(https://69fa-5-167-210-139.ngrok.io/images/${room.photoUrl})`,
+                                backgroundImage: `url(${serverURL}/images/${room.photoUrl})`,
                                 height: "calc(100vh - 70px)",
                                 [theme.breakpoints.down("xl")]: {
                                     marginTop: "20px",

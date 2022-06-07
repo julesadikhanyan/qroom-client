@@ -7,7 +7,7 @@ import LightHeader from "../../components/LightHeader";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {IUser} from "../../redux/User/types";
-import {fetchGetRooms, setLostPage} from "../../redux/Room/actions";
+import {fetchGetRooms, serverURL, setLostPage} from "../../redux/Room/actions";
 import Loading from "../../components/Loading";
 import {IError, IRoom} from "../../redux/Room/types";
 import {logOutUser} from "../../redux/User/actions";
@@ -41,6 +41,9 @@ const Rooms: React.FC = () => {
 
     const user = useSelector<RootState, IUser | null>((state) => state.userReducer["user"]);
     const loading = useSelector<RootState, boolean>((state) => state.roomReducer["loading"]);
+
+
+
     const rooms = useSelector<RootState, IRoom[]>((state) => state.roomReducer["rooms"]);
     const error = useSelector<RootState, IError | null>((state) => state.roomReducer["error"]);
 
@@ -91,7 +94,7 @@ const Rooms: React.FC = () => {
                                     <RoomBox
                                         sx={{
                                             backgroundSize: "cover",
-                                            backgroundImage: `url(https://69fa-5-167-210-139.ngrok.io/images/${room.photoUrl})` }}
+                                            backgroundImage: `url(${serverURL}/images/${room.photoUrl})` }}
                                         onClick={() => history.push(`/rooms/${room.id}`)}>
                                         {
                                             room.isFree &&

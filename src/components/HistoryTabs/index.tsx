@@ -5,6 +5,7 @@ import { RoomBox } from "../../pages/Rooms";
 import theme from "../../style/theme";
 import HistoryForm from "../HistoryForm";
 import {ISystemUser} from "../../redux/User/types";
+import {serverURL} from "../../redux/Room/actions";
 
 export const InfoBox = styled(Box)({
     width: "100%",
@@ -151,7 +152,7 @@ const HistoryTabs: React.FC<IHistoryTabsProps>= (props) => {
                         <Grid key={meeting.id} item xl={4} md={6} xs={12}>
                             <RoomBox onClick={() => handleOpen(meeting)} sx={{
                                 backgroundSize: "cover",
-                                backgroundImage: `url(https://69fa-5-167-210-139.ngrok.io/images/${roomDictionary[meeting.roomUuid].photoUrl})` }}
+                                backgroundImage: `url(${serverURL}/images/${roomDictionary[meeting.roomUuid].photoUrl})` }}
                             >
                                 <InfoBox>
                                     <StyledStack spacing={2}>
@@ -188,7 +189,7 @@ const HistoryTabs: React.FC<IHistoryTabsProps>= (props) => {
                             <Grid key={meeting.id} item xl={4} md={6} xs={12}>
                                 <RoomBox onClick={() => handleOpen(meeting)} sx={{
                                     backgroundSize: "cover",
-                                    backgroundImage: `url(https://69fa-5-167-210-139.ngrok.io/images/${roomDictionary[meeting.roomUuid].photoUrl})`
+                                    backgroundImage: `url(${serverURL}/images/${roomDictionary[meeting.roomUuid].photoUrl})`
                                 }}>
                                     <InfoBox>
                                         <StyledStack spacing={2}>
@@ -241,7 +242,7 @@ const HistoryTabs: React.FC<IHistoryTabsProps>= (props) => {
                             <Grid key={meeting.id} item xl={4} md={6} xs={12}>
                                 <RoomBox onClick={() => handleOpen(meeting)} sx={{
                                     backgroundSize: "cover",
-                                    backgroundImage: `url(https://69fa-5-167-210-139.ngrok.io/images/${roomDictionary[meeting.roomUuid].photoUrl})`
+                                    backgroundImage: `url(${serverURL}/images/${roomDictionary[meeting.roomUuid].photoUrl})`
                                 }}>
                                     <InfoBox>
                                         <StyledStack spacing={2}>

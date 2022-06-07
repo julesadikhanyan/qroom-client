@@ -1,3 +1,5 @@
+import {serverURL} from "../redux/Room/actions";
+
 const axios = require('axios');
 export const axiosApiInstance = axios.create();
 
@@ -39,7 +41,7 @@ const refreshAccessToken = async () => {
             Authorization: `Bearer ${refreshToken}`
         }
     });
-    await authAxios.put("https://69fa-5-167-210-139.ngrok.io/users/authenticate/refresh")
+    await authAxios.put(`${serverURL}/users/authenticate/refresh`)
         .then((response: { data: { authenticateToken: string; }; }) => {
             console.log("collect new access");
             localStorage.setItem("authenticateToken", response.data.authenticateToken);

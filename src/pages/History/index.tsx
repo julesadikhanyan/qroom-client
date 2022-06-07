@@ -79,7 +79,7 @@ const History = () => {
     return (
         <Box>
             <DarkHeader name={user?.name} logOut={logOut} lostPage={lostPage}/>
-            <StyledTypography>HISTORY</StyledTypography>
+            <StyledTypography sx={{ margin: "20px 0 20px 0", fontWeight: "bold" }}>HISTORY</StyledTypography>
             <HistoryTabs
                 organizedMeetings={organizedMeetings}
                 invitations={invitations}
